@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*****************'
+SECRET_KEY = 'keecm3wxmiefhilrhxjuhe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['120.78.181.91', 'localhost', '0.0.0.0:8000', '127.0.0.1','www.cqu.fun']
 
 
 
@@ -86,13 +86,10 @@ WSGI_APPLICATION = 'my_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME':'你的数据库名称',
-        'HOST':'主机号',
-        'USER':'你的数据库使用者',
-        'PASSWORD':'数据库的密码',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	'HOST':'120.78.181.91',
+	'PORT':8000
     }
 }
 
@@ -146,8 +143,3 @@ MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 SESSION_COOKIE_AGE=3600*2
-
-
-
-
-
