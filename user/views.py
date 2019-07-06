@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.views.generic import View  # 继承通用类视图
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.hashers import make_password  # 对数据库进行加密
 import markdown
 
-from topic.models import Create_Topic
-from operation.models import Topic_Comment
-from .models import User_Info
-from .forms import Login, Register
+from django.shortcuts import render,redirect
+from  django.http  import  HttpResponse
+from  django.views.generic import  View  #继承通用类视图
+from  django.contrib.auth  import  authenticate,login,logout
+from  django.contrib.auth.hashers import make_password  #对数据库进行加密
+
+from  topic.models import Create_Topic
+from  operation.models import Topic_Comment
+from  .models import User_Info
+from  .forms import Login, Register
 
 
 # Create your views here.
 
 class Login_View(View):
     nav_base = 'nav_base.html'
-
     def get(self, request):
         forms = Login()
         return render(request, 'user/login.html', {'login': forms})
@@ -30,11 +30,9 @@ class Login_View(View):
             if user is not None:
                 login(request, user)
                 return redirect(to='topic:index')
-
             else:
                 forms = Login()
-                return render(request, 'user/login.html', {'login': forms, 'messsge': '您输入的用户名或者密码验证有误'})
-
+                return render(request, 'user/login.html', {'login': forms, 'messsge': '您输入的学号或者密码验证有误'})
         else:
             forms = Login()
             return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
@@ -60,20 +58,18 @@ class Register_Voew(View):
         if forms.is_valid():
             username = forms.cleaned_data["username"]
             if User_Info.objects.filter(username=username):
-                return render(request, 'user/register.html', {'message': '该用户名已经被注册过了!', 'forms': forms})
+                return render(request, 'user/register.html', {'message': '该学号已经被注册过了!', 'forms': forms})
             else:
-                password = forms.cleaned_data["password1"]
+                password = forms.cleaned_data["passwordConfirm"]
                 password1 = forms.cleaned_data["password"]
                 if password != password1:
                     return render(request, 'user/register.html', {'message': '您两次输入的密码不相同', 'forms': forms})
                 else:
-                    mobile = forms.cleaned_data["mobile"]
-                    email = forms.cleaned_data["email"]
+                    nickname = forms.cleaned_data["nickname"]
                     user = User_Info()
                     user.username = username
                     user.password = make_password(password)
-                    user.mobile = mobile
-                    user.email = email
+                    user.nickname = nickname
                     user.save()
                     return redirect(to='user:login')
         else:

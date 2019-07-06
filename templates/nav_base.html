@@ -40,7 +40,7 @@ ga('send', 'pageview');
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">BioForum</a>
+            <a class="navbar-brand" href="/">CQU Hub</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -72,17 +72,22 @@ ga('send', 'pageview');
 
 
         <div class="col-lg-4"> <!-- RIGHT -->
+
 {% if  request.user.is_authenticated %}
-
-     <div class="panel panel-default">
-
+    <div class="panel panel-default">
     <div class="panel-body user-panel">
         <div class="panel-user-info">
             <div class="avatar-name">
-                <a href="#">
-                    <img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/>
-                </a>
-                <span class="panel-username"><a href="#">{{ request.user.username }}</a></span>
+
+                <!-- Avatar -->
+                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/></a>
+                <!-- Avatar -->
+
+                <span class="panel-username" style="display:inline-block">
+                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
+                        &nbsp; &nbsp;
+                        <a href="#">{{ request.user.username }}</a>
+                </span>
             </div>
             <div class="row panel-user-meta">
                 <div class="col-xs-4 panel-user-meta-item">
@@ -143,9 +148,9 @@ ga('send', 'pageview');
 
             {% else %}
 <div class="panel panel-default">
-    <div class="panel-heading"><strong>BioForum</strong></div>
+    <div class="panel-heading"><strong>CQU Hub</strong></div>
     <div class="panel-body">
-        <strong>欢迎来到湖北大学生物信息学论坛！</strong>
+        <strong>欢迎来到 CQU Hub！</strong>
         <hr/>
         <div class="row">
             <div class="col-md-6">
