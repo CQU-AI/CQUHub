@@ -165,12 +165,12 @@ class Theme1_View(View):
         return render(request, 'topic_base.html', {'theme': theme1, 'theme_id': theme_id})
 
 def Go_Page(request):
-    page_id = int(request.POST.get('go_page'))
+    page_id = request.POST.get('go_page')
     topic_list = Create_Topic.objects.all().order_by('-pub_time')
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
-    if str(type(page_id)) != str(type(1)) and page_id > max:
-        page_id = 1
+    #if str(type(page_id)) != str(type(1)) and page_id > max:
+     #   page_id = 1
     pre_id = page_id-1
     next_id = page_id+1
     if page_id == 1:
