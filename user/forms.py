@@ -10,8 +10,12 @@ class Login(forms.Form):
 
 
 class Register(forms.Form):
-    username = forms.CharField(required=True, max_length=150, min_length=2, widget=forms.TextInput(
+    # 学号
+    username = forms.CharField(required=True, max_length=20, min_length=8, widget=forms.TextInput(
         attrs={"class": "form-control", "id": "id_username", "type": "text", "placeholder": "请输入您的学号"}))
+    # 昵称
+    nickname = forms.CharField(required=True, max_length=10, min_length=3, widget=forms.TextInput(
+        attrs={"class": "form-control", "id": "id_nickname", "type": "text", "placeholder": "请输入您的昵称"}))
     password = forms.CharField(required=True, max_length=20, min_length=6,
                                widget=forms.PasswordInput(
                                    attrs={"class": "form-control", "id": "id_password1", "placeholder": "请输入您的密码"}))

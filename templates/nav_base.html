@@ -72,17 +72,22 @@ ga('send', 'pageview');
 
 
         <div class="col-lg-4"> <!-- RIGHT -->
+
 {% if  request.user.is_authenticated %}
-
-     <div class="panel panel-default">
-
+    <div class="panel panel-default">
     <div class="panel-body user-panel">
         <div class="panel-user-info">
             <div class="avatar-name">
-                <a href="#">
-                    <img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/>
-                </a>
-                <span class="panel-username"><a href="#">{{ request.user.username }}</a></span>
+
+                <!-- Avatar -->
+                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/></a>
+                <!-- Avatar -->
+
+                <span class="panel-username" style="display:inline-block">
+                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
+                        &nbsp; &nbsp;
+                        <a href="#">{{ request.user.username }}</a>
+                </span>
             </div>
             <div class="row panel-user-meta">
                 <div class="col-xs-4 panel-user-meta-item">

@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User_Info(AbstractUser):
-    nick_name = models.CharField(max_length=20,verbose_name='昵称',default='')
+    nickname = models.CharField(max_length=20,verbose_name='昵称',default='')
     studentID = models.CharField(max_length=20, verbose_name='学号',default='')
     avatar = models.ImageField(upload_to='image/%Y/%m',default='image/github.png',verbose_name='用户头像',max_length=200)
 
