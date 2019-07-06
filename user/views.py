@@ -1,15 +1,16 @@
+import markdown
+
 from django.shortcuts import render,redirect
 from  django.http  import  HttpResponse
 from  django.views.generic import  View  #继承通用类视图
 from  django.contrib.auth  import  authenticate,login,logout
 from  django.contrib.auth.hashers import make_password  #对数据库进行加密
-import  markdown
-
 
 from  topic.models import Create_Topic
 from  operation.models import Topic_Comment
 from  .models import User_Info
-from  .forms import Login,Register
+from  .forms import Login, Register
+
 # Create your views here.
 
 class  Login_View(View):
