@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 from user.models import User_Info
@@ -22,12 +23,12 @@ class Create_Topic(models.Model):
     last_time = models.DateTimeField(auto_now=True)
 
     theme = (
-        ('生物知识', '生物知识'),
-        ('生物信息', '生物信息'),
-        ('生活交流', '生活交流'),
-        ('生信编程', '生信编程'),
-        ('计算机学习', '计算机学习'),
-        ('django学习', 'django学习'),
+        ('那个谁，我想对你说', '那个谁，我想对你说'),
+        ('动手动脚找东西', '动手动脚找东西'),
+        ('CQU公告', 'CQU公告'),
+        ('CQU身边事', 'CQU身边事'),
+        ('技术栏目', '技术栏目'),
+        ('文学交流', '文学交流'),
         # ('comments', '论坛公告'),
     )
     node = models.CharField(max_length=50, choices=theme, verbose_name='主题结点')

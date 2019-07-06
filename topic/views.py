@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -152,12 +153,12 @@ redirect
 class Theme1_View(View):
     def get(self, request, theme_id):
         reservedict = {
-            '1': '生物知识',
-            '2': '生物信息',
-            '3': '生活交流',
-            '4': '生信编程',
-            '5': '计算机学习',
-            '6': 'django学习',
+            '1': '那个谁，我想对你说',
+            '2': '动手动脚找东西',
+            '3': 'CQU公告',
+            '4': 'CQU身边事',
+            '5': '技术栏目',
+            '6': '文学交流',
             '7': '论坛公告'
         }
         node_id = reservedict[str(theme_id)]
@@ -191,3 +192,6 @@ def Go_Page(request):
     # 处理侧边栏信息
 
     return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
+class TestReplywindow(View):
+    def get(self, request):
+        return render(request, 'topic/test_replywindow.html')

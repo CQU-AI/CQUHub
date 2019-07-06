@@ -27,6 +27,13 @@ ga('send', 'pageview');
 
 </script>
 
+<!-- 发帖回帖组测试： -->
+    <link href="{% static  'replyWindow.css' %}" rel="stylesheet" type="text/css">
+    <!-- 废掉的代码应该 -->
+    <!-- <script src="js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="/staticfiles/replyWindow.js" type="text/javascript"></script>
+<!-- 发帖回帖组测试该块结束 -->
+
 </head>
 <body>
 
@@ -40,7 +47,7 @@ ga('send', 'pageview');
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">BioForum</a>
+            <a class="navbar-brand" href="/">CQU Hub</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -72,17 +79,22 @@ ga('send', 'pageview');
 
 
         <div class="col-lg-4"> <!-- RIGHT -->
+
 {% if  request.user.is_authenticated %}
-
-     <div class="panel panel-default">
-
+    <div class="panel panel-default">
     <div class="panel-body user-panel">
         <div class="panel-user-info">
             <div class="avatar-name">
-                <a href="#">
-                    <img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/>
-                </a>
-                <span class="panel-username"><a href="#">{{ request.user.username }}</a></span>
+
+                <!-- Avatar -->
+                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/></a>
+                <!-- Avatar -->
+
+                <span class="panel-username" style="display:inline-block">
+                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
+                        &nbsp; &nbsp;
+                        <a href="#">{{ request.user.username }}</a>
+                </span>
             </div>
             <div class="row panel-user-meta">
                 <div class="col-xs-4 panel-user-meta-item">
@@ -143,9 +155,9 @@ ga('send', 'pageview');
 
             {% else %}
 <div class="panel panel-default">
-    <div class="panel-heading"><strong>BioForum</strong></div>
+    <div class="panel-heading"><strong>CQU Hub</strong></div>
     <div class="panel-body">
-        <strong>欢迎来到湖北大学生物信息学论坛！</strong>
+        <strong>欢迎来到 CQU Hub！</strong>
         <hr/>
         <div class="row">
             <div class="col-md-6">
@@ -173,25 +185,25 @@ ga('send', 'pageview');
     <div class="panel-body">
 
             <a href="/theme/1/">
-                <span class="label label-default meta-node">生物知识</span>
+                <span class="label label-default meta-node">那个谁，我想对你说</span>
             </a>
 
 
 
             <a href="/theme/2/">
-                <span class="label label-default meta-node">生物信息</span>
+                <span class="label label-default meta-node">动手动脚找东西</span>
             </a>
         <a href="/theme/3/">
-                <span class="label label-default meta-node">生活交流</span>
+                <span class="label label-default meta-node">CQU公告</span>
             </a>
         <a href="/theme/4/">
-                <span class="label label-default meta-node">生信编程</span>
+                <span class="label label-default meta-node">CQU身边事</span>
             </a>
         <a href="/theme/5/">
-                <span class="label label-default meta-node">计算机学习</span>
+                <span class="label label-default meta-node">技术栏目</span>
             </a>
         <a href="/theme/6/">
-                <span class="label label-default meta-node">django学习</span>
+                <span class="label label-default meta-node">文学交流</span>
             </a>
 
     </div>
