@@ -15,15 +15,17 @@
                 <span>
                     <a href="/page/1">最新时间</a>
                 </span>
+            <!-- 这部分貌似没有找到对应的处理函数，所有的排序都是基于发布时间的 -->
                 <span>
                     <a href="#">最新回复</a>
                 </span>
-              </span>
+            </span>
 
         </div>
         <!-- List group -->
-        <ul class="list-group topic-list">
-        {% if topics.top %}
+        <!-- 这一部分不知道是干啥的 -->
+        <!-- <ul class="list-group topic-list"> -->
+        <!-- {% if topics.top %}
             <li class="list-group-item topic-entry">
                     <div class="entry media">
                         <div class="media-left media-middle">
@@ -66,72 +68,107 @@
                         </div>
                     </div>
                 </li>
-        {% endif %}
-
-{% for topic  in  topics %}
- <li class="list-group-item topic-entry">
-                    <div class="entry media">
-                        <div class="media-left media-middle">
-                            <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
-                        </div>
-                        <div class="media-body media-middle">
-                            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
-                                {{ topic.title }}
-                            </a>
-                            <p class="entry-meta">
-
-                                <span class="meta">
-                                    <a href="/theme/{% all_node_theme topic.node %}/">
-                                        <span class="label label-default meta-node">
-                                        {{ topic.node }}
-                                        </span>
-                                    </a>
+        {% endif %} -->
+        {% for topic  in  topics %}
+        <li class="list-group-item topic-entry">
+            <div class="entry media">
+                <!-- 这里点击头像是没有响应的，不知道原来的连接是干啥的 -->
+                <!-- <div class="media-left media-middle">
+                    <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
+                </div> -->
+                <div class="media-left media-middle">
+                        <a class="list-avatar-link" href="{% url  'user:infoprofile' username1=topic.user.username %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
+                </div>
+                <div class="media-body media-middle">
+                    <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
+                        {{ topic.title }}
+                    </a>
+                    <p class="entry-meta">
+                        <span class="meta">
+                            <a href="/theme/{% all_node_theme topic.node %}/">
+                                <span class="label label-default meta-node">
+                                {{ topic.node }}
                                 </span>
-                                    <span class="meta meta-username">
-                                        <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
-                                            <strong>{{ topic.user.username }}</strong>
-                                        </a>
-                                    </span>
-                                    <span class="meta meta-pub_date">
-                                        <strong>{{ topic.pub_time }}</strong>
-                                    </span>
-                                    <span class="meta meta-last_replied hidden-xs">
-                                        <strong> 最新回复人：{% recent_reply topic.title %}</strong>
-                                    </span>
-                            </p>
-                        </div>
-                        <div class="media-right media-middle">
-                            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
-                           <span class="badge">{% theme_to_reply topic.title %}</span>
-                        </div>
-                    </div>
-                </li>
-
-            {% endfor %}
+                            </a>
+                        </span>
+                        <span class="meta meta-username">
+                            <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
+                                <strong>{{ topic.user.username }}</strong>
+                            </a>
+                        </span>
+                        <span class="meta meta-pub_date">
+                            <strong>{{ topic.pub_time }}</strong>
+                        </span>
+                        <span class="meta meta-last_replied hidden-xs">
+                            <strong> 最新回复人：{% recent_reply topic.title %}</strong>
+                        </span>
+                    </p>
+                </div>
+                <div class="media-right media-middle">
+                    <!-- <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link"> -->
+                    <span class="badge">{% theme_to_reply topic.title %}</span>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
         </ul>
         <div class="panel-footer">
-
-    <nav>
-
-        <ul class="pagination">
-                        <li><a href="/page/1/">1</a></li>
-
-                        <li><a href="/page/2/">2</a></li>
-            <li><a href="/page/3/">3</a></li>
-
-
-                <li>
-                    <a href="/page/{{ page_id }}/" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-
-        </ul>
-    </nav>
-
+            <nav>
+            <!-- 这里要改成动态的页面显示，此处连接到index_view -->
+                <ul class="pager">
+                    {% ifequal page_id 1 %}
+                    {% else %}
+                    <li>
+                        <a href="/page/{{ pre_id }}/" aria-label="Prev">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a>   
+                    </li>
+                    <!-- <li><a href="/page/1/">1</a></li>
+                    <li><a href="/page/2/">2</a></li>
+                    <li><a href="/page/3/">3</a></li> -->
+                    <!-- <li>
+                        <a href="/page/{{ page_id }}/" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li> -->
+                    <li>
+                            <a href="/page/{{ pre_id }}">
+                                <span>{{pre_id}}</span>
+                            </a>
+                    </li>
+                    {% endifequal %}
+                    <li>
+                        <a href="/page/{{ page_id }}">
+                            <span>{{page_id}}</span>
+                        </a>
+                    </li>
+                    {% ifequal page_id next_id %}
+                    {% else %}
+                    <li>
+                            <a href="/page/{{ next_id }}">
+                                <span>{{next_id}}</span>
+                            </a>
+                        </li>
+                    <li>
+                        <a href="/page/{{ next_id }}/" aria-label="Next">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a>
+                    </li>
+                    <br><br>
+                    <form methods="POST" action="/page/go/">
+                            <li>
+                                <input type="text" style="width: 20px" id="go_page" name="go_page">
+                            </li>
+                            <li>
+                                <button type="submit">GO</button>
+                            </li>
+                    </form>
+                    
+                    
+                    {% endifequal %}                
+                </ul>
+            </nav>
         </div>
     </div>
-
-
-	    {% endblock %}
+	{% endblock %}
 

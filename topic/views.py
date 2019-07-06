@@ -23,10 +23,17 @@ class Index_View(View):
 
     def get(self, request, page_id):
         topic_list = Create_Topic.objects.all().order_by('-pub_time')
-        paginator = Paginator(topic_list, 10)
+        paginator = Paginator(topic_list, 2)
         page_range = paginator.page_range
         page = request.GET.get(page_id)
         test = page_id
+        pre_id = page_id-1
+        next_id = page_id+1
+        if page_id == 1:
+            pre_id = 1
+        if page_id == len(page_range):
+            next_id = page_id
+            pre_id = page_id-1
         # test=page
         try:
             topics = paginator.page(page_id)
@@ -39,7 +46,7 @@ class Index_View(View):
             # paginator.page(paginator.num_pages)
         # 处理侧边栏信息
 
-        return render(request, 'topic/base.html', {'topics': topics, 'page_id': (page_id + 1)})
+        return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
 
 
 class PubTopic_View(View):
@@ -158,6 +165,33 @@ class Theme1_View(View):
         theme1 = Create_Topic.objects.filter(node=node_id)
         return render(request, 'topic_base.html', {'theme': theme1, 'theme_id': theme_id})
 
+def Go_Page(request):
+    page_id = request.POST.get('go_page')
+    topic_list = Create_Topic.objects.all().order_by('-pub_time')
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+    #if str(type(page_id)) != str(type(1)) and page_id > max:
+     #   page_id = 1
+    pre_id = page_id-1
+    next_id = page_id+1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id-1
+    # test=page
+    try:
+        topics = paginator.page(page_id)
+        # test=topics
+    except  PageNotAnInteger:
+        topics = paginator.page(1)
+        # test=topics
+    except EmptyPage:
+        topics = []
+        # paginator.page(paginator.num_pages)
+    # 处理侧边栏信息
+
+    return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
 class TestReplywindow(View):
     def get(self, request):
         return render(request, 'topic/test_replywindow.html')
