@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ReplyWindow</title>
+    {% load  static %}
+    <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static  'main.css' %}"/>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="{% static  'jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static  'bootstrap.min.js' %}"></script>
+
+    <link href="{% static  'replyWindow.css' %}" rel="stylesheet" type="text/css">
+    <script src="/staticfiles/replyWindow.js" type="text/javascript"></script>
+    
+</head>
+<body>
+        <input id="btn_show_dialog" type="button" value="show dialog" class="btn" style="margin-left:50px; margin-top:100px"/>
+        <!--弹出框-->
+        <div id="dialog" class="dialog hide" minheight="320" minwidth="660">
+            <div id="dlg_top" class="dlg_top">
+                    <img class="dlg_logo" src="images/ico_logo.png"/>
+                    <label class="dlg_title">弹出窗口</label>                
+                    <input class="dlg_btn_close dlg_btn_ico dlg_btn_close_top" type="button"/>                
+                    <input class="dlg_btn_ico dlg_btn_max_top" type="button"/>
+            </div>
+            <div class="dlg_content">
+                <label style="display:inline-block; margin:10px;line-height:26px;">稻盛和夫，1932年出生于日本鹿儿岛，鹿儿岛大学工学部毕业。27岁创办京都陶瓷株式会社（现名京瓷Kyocera），52岁创办第二电信（原名DDI，现名KDDI，目前在日本为仅次于NTT的第二大通讯公司），这两家公司又都在他的有生之年进入世界500强，两大事业皆以惊人的力道成长。 稻盛和夫的释义是涵盖了生活态度、哲学、思想、伦理观等因素人格。痛惜战后的日本以选择聪明才辩型的人做领导为潮流，忽略了道德规范和伦理标准，导致政界、商界丑闻频发。他建议领导者的选拔标准是德要高于才，也就是居人上者，人格第一，勇气第二，能力第三。他指出热爱是点燃工作激情的火把。无论什么工作，只要全力以赴去做就能产生很大的成就感和自信心，而且会产生向下一个目标挑战的积极性。成功的人往往都是那些沉醉于所做事的人。</label>
+            </div>
+            <div class="dlg_bottom">
+                <input id="dlg_submit" class="btn" type="button" value="提交" />
+                <input class="dlg_btn_close btn" type="button" value="关闭" />
+            </div>
+            <div id="dlg_right"></div>
+            <div id="dlg_right_bottom"></div>
+            <div id="dlg_bottom"></div>
+        </div>
+</body>
+</html>
