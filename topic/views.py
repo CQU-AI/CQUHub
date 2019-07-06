@@ -157,3 +157,7 @@ class Theme1_View(View):
         node_id = reservedict[str(theme_id)]
         theme1 = Create_Topic.objects.filter(node=node_id)
         return render(request, 'topic_base.html', {'theme': theme1, 'theme_id': theme_id})
+
+class TestReplywindow(View):
+    def get(self, request):
+        return render(request, 'topic/test_replywindow.html')
