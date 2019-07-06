@@ -70,43 +70,39 @@
 
 {% for topic  in  topics %}
  <li class="list-group-item topic-entry">
-                    <div class="entry media">
-                        <div class="media-left media-middle">
-                            <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
-                        </div>
-                        <div class="media-body media-middle">
-                            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
-                                {{ topic.title }}
-                            </a>
-                            <p class="entry-meta">
-
-                                <span class="meta">
-                                    <a href="/theme/{% all_node_theme topic.node %}/">
-                                        <span class="label label-default meta-node">
-                                        {{ topic.node }}
-                                        </span>
-                                    </a>
-                                </span>
-                                    <span class="meta meta-username">
-                                        <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
-                                            <strong>{{ topic.user.username }}</strong>
-                                        </a>
-                                    </span>
-                                    <span class="meta meta-pub_date">
-                                        <strong>{{ topic.pub_time }}</strong>
-                                    </span>
-                                    <span class="meta meta-last_replied hidden-xs">
-                                        <strong> 最新回复人：{% recent_reply topic.title %}</strong>
-                                    </span>
-                            </p>
-                        </div>
-                        <div class="media-right media-middle">
-                            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
-                           <span class="badge">{% theme_to_reply topic.title %}</span>
-                        </div>
-                    </div>
-                </li>
-
+    <div class="entry media">
+        <div class="media-left media-middle">
+            <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
+        </div>
+        <div class="media-body media-middle">
+            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
+                {{ topic.title }}
+            </a>
+            <p class="entry-meta">
+                <span class="meta">
+                    <a href="/theme/{% all_node_theme topic.node %}/">
+                        <span class="label label-default meta-node">{{ topic.node }}</span>
+                    </a>
+                </span>
+                <span class="meta meta-username">
+                    <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
+                        <strong>{{ topic.user.username }}</strong>
+                    </a>
+                </span>
+                <span class="meta meta-pub_date">
+                    <strong>{{ topic.pub_time }}</strong>
+                </span>
+                <span class="meta meta-last_replied hidden-xs">
+                    <strong> 最新回复人：{% recent_reply topic.title %}</strong>
+                </span>
+            </p>
+        </div>
+        <div class="media-right media-middle">
+            <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
+            <span class="badge">{% theme_to_reply topic.title %}</span>
+        </div>
+    </div>
+</li>
             {% endfor %}
         </ul>
         <div class="panel-footer">
