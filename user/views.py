@@ -84,22 +84,22 @@ class  Info_Profile(View):
     def  get(self,request,username1):
         userinfo=User_Info.objects.get(username=username1)
         reservedict1={
-             '生物知识':'1',
-             '生物信息':'2',
-           '生活交流':'3',
-             '生信编程':'4',
-            '计算机学习':'5',
-             'django学习':'6',
+             '那个谁，我想对你说':'1',
+             '动手动脚找东西':'2',
+           'CQU公告':'3',
+             'CQU身边事':'4',
+            '技术栏目':'5',
+             '文学交流':'6',
             '论坛公告':'7'
 
         }
         reservedict = {
-            '1': '生物知识',
-            '2': '生物信息',
-            '3': '生活交流',
-            '4': '生信编程',
-            '5': '计算机学习',
-            '6': 'django学习',
+            '1': '那个谁，我想对你说',
+            '2': '动手动脚找东西',
+            '3': 'CQU公告',
+            '4': 'CQU身边事',
+            '5': '技术栏目',
+            '6': '文学交流',
             '7': '论坛公告'
         }
         user_theme=userinfo.create_topic_set.all()
