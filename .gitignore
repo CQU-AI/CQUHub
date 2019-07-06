@@ -140,3 +140,5 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/django
 *.sqlite3
+.vscode/settings.json
+operation/migrations/0001_initial.py
