@@ -29,7 +29,7 @@
 **注意**：
 1. 组员不应向`Master`或其他组的分支做任何写操作，不应向`Stable`分支做任何写操作
 2. 提交commit时，应关闭`python manage.py runserver`所创建的进程
-3. 提交commit或PR时，应注明代码内容或实现的功能
+3. 提交commit或PR时，应注明代码内容或实现的功能．如果该功能完全解决某个issue,请在commit message或PR message中tag这个issue，并关闭issue．如果只能部分修复某个issue，请在issue下指出你已完成的工作．
 4. 提交commit时，不应全部提交，需要确认`db.sqlite3`,`*.pyc`,`001*.py`等文件保持ignore
 5. 从master(或其他任何分支)下载好最新代码后，应运行
 ```sh
