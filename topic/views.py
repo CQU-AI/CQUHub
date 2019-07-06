@@ -162,8 +162,41 @@ class Theme1_View(View):
             '7': '论坛公告'
         }
         node_id = reservedict[str(theme_id)]
-        theme1 = Create_Topic.objects.filter(node=node_id)
-        return render(request, 'topic_base.html', {'theme': theme1, 'theme_id': theme_id})
+        themes = Create_Topic.objects.filter(node=node_id)
+        return render(request, 'topic_base.html', {'theme': themes, 'theme_id': theme_id})
+
+class Theme2_View(View):
+    def get(self, request, theme_id ,page_id):
+        reservedict = {
+            '1': '生物知识',
+            '2': '生物信息',
+            '3': '生活交流',
+            '4': '生信编程',
+            '5': '计算机学习',
+            '6': 'django学习',
+            '7': '论坛公告'
+        }
+        node_id = reservedict[str(theme_id)]
+        theme2 = Create_Topic.objects.filter(node=node_id)
+
+
+        paginator = Paginator(theme2, 10)
+        page_range = paginator.page_range
+        page = request.GET.get(page_id)
+        test = page_id
+        # test=page
+        try:
+            themes = paginator.page(page_id)
+            # test=topics
+        except  PageNotAnInteger:
+            themes = paginator.page(1)
+            # test=topics
+        except EmptyPage:
+            themes = []
+            # paginator.page(paginator.num_pages)
+        # 处理侧边栏信息
+
+        return render(request, 'topic_base.html', {'theme': themes, 'theme_id': (theme_id)})
 
 def Go_Page(request):
     try:
