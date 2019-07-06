@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
-from .models import  User_Info
+from .models import User_Info
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -14,4 +14,5 @@ class UserProfileAdmin(admin.ModelAdmin):
         ('登录状态', {'fields': ['date_joined', 'last_login']})
     ]
 
-admin.site.register(User_Info,UserProfileAdmin)
+
+admin.site.register(User_Info, UserProfileAdmin)
