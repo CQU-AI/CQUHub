@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('pub_time', models.DateTimeField(auto_now_add=True)),
                 ('read_nums', models.IntegerField(default=0, verbose_name='阅读次数')),
                 ('last_time', models.DateTimeField(auto_now=True)),
-                ('node', models.CharField(choices=[('生物知识', '生物知识'), ('生物信息', '生物信息'), ('生活交流', '生活交流'), ('生信编程', '生信编程'), ('计算机学习', '计算机学习'), ('django学习', 'django学习')], max_length=50, verbose_name='主题结点')),
+                ('node', models.CharField(choices=[('那个谁，我想对你说', '那个谁，我想对你说'), ('动手动脚找东西', '动手动脚找东西'), ('CQU公告', 'CQU公告'), ('CQU身边事', 'CQU身边事'), ('技术栏目', '技术栏目'), ('文学交流', '文学交流')], max_length=50, verbose_name='主题结点')),
                 ('top', models.CharField(max_length=5, verbose_name='是否置顶')),
                 ('notice', models.CharField(max_length=5, verbose_name='公告')),
             ],
