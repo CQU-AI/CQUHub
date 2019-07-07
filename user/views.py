@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import markdown
+import markdown, os, uuid
 
 from django.shortcuts import render,redirect
 from  django.http  import  HttpResponse
@@ -85,7 +85,25 @@ class Register_Voew(View):
                     return render(request, 'user/register.html', {'message': '您两次输入的密码不相同', 'forms': forms})
                 else:
                     nickname = forms.cleaned_data["nickname"]
+
+                    avatar = request.FILES.get('avatar', None)
                     user = User_Info()
+                    # m = User_Info.objects.get(pk=course_id)
+                    user.avatar = avatar
+                    # 获取上传文件的扩展名
+                    fileType = os.path.splitext(avatar.name)[1]
+                    uploadDirPath = os.path.join(
+                        os.getcwd(), 'staticfiles/avatar')
+                    if not os.path.exists(uploadDirPath):
+                        os.mkdir(uploadDirPath)
+                        # 生成唯一文件名
+                    newName = str(uuid.uuid1()) + fileType
+                    # 拼接要上传的文件在服务器上的全路径
+                    fileFullPath = uploadDirPath + os.sep + newName
+                    # 上传文件
+                    with open(fileFullPath, 'wb+') as fp:
+                        for chunk in avatar.chunks():
+                            fp.write(chunk)
                     user.username = username
                     user.password = make_password(password)
                     user.nickname = nickname
@@ -142,3 +160,14 @@ class Info_Reply(View):
             each_user_reply.content = markdown_comment
 
         return render(request, 'topic/info_reply.html', {'userinfo': userinfo, 'all_user_reply': user_reply})
+
+
+def upload(request):
+    if request.method == 'POST':
+        name = request.POST.get('username')
+        avatar = request.FILES.get('avatar')
+        with open(avatar.name, 'wb') as f:
+            for line in avatar:
+                f.write(line)
+        return HttpResponse('ok')
+    return redirect(to='user:register')

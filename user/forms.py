@@ -20,6 +20,7 @@ class Register(forms.Form):
         widget=forms.PasswordInput(attrs={"class": "form-control", "id": "id_password1", "placeholder": "请输入您的密码"}))
     passwordConfirm = forms.CharField(required=True, max_length=20, min_length=6,
         widget=forms.PasswordInput(attrs={"class": "form-control", "id": "id_password1", "placeholder": "请再次输入您的密码"}))
+    image = forms.ImageField(required=False)
     captcha = CaptchaField()
 
 

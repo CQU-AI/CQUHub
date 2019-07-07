@@ -7,7 +7,7 @@
                 <li class="list-group-item info">{{ message }}</li>
             </ul>
         {% endif %}
-        <form method="post" action="{% url 'user:register' %}">
+        <form method="post" action="{% url 'user:register' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="usernameInput">学号:</label>
@@ -30,6 +30,11 @@
             <div class="form-group">
                 <label for="InputPassword2">确认密码:</label>
                 {{ forms.passwordConfirm }}
+            </div>
+
+            <div>
+                <label>头像</label>
+                <input type="file" name="avatar">
             </div>
 
             <div class="form-group">
