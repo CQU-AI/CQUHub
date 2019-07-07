@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['120.78.181.91', 'localhost', '0.0.0.0:8000', '127.0.0.1','www.cqu.fun']
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
     'operation',
     'user',
     'topic',
@@ -143,3 +145,15 @@ MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 SESSION_COOKIE_AGE=3600*2
+
+
+# django_simple_captcha 验证码配置
+# 噪点样式
+# CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_arcs', 'captcha.helpers.noise_dots')
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null',)
+CAPTCHA_IMAGE_SIZE = (100, 25)
+#CAPTCHA_BACKGROUND_COLOR = '#ffffff'
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'  # 图片中的文字为随机英文字母，如 mdsh
+# CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'    # 图片中的文字为数字表达式，如1+2=</span>
+
+CAPTCHA_LENGTH = 4  # 字符个数

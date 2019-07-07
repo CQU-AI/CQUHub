@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import markdown
+import markdown, os, uuid
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 from django.shortcuts import render,redirect
 from  django.http  import  HttpResponse
 from  django.views.generic import  View  #继承通用类视图
@@ -10,7 +11,7 @@ from  django.contrib.auth.hashers import make_password  #对数据库进行加�
 from  topic.models import Create_Topic
 from  operation.models import Topic_Comment
 from  .models import User_Info
-from  .forms import Login, Register
+from  .forms import Login, Register, Revise
 
 
 # Create your views here.
@@ -38,14 +39,33 @@ class Login_View(View):
             return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
 
 
+class Revise_View(View):
+    def get(self, request):
+        forms = Register()
+        return render(request, 'user/revise.html', {'forms': forms})
+
+    def post(self, request):
+        forms = Revise(request.POST, request.files)
+        if forms.is_valid():
+            password = forms.cleaned_data["passwordConfirm"]
+            password1 = forms.cleaned_data["password"]
+            if password != password1:
+                return render(request, 'user/revise.html', {'message': '您两次输入的密码不相同', 'forms': forms})
+            else:
+                nickname = forms.cleaned_data["nickname"]
+                user = User_Info()
+                user.password = make_password(password)
+                user.nickname = nickname
+                #!!!
+                user.save()
+                return redirect('<str:username1>/')
+        else:
+            return render(request, 'user/revise.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
+
+
 def logout_view(request):
     logout(request)
     return redirect(to='topic:index')
-
-
-"""
-注册用户相关操作
-"""
 
 
 class Register_Voew(View):
@@ -59,19 +79,34 @@ class Register_Voew(View):
             username = forms.cleaned_data["username"]
             if User_Info.objects.filter(username=username):
                 return render(request, 'user/register.html', {'message': '该学号已经被注册过了!', 'forms': forms})
-            else:
-                password = forms.cleaned_data["passwordConfirm"]
-                password1 = forms.cleaned_data["password"]
-                if password != password1:
-                    return render(request, 'user/register.html', {'message': '您两次输入的密码不相同', 'forms': forms})
-                else:
-                    nickname = forms.cleaned_data["nickname"]
-                    user = User_Info()
-                    user.username = username
-                    user.password = make_password(password)
-                    user.nickname = nickname
-                    user.save()
-                    return redirect(to='user:login')
+            password = forms.cleaned_data["passwordConfirm"]
+            passwordConfirm = forms.cleaned_data["password"]
+            if password != passwordConfirm:
+                return render(request, 'user/register.html', {'message': '您两次输入的密码不相同', 'forms': forms})
+            nickname = forms.cleaned_data["nickname"]
+            avatar = request.FILES.get('avatar', None)
+            user = User_Info()
+            if avatar != None:
+                # 获取上传文件的扩展名
+                fileType = os.path.splitext(avatar.name)[1]
+                uploadDirPath = os.path.join(
+                    os.getcwd(), 'staticfiles/avatar')
+                if not os.path.exists(uploadDirPath):
+                    os.mkdir(uploadDirPath)
+                # 生成唯一文件名
+                newName = str(user.avatarID) + fileType
+                user.avatarID = newName
+                # 拼接要上传的文件在服务器上的全路径
+                fileFullPath = uploadDirPath + os.sep + newName
+                # 上传文件
+                with open(fileFullPath, 'wb+') as fp:
+                    for chunk in avatar.chunks():
+                        fp.write(chunk)
+            user.username = username
+            user.password = make_password(password)
+            user.nickname = nickname
+            user.save()
+            return redirect(to='user:login')
         else:
             return render(request, 'user/register.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
 
@@ -138,3 +173,14 @@ class Info_Reply(View):
             each_user_reply.content = markdown_comment
 
         return render(request, 'topic/info_reply.html', {'userinfo': userinfo, 'all_user_reply': user_reply})
+
+
+def upload(request):
+    if request.method == 'POST':
+        name = request.POST.get('username')
+        avatar = request.FILES.get('avatar')
+        with open(avatar.name, 'wb') as f:
+            for line in avatar:
+                f.write(line)
+        return HttpResponse('ok')
+    return redirect(to='user:register')
