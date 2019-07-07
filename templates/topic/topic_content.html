@@ -69,6 +69,14 @@
 
                         <p></p>
                     </div>
+                    {% if  request.user.is_authenticated %}
+                        {% if  request.user == each_comment.user %}
+                            <a href="{% url 'operation:deleteComment'  content_id=content_topic.id comment_id=each_comment.id %}">删除</a>
+                        {% endif %}
+                        {% if  request.user == content_topic.user %}
+                            <a href="{% url 'operation:deleteComment'  content_id=content_topic.id comment_id=each_comment.id %}">删除</a>
+                        {% endif %}
+                    {% endif %}
                     <!-- <p class="reply-link"> -->
                     <!-- 回复功能：暂时舍弃。2019.7.6 -->
                     <!-- <p class="reply-link">

@@ -57,6 +57,7 @@ class PubTopic_View(View):
             node = forms.cleaned_data["node"]
             title = forms.cleaned_data["title"]
             ifAnony = forms.cleaned_data["ifAnony"]
+            # ifAnony = forms.cleaned_data["ifAnony"]
             if Create_Topic.objects.filter(title=title).exists():
                 return render(request, 'topic/create_topic.html', {'forms': forms, 'message': '该标题已经存在,请换一个标题'})
             content = forms.cleaned_data['content_raw']
@@ -228,6 +229,7 @@ def Go_Page(request):
     except EmptyPage:
         topics = []
     return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
+  
 def Go_theme_Page(request, theme_id):
     reservedict = {
             '1': '那个谁，我想对你说',
@@ -267,3 +269,4 @@ def Go_theme_Page(request, theme_id):
 class TestReplywindow(View):
     def get(self, request):
         return render(request, 'topic/test_replywindow.html')
+
