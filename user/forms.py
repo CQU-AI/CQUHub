@@ -1,6 +1,6 @@
 from django import forms
 
-from captcha.fields import CaptchaField
+from captcha.fields import CaptchaField, CaptchaTextInput
 
 class Login(forms.Form):
     username = forms.CharField(label='学号', required=True, max_length=150, widget=forms.TextInput(
@@ -17,9 +17,12 @@ class Register(forms.Form):
     nickname = forms.CharField(required=True, max_length=10, min_length=3, widget=forms.TextInput(
         attrs={"class": "form-control", "id": "id_nickname", "type": "text", "placeholder": "请输入您的昵称"}))
     password = forms.CharField(required=True, max_length=20, min_length=6,
-                               widget=forms.PasswordInput(
-                                   attrs={"class": "form-control", "id": "id_password1", "placeholder": "请输入您的密码"}))
+        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "id_password1", "placeholder": "请输入您的密码"}))
     passwordConfirm = forms.CharField(required=True, max_length=20, min_length=6,
-                                widget=forms.PasswordInput(
-                                    attrs={"class": "form-control", "id": "id_password1", "placeholder": "请再次输入您的密码"}))
-    captcha = CaptchaField(error_messages={'message': '验证码输入错误'})
+        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "id_password1", "placeholder": "请再次输入您的密码"}))
+    captcha = CaptchaField()
+
+
+class Revise(forms.Form):
+    avatar = forms.ImageField(required=True)
+

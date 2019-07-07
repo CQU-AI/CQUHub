@@ -71,7 +71,7 @@ ga('send', 'pageview');
     <div class="row">
         <div class="col-lg-8"> <!-- LEFT -->
 
-{% block  left_content %}
+{% block left_content %}
             {% endblock %}
 
         </div><!-- END LEFT -->
@@ -81,7 +81,7 @@ ga('send', 'pageview');
 
         <div class="col-lg-4"> <!-- RIGHT -->
 
-{% if  request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
     <div class="panel panel-default">
     <div class="panel-body user-panel">
         <div class="panel-user-info">
@@ -134,19 +134,12 @@ ga('send', 'pageview');
                 创建一篇文章
             </a>
         </li>
-        <!-- <li class="list-group-item">
-            <a class="text-success" href="/notifications/">
-
-                <span class="text-muted"><strong>【唯一标识符是您的幸运数字，用来参加活动使用】</strong></span>
-
-            </a>
-        </li> -->
-        <!-- <li class="list-group-item">
-            <a href="{% url 'user:logout' %}">
+        <li class="list-group-item">
+            <a href="{% url 'user:revise' %}">
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                注销
+                修改个人信息
             </a>
-        </li> -->
+        </li>
         <li class="list-group-item">
             <a href="{% url 'user:logout' %}">
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
@@ -155,12 +148,7 @@ ga('send', 'pageview');
         </li>
     </ul>
 </div>
-
-
-
-
-
-            {% else %}
+{% else %}
 <div class="panel panel-default">
     <div class="panel-heading"><strong>CQU Hub</strong></div>
     <div class="panel-body">

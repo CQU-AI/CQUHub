@@ -10,7 +10,7 @@ from  django.contrib.auth.hashers import make_password  #对数据库进行加�
 from  topic.models import Create_Topic
 from  operation.models import Topic_Comment
 from  .models import User_Info
-from  .forms import Login, Register
+from  .forms import Login, Register, Revise
 
 
 # Create your views here.
@@ -38,14 +38,33 @@ class Login_View(View):
             return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
 
 
+class Revise_View(View):
+    def get(self, request):
+        forms = Register()
+        return render(request, 'user/revise.html', {'forms': forms})
+
+    def post(self, request):
+        forms = Revise(request.POST, request.files)
+        if forms.is_valid():
+            password = forms.cleaned_data["passwordConfirm"]
+            password1 = forms.cleaned_data["password"]
+            if password != password1:
+                return render(request, 'user/revise.html', {'message': '您两次输入的密码不相同', 'forms': forms})
+            else:
+                nickname = forms.cleaned_data["nickname"]
+                user = User_Info()
+                user.password = make_password(password)
+                user.nickname = nickname
+                #!!!
+                user.save()
+                return redirect('<str:username1>/')
+        else:
+            return render(request, 'user/revise.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
+
+
 def logout_view(request):
     logout(request)
     return redirect(to='topic:index')
-
-
-"""
-注册用户相关操作
-"""
 
 
 class Register_Voew(View):
