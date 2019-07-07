@@ -84,6 +84,16 @@ class Topic_Content_View(View):
         title = topic_content.title
         name = topic_content.user.username
         node = topic_content.node
+        get_id = {
+            '那个谁，我想对你说':'1' ,
+            '动手动脚找东西':'2' ,
+            'CQU公告':'3' ,
+            'CQU身边事':'4' ,
+            '技术栏目':'5' ,
+            '文学交流':'6' ,
+            '论坛公告':'7' 
+        } 
+        theme_id=get_id[node] 
         content = markdown.markdown(
             topic_content.content,
             extensions=[
@@ -108,7 +118,7 @@ class Topic_Content_View(View):
 
         return render(request, 'topic/topic_content.html',
                       {'content_topic': topic_content, "time": time, "title": title, "name": name, "content": content,
-                       "node": node, 'forms': forms, 'comment': comment, 'len_comment': len_comment})
+                       "node": node, 'forms': forms, 'comment': comment, 'len_comment': len_comment, 'theme_id':theme_id})
 
 
 '''
@@ -154,6 +164,7 @@ class Theme1_View(View):
             '6': '文学交流',
             '7': '论坛公告'
         }
+
         node_id = reservedict[str(theme_id)]
         themes = Create_Topic.objects.filter(node=node_id)
         return render(request, 'topic_base.html', {'theme': themes, 'theme_id': theme_id})
