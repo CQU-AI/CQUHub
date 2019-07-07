@@ -2,14 +2,15 @@
 {% load  all_node_theme %}
 {% load  theme_to_reply %}
 {% load  recent_reply %}
+
 {% block  left_content %}
 
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-xs-2 col-sm-1">
+            <!-- <div class="col-xs-2 col-sm-1">
                 <img class="user-avatar" src="http://www.gravatar.com/avatar/e7299b7998581a411f3189c4139ce032?s=48&amp;d=" alt=""/>
-            </div>
+            </div> -->
             <div class="col-xs-9 col-sm-10">
                 <p>{{ userinfo.username }}</p>
                 <p>唯一标识符：{{ userinfo.id }}</p>
@@ -20,13 +21,13 @@
 <div class="panel panel-default">
     <div class="panel-body panel-subtitle">
         <span class="label label-success">
-            <font size="3" color="#1e90ff">    由【{{ userinfo.username }}】创造的主题</font>
+            <font size="3" color="#1e90ff">    由【{{ userinfo.nickname }}】创造的主题</font>
         </span>
     </div>
         <!-- List group -->
     <ul class="list-group topic-list">
     {% for  each_user_theme in  user_theme %}
-        <li class="list-group-item topic-entry">
+    <li class="list-group-item topic-entry">
             <div class="entry media">
                 <div class="media-body media-middle">
                     <a href="{% url  'topic:topic_content'  content_id=each_user_theme.id %}" class="entry-link">
@@ -45,17 +46,17 @@
                             <strong>最新回复人: {% recent_reply  each_user_theme.title %}</strong>
                         </span>
                     </p>
-                <div>
+                </div>
                 <div class="media-right media-middle">
                   <span class="badge">{% theme_to_reply  each_user_theme.title %}</span>                    
                 </div>
             </div>
-        </li>
+    </li>    
     {% endfor %}
 
-            <li class="list-group-item">
-                <!--a href="/u/279/topics/" class="text-success">More topics from this user</a-->
-            </li>
+            <!-- <li class="list-group-item">
+                <a href="/u/279/topics/" class="text-success">More topics from this user</a>
+            </li> -->
     </ul>
 
 
@@ -101,10 +102,10 @@
                 </li>
                 {% endifequal %}
                 <br><br>
-                <form methods="GET" action="/page/go/">
+                <form methods="GET" action="/user/info/go/{{username}}/">
                     <input type="hidden" name="cur_page" id="cur_page" value="{{page_id}}">
                     <label>跳转到：</label>                       
-                    <input type="text" style="width: 20px" id="go_page" name="go_page" style="padding-right: 100px">
+                    <input type="text" style="width: 20px" id="go_info" name="go_info" style="padding-right: 100px">
                     <button type="submit" style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">GO</button>
                 </form>                
             </ul>
