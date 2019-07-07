@@ -94,7 +94,7 @@ class Register_Voew(View):
                 if not os.path.exists(uploadDirPath):
                     os.mkdir(uploadDirPath)
                 # 生成唯一文件名
-                newName = str(user.avatarID) + fileType
+                newName = str(uuid.uuid4()) + fileType
                 user.avatarID = newName
                 # 拼接要上传的文件在服务器上的全路径
                 fileFullPath = uploadDirPath + os.sep + newName
