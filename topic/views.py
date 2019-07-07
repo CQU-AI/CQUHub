@@ -56,6 +56,7 @@ class PubTopic_View(View):
         if forms.is_valid():
             node = forms.cleaned_data["node"]
             title = forms.cleaned_data["title"]
+            ifAnony = forms.cleaned_data["ifAnony"]
             if Create_Topic.objects.filter(title=title).exists():
                 return render(request, 'topic/create_topic.html', {'forms': forms, 'message': '该标题已经存在,请换一个标题'})
             content = forms.cleaned_data['content_raw']
@@ -66,6 +67,7 @@ class PubTopic_View(View):
             topic.title = title
             topic.node = node
             topic.content = content
+            topic.ifAnony = ifAnony
             topic.save()
             return redirect(to='topic:index')
         else:
@@ -84,6 +86,17 @@ class Topic_Content_View(View):
         title = topic_content.title
         name = topic_content.user.username
         node = topic_content.node
+        get_id = {
+            '那个谁，我想对你说':'1' ,
+            '动手动脚找东西':'2' ,
+            'CQU公告':'3' ,
+            'CQU身边事':'4' ,
+            '技术栏目':'5' ,
+            '文学交流':'6' ,
+            '论坛公告':'7' 
+        } 
+        theme_id=get_id[node] 
+        ifAnony = topic_content.ifAnony
         content = markdown.markdown(
             topic_content.content,
             extensions=[
@@ -108,7 +121,7 @@ class Topic_Content_View(View):
 
         return render(request, 'topic/topic_content.html',
                       {'content_topic': topic_content, "time": time, "title": title, "name": name, "content": content,
-                       "node": node, 'forms': forms, 'comment': comment, 'len_comment': len_comment})
+                       "node": node, "ifAnony": ifAnony,'forms': forms, 'comment': comment, 'len_comment': len_comment, 'theme_id':theme_id})
 
 
 '''
@@ -135,10 +148,10 @@ def default_index(request):
 
 
 '''
-redirect  
-可传递的参数： 
-一个模型对象：这个模型的get_absolute_url() 会被调用。 
-一个视图名称，可带参数，该视图会被反向生成。 
+redirect
+可传递的参数：
+一个模型对象：这个模型的get_absolute_url() 会被调用。
+一个视图名称，可带参数，该视图会被反向生成。
 一个绝对路径或相对路径，用作反向定位。
 '''
 
@@ -154,6 +167,7 @@ class Theme1_View(View):
             '6': '文学交流',
             '7': '论坛公告'
         }
+
         node_id = reservedict[str(theme_id)]
         themes = Create_Topic.objects.filter(node=node_id)
         return render(request, 'topic_base.html', {'theme': themes, 'theme_id': theme_id})
@@ -311,4 +325,8 @@ def search(request):
 #     except EmptyPage:
 #         themes = []
 #     return render(request, 'templates/search_base.html', {'error_msg': error_msg,'post_list': post_list})
+class delete_topic(View):
+    def post(self, request, title1):
+        Create_Topic.objects.filter(title=title1).delete()
+        return redirect(to='/page/1')
 
