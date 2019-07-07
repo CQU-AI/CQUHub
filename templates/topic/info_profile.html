@@ -44,6 +44,26 @@
                         <span class="meta meta-last_replied hidden-xs">
                             <strong>最新回复人: {% recent_reply  each_user_theme.title %}</strong>
                         </span>
+                        
+                        <script type="text/javascript">
+                            window.onload=function()
+                            {
+                              var zx=document.getElementById("del");
+                              zx.onclick=function()
+                              {
+                                 if(confirm("确定要删除吗?"))
+                                 {
+                                   return true;
+                                 }else{
+                                   return false;
+                                 }
+                              }
+                            }
+                        </script>
+                        <form action="/delete/{{  each_user_theme.title  }}/" method="post">
+                            {% csrf_token %}
+                            <input type="submit"  value="删除" id="del" style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;"/>
+                        </form>
                     </p>
                 <div>
                 <div class="media-right media-middle">

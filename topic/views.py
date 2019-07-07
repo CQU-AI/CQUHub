@@ -264,3 +264,11 @@ def Go_theme_Page(request, theme_id):
 class TestReplywindow(View):
     def get(self, request):
         return render(request, 'topic/test_replywindow.html')
+
+
+
+class delete_topic(View):
+    def post(self, request, title1):
+        Create_Topic.objects.filter(title=title1).delete()
+        return redirect(to='/page/1')
+
