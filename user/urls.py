@@ -2,9 +2,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
+
 from .views import (
     Login_View,
-    Register_Voew,
+    Register_View,
     logout_view,
     Info_Profile,
     Info_Reply,
@@ -17,7 +18,7 @@ from .views import (
 app_name = "user"
 urlpatterns = [
     path("login/", Login_View.as_view(), name="login"),
-    path("register/", Register_Voew.as_view(), name="register"),
+    path("register/", Register_View.as_view(), name="register"),
     path("info/<str:username>", Info_View.as_view(), name="info"),
     path("logout/", logout_view, name="logout"),
     path("<str:username1>/", Info_Profile.as_view(), name="infoprofile"),

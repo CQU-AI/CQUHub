@@ -45,37 +45,10 @@ class Login_View(View):
                 )
         else:
             forms = Login()
-            return render(
-                request, "user/login.html", {"login": forms, "message": "您输入的信息不全"}
-            )
+            return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
 
 
-class Info_View(View):
-    def get(self, request, username):
-        forms = Info()
-        return render(request, "user/info.html", {"forms": forms})
-
-    def post(self, request, username):
-        # user = User_Info.objects.get(username=username)
-        forms = Info(request.POST)
-        if "nicknameButton" in request.POST and forms.is_valid():
-            print(2 ** 100, "\n", forms, "\n", "0" * 100)
-            newNickname = forms.cleaned_data["nickname"]
-            User_Info.objects.filter(username=username).update(nickname=newNickname)
-            forms = Info()
-        return render(request, "user/info.html", {"forms": forms})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect(to="topic:index")
-
-
-class Register_Voew(View):
-    def get(self, request):
-        forms = Register()
-        return render(request, "user/register.html", {"forms": forms})
-
+class Verify_View(View):
     def generate_verify_code(self, student_id):
         res = ""
         code_map = {}
@@ -91,7 +64,6 @@ class Register_Voew(View):
         pwd = "Djangosucks123"
         sender_mail = "cquhub-no-reply@mail.loopy.tech"
         receiver = "{}@cqu.edu.cn".format(student_id)
-
         mail_title = "CQU Hub的注册验证"
         mail_content = """同学你好:
 
@@ -117,6 +89,33 @@ CQU Hub开发组
         msg["To"] = receiver
         smtp.sendmail(sender_mail, receiver, msg.as_string())
         smtp.quit()
+
+
+class Info_View(View):
+    def get(self, request, username):
+        forms = Info()
+        return render(request, 'user/info.html', {'forms':forms})
+
+    def post(self, request, username):
+        # user = User_Info.objects.get(username=username)
+        forms = Info(request.POST)
+        if 'nicknameButton' in request.POST and forms.is_valid():
+            print(2**100, '\n', forms, '\n', "0" * 100)
+            newNickname = forms.cleaned_data['nickname']
+            User_Info.objects.filter(username=username).update(nickname=newNickname)
+            forms = Info()
+        return render(request, 'user/info.html', {'forms': forms})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(to='topic:index')
+
+
+class Register_View(View):
+    def get(self, request):
+        forms = Register()
+        return render(request, 'user/register.html', {'forms': forms})
 
     def post(self, request):
         forms = Register(request.POST)
