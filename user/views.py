@@ -11,7 +11,7 @@ from  django.contrib.auth.hashers import make_password  #对数据库进行加�
 from  topic.models import Create_Topic
 from  operation.models import Topic_Comment
 from  .models import User_Info
-from  .forms import Login, Register, Revise
+from  .forms import Login, Register, Info
 
 
 # Create your views here.
@@ -61,6 +61,22 @@ class Revise_View(View):
                 return redirect('<str:username1>/')
         else:
             return render(request, 'user/revise.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
+
+
+class Info_View(View):
+    def get(self, request, username):
+        forms = Info()
+        return render(request, 'user/info.html', {'forms':forms})
+    
+    def post(self, request, username):
+        # user = User_Info.objects.get(username=username)
+        forms = Info(request.POST)
+        if 'nicknameButton' in request.POST and forms.is_valid():
+            print(2**100, '\n', forms, '\n', "0" * 100)
+            newNickname = forms.cleaned_data['nickname']
+            User_Info.objects.filter(username=username).update(nickname=newNickname)
+            forms = Info()
+        return render(request, 'user/info.html', {'forms': forms})
 
 
 def logout_view(request):
