@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', Register_Voew.as_view(), name='register'),
     path('logout/', logout_view, name='logout'),
     path('<str:username1>/', Info_Profile.as_view(), name='infoprofile'),
+    # path('<str:username1>/<int:page>',Info_page, name='infoPage'),
     path('reply/<str:username1>/', Info_Reply.as_view(), name='inforeply'),
 ]
