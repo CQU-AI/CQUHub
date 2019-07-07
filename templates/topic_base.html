@@ -1,11 +1,12 @@
 {% extends  'nav_base.html' %}
 {% load theme_to_reply %}
+{% load  all_node_theme %}
 {% block  left_content %}
     <div class="panel panel-default">
         <div class="panel-body panel-subtitle">
             <span class="label label-success">{{ theme.last.node }}</span>
 
-              <span class="pull-right ordering">
+            <span class="pull-right ordering">
                 排序:
                 <span>
                   <a href="{% url  'topic:theme1' theme_id=theme_id %}">发帖时间</a>
@@ -23,7 +24,8 @@
                 <li class="list-group-item topic-entry">
                     <div class="entry media">
                         <div class="media-left media-middle">
-                            <a class="list-avatar-link" href="/u/1/"><img class="user-avatar" src="http://www.gravatar.com/avatar/4e5750bb485db473fc5fcaac227b78e3?s=48&amp;d="></a>
+                            <a class="list-avatar-link" href="/u/1/"><img class="user-avatar"
+                                                                          src="http://www.gravatar.com/avatar/4e5750bb485db473fc5fcaac227b78e3?s=48&amp;d="></a>
                         </div>
                         <div class="media-body media-middle">
                             <a href="{% url 'topic:topic_content'  content_id=each_theme.id %}" class="entry-link">
@@ -32,21 +34,21 @@
                             <p class="entry-meta">
 
                                 <span class="meta">
-                                    <a href="{% url 'topic:theme1'  theme_id=theme_id %}">
+                                    <a href="/theme/{% all_node_theme each_theme.node %}/1">
                                         <span class="label label-default meta-node">
                                         {{ each_theme.node }}l
                                         </span>
                                     </a>
                                 </span>
-                                    <span class="meta meta-username">
+                                <span class="meta meta-username">
                                         <a href="/user/{{ each_theme.user }}/">
                                             {{ each_theme.user }}
                                         </a>
                                     </span>
-                                    <span class="meta meta-pub_date">
+                                <span class="meta meta-pub_date">
                                         {{ each_theme.pub_time }}
                                     </span>
-                                    <span class="meta meta-last_replied hidden-xs">
+                                <span class="meta meta-last_replied hidden-xs">
 
                                     </span>
                             </p>
@@ -63,11 +65,11 @@
                 </li>
             {% endfor %}
         </ul>
-    <div class="panel-footer">
+        <div class="panel-footer">
 
 
-    <nav>
-        <!-- <ul class="pagination">
+            <nav>
+                <!-- <ul class="pagination">
 
                         <li><a href="/theme/{{ theme_id }}/1/">1</a></li>
 
@@ -82,47 +84,52 @@
                 </li>
 
         </ul> -->
-        <ul class="pager">
-            {% ifequal page_id 1 %}
-            {% else %}
-            <li>
-                <a href="/theme/{{theme_id}}/{{ pre_id }}/" aria-label="Prev">
-                    <span aria-hidden="true">&lsaquo;</span>
-                </a>   
-            </li>
-            <li>
-                    <a href="/theme/{{theme_id}}/{{ pre_id }}">
-                        <span>{{pre_id}}</span>
-                    </a>
-            </li>
-            {% endifequal %}
-            <li>
-                <a href="/theme/{{theme_id}}/{{ page_id }}" style="color:floralwhite; background-color: deepskyblue">
-                    <span>{{page_id}}</span>
-                </a>
-            </li>
-            {% ifequal page_id next_id %}
-            {% else %}
-            <li>
-                    <a href="/theme/{{theme_id}}/{{ next_id }}">
-                        <span>{{next_id}}</span>
-                    </a>
-                </li>
-            <li>
-                <a href="/theme/{{theme_id}}/{{ next_id }}/" aria-label="Next">
-                    <span aria-hidden="true">&rsaquo;</span>
-                </a>
-            </li>
-            {% endifequal %}
-            <br><br>
-            <form methods="GET" action="/theme/go/{{theme_id}}">
-                <input type="hidden" name="cur_page" id="cur_page" value="{{page_id}}">
-                <label>跳转到：</label>                       
-                <input type="text" style="width: 20px" id="go_theme_page" name="go_theme_page" style="padding-right: 100px">
-                <button type="submit" style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">GO</button>
-            </form>                
-        </ul>
-    </nav>
+                <ul class="pager">
+                    {% ifequal page_id 1 %}
+                    {% else %}
+                        <li>
+                            <a href="/theme/{{ theme_id }}/{{ pre_id }}/" aria-label="Prev">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/theme/{{ theme_id }}/{{ pre_id }}">
+                                <span>{{ pre_id }}</span>
+                            </a>
+                        </li>
+                    {% endifequal %}
+                    <li>
+                        <a href="/theme/{{ theme_id }}/{{ page_id }}"
+                           style="color:floralwhite; background-color: deepskyblue">
+                            <span>{{ page_id }}</span>
+                        </a>
+                    </li>
+                    {% ifequal page_id next_id %}
+                    {% else %}
+                        <li>
+                            <a href="/theme/{{ theme_id }}/{{ next_id }}">
+                                <span>{{ next_id }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/theme/{{ theme_id }}/{{ next_id }}/" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                    {% endifequal %}
+                    <br><br>
+                    <form methods="GET" action="/theme/go/{{ theme_id }}">
+                        <input type="hidden" name="cur_page" id="cur_page" value="{{ page_id }}">
+                        <label>跳转到：</label>
+                        <input type="text" style="width: 20px" id="go_theme_page" name="go_theme_page"
+                               style="padding-right: 100px">
+                        <button type="submit"
+                                style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">
+                            GO
+                        </button>
+                    </form>
+                </ul>
+            </nav>
 
         </div>
     </div>

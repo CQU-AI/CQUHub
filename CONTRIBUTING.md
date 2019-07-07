@@ -38,3 +38,9 @@ python manage.py migrate
 python manage.py runserver
 ```
 以部署生产环境和测试运行
+
+6. 若部署生产环境时显示数据库中有table缺失，请使用
+``` sh
+python manage.py migrate --run-syncdb
+```
+来更新数据库

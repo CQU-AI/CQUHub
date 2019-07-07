@@ -1,8 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.views.generic import View
-# Create your views here.
-
-
 from .models import Topic_Comment
 from user.models import User_Info
 from topic.models import Create_Topic
@@ -24,6 +22,13 @@ class Comment_View(View):
             comment.user = User_Info.objects.get(username=request.user.username)
             comment.content = comment_content
             comment.save()
-            return redirect(to='topic:topic_content', content_id=content_id)
+            return redirect(to="topic:topic_content", content_id=content_id)
 
-        return redirect(to='topic:topic_content', content_id=content_id)
+        return redirect(to="topic:topic_content", content_id=content_id)
+
+
+class deleteComment(View):
+    def get(self, request, content_id, comment_id):
+        commentTmp = Topic_Comment.objects.get(id=comment_id)
+        commentTmp.delete()
+        return redirect(to="topic:topic_content", content_id=content_id)
