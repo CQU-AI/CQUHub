@@ -11,7 +11,10 @@ from  django.contrib.auth.hashers import make_password  #对数据库进行加�
 from  topic.models import Create_Topic
 from  operation.models import Topic_Comment
 from  .models import User_Info
-from  .forms import Login, Register, Revise
+from  .forms import Login, Register, Info
+from email.mime.text import MIMEText
+from email.header import Header
+from smtplib import SMTP_SSL
 
 
 # Create your views here.
@@ -63,6 +66,22 @@ class Revise_View(View):
             return render(request, 'user/revise.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
 
 
+class Info_View(View):
+    def get(self, request, username):
+        forms = Info()
+        return render(request, 'user/info.html', {'forms':forms})
+    
+    def post(self, request, username):
+        # user = User_Info.objects.get(username=username)
+        forms = Info(request.POST)
+        if 'nicknameButton' in request.POST and forms.is_valid():
+            print(2**100, '\n', forms, '\n', "0" * 100)
+            newNickname = forms.cleaned_data['nickname']
+            User_Info.objects.filter(username=username).update(nickname=newNickname)
+            forms = Info()
+        return render(request, 'user/info.html', {'forms': forms})
+
+
 def logout_view(request):
     logout(request)
     return redirect(to='topic:index')
@@ -72,6 +91,44 @@ class Register_Voew(View):
     def get(self, request):
         forms = Register()
         return render(request, 'user/register.html', {'forms': forms})
+
+    def generate_verify_code(self, student_id):
+        res = ""
+        code_map = {}
+        code = "9128405367"
+        for i in range(10):
+            code_map[str(i)] = code[i]
+        for i in str(hash(str(student_id)) % (3 ** 12)):
+            res += code_map[i]
+        return res
+
+    def send_verify_mail(self, student_id):
+        host_server = 'smtp.exmail.qq.com'
+        pwd = 'Djangosucks123'
+        sender_mail = 'cquhub-no-reply@mail.loopy.tech'
+        receiver = '{}@cqu.edu.cn'.format(student_id)
+
+        mail_title = 'CQU Hub的注册验证'
+        mail_content = '''同学你好:
+
+    感谢您使用CQU Hub！
+    为确保论坛只对重大学子开放，请确认您的学号为{}，并使用验证码{}来完成您的注册！
+
+CQU Hub开发组
+{}'''.format(student_id, self.generate_verify_code(student_id), time.strftime("%Y-%m-%d %X", time.localtime()))
+
+        smtp = SMTP_SSL(host_server)
+
+        smtp.set_debuglevel(0)
+        smtp.ehlo(host_server)
+        smtp.login(sender_mail, pwd)
+
+        msg = MIMEText(mail_content, "plain", 'utf-8')
+        msg["Subject"] = Header(mail_title, 'utf-8')
+        msg["From"] = sender_mail
+        msg["To"] = receiver
+        smtp.sendmail(sender_mail, receiver, msg.as_string())
+        smtp.quit()
 
     def post(self, request):
         forms = Register(request.POST)

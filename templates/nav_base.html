@@ -139,9 +139,9 @@
             </a>
         </li>
         <li class="list-group-item">
-            <a href="{% url 'user:revise' %}">
+            <a href="{% url 'user:info' username=request.user.username %}">
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                修改个人信息
+                个人信息
             </a>
         </li>
         <li class="list-group-item">
