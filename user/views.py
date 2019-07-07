@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import markdown, os, uuid
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from django.shortcuts import render,redirect
 from  django.http  import  HttpResponse
@@ -114,30 +115,45 @@ class Info_Profile(View):
     '''
     个人主题数量
     '''
-    def  get(self,request,username1):
+    def  get(self,request,username1,page_id=1):
         userinfo=User_Info.objects.get(username=username1)
-        reservedict1={
-             '那个谁，我想对你说':'1',
-             '动手动脚找东西':'2',
-           'CQU公告':'3',
-             'CQU身边事':'4',
-            '技术栏目':'5',
-             '文学交流':'6',
-            '论坛公告':'7'
-        }
-        reservedict = {
-            '1': '那个谁，我想对你说',
-            '2': '动手动脚找东西',
-            '3': 'CQU公告',
-            '4': 'CQU身边事',
-            '5': '技术栏目',
-            '6': '文学交流',
-            '7': '论坛公告'
-        }
+        # reservedict1={
+        #     '那个谁，我想对你说':'1',
+        #     '动手动脚找东西':'2',
+        #     'CQU公告':'3',
+        #     'CQU身边事':'4',
+        #     '技术栏目':'5',
+        #     '文学交流':'6',
+        #     '论坛公告':'7'
+        # }
+        # reservedict = {
+        #     '1': '那个谁，我想对你说',
+        #     '2': '动手动脚找东西',
+        #     '3': 'CQU公告',
+        #     '4': 'CQU身边事',
+        #     '5': '技术栏目',
+        #     '6': '文学交流',
+        #     '7': '论坛公告'
+        # }
         user_theme = userinfo.create_topic_set.all()
         user_reply = userinfo.topic_comment_set.all()
+        paginator = Paginator(user_theme, 2)
+        page_range = paginator.page_range
+        pre_id = page_id-1
+        next_id = page_id+1
+        if page_id == 1:
+            pre_id = 1
+        if page_id == len(page_range):
+            next_id = page_id
+            pre_id = page_id-1
+        try:
+            user_theme = paginator.page(page_id)
+        except  PageNotAnInteger:
+            user_theme = paginator.page(1)
+        except EmptyPage:
+            user_theme = []
         return render(request, 'topic/info_profile.html',
-                      {'userinfo': userinfo, 'user_theme': user_theme, 'user_reply': user_reply})
+                      {'userinfo': userinfo, 'user_theme': user_theme, 'user_reply': user_reply,'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id,'username':username1})
 
 
 class Info_Reply(View):
