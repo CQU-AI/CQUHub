@@ -8,28 +8,34 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta content="yes" name="apple-mobile-web-app-capable" />
-    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
-    <meta name="format-detection" content="telephone=no" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static  'main.css' %}"/>
-    <title>Login-Niji Forum (Demo)</title>
-    <script src="{% static  'jquery-2.2.4.min.js' %}"></script>
+    <title>CQU Hub</title>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script type="text/javascript" src="{% static 'jquery-2.2.4.min.js' %}"></script>
     <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-ga('create', 'UA-50029454-8', 'auto');
-ga('send', 'pageview');
+        ga('create', 'UA-50029454-8', 'auto');
+        ga('send', 'pageview');
 
-</script>
+    </script>
 
-<!-- 发帖回帖组测试： -->
+    <!-- 发帖回帖组测试： -->
     <link href="{% static  'replyWindow.css' %}" rel="stylesheet" type="text/css">
     <script src="{% static  'replyWindow.js' %}" type="text/javascript"></script>
 <!-- 发帖回帖组测试该块结束 -->
@@ -41,7 +47,8 @@ ga('send', 'pageview');
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -70,51 +77,49 @@ ga('send', 'pageview');
     <div class="row">
         <div class="col-lg-8"> <!-- LEFT -->
 
-{% block  left_content %}
+
+{% block left_content %}
             {% endblock %}
 
         </div><!-- END LEFT -->
 
 
-
-
         <div class="col-lg-4"> <!-- RIGHT -->
 
-{% if  request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
     <div class="panel panel-default">
     <div class="panel-body user-panel">
         <div class="panel-user-info">
             <div class="avatar-name">
-
                 <!-- Avatar -->
-                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/></a>
+                <img class="user-avatar" id="panel-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt="Avatar" style="width:100px; height:100px; border-radius: 5px;"/>
                 <!-- Avatar -->
 
                 <span class="panel-username" style="display:inline-block">
-                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
-                        &nbsp; &nbsp;
-                        <a href="#">{{ request.user.username }}</a>
+                        <p><label style="font-size: 15pt">{{ request.user.nickname }}</label></p>
+                        <p><a href="/user/{{ request.user.username }}/">{{ request.user.username }}</a></p>
                 </span>
             </div>
-            <div class="row panel-user-meta">
-                <div class="col-xs-4 panel-user-meta-item">
-                    <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
-                        <div class="text-center">
-                            <p class="panel-user-meta-item-value">
-                                {% each_people_num  request.user.username %}
-                            </p>
-                            <p class="panel-user-meta-item-title">主题</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-4 panel-user-meta-item">
-                    <a href="{% url  'user:inforeply'  username1=request.user.username %}">
-                        <div class="text-center">
-                            <p class="panel-user-meta-item-value">{% each_reply_num  request.user.username %}</p>
-                            <p class="panel-user-meta-item-title">回复</p>
-                        </div>
-                    </a>
-                </div>
+                            <div class="row panel-user-meta">
+                                <div class="col-xs-4 panel-user-meta-item">
+                                    <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
+                                        <div class="text-center">
+                                            <p class="panel-user-meta-item-value">
+                                                {% each_people_num request.user.username %}
+                                            </p>
+                                            <p class="panel-user-meta-item-title">主题</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 panel-user-meta-item">
+                                    <a href="{% url  'user:inforeply'  username1=request.user.username %}">
+                                        <div class="text-center">
+                                            <p class="panel-user-meta-item-value">{% each_reply_num request.user.username %}</p>
+                                            <p class="panel-user-meta-item-title">回复</p>
+                                        </div>
+                                    </a>
+                                </div>
+
                 <div class="col-xs-4 panel-user-meta-item">
                     <a href="#">
                         <div class="text-center">
@@ -134,10 +139,9 @@ ga('send', 'pageview');
             </a>
         </li>
         <li class="list-group-item">
-            <a class="text-success" href="/notifications/">
-
-                <span class="text-muted"><strong>【唯一标识符是您的幸运数字，用来参加活动使用】</strong></span>
-
+            <a href="{% url 'user:info' username=request.user.username %}">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                个人信息
             </a>
         </li>
         <li class="list-group-item">
@@ -148,12 +152,7 @@ ga('send', 'pageview');
         </li>
     </ul>
 </div>
-
-
-
-
-
-            {% else %}
+{% else %}
 <div class="panel panel-default">
     <div class="panel-heading"><strong>CQU Hub</strong></div>
     <div class="panel-body">
@@ -169,73 +168,83 @@ ga('send', 'pageview');
         </div>
         <hr/>
 
-
-
-    </div>
-</div>
+                    </div>
+                </div>
 
 
 
 
             {% endif %}
-{% block  theme_tag %}
 
-<div class="panel panel-default">
-    <div class="panel-heading">内置主题</div>
-    <div class="panel-body">
+            {% block  theme_tag %}
 
-            <a href="/theme/1/">
-                <span class="label label-default meta-node">那个谁，我想对你说</span>
-            </a>
+                <div class="panel panel-default">
+                    <div class="panel-heading">内置主题</div>
+                    <div class="panel-body">
 
-
-
-            <a href="/theme/2/">
-                <span class="label label-default meta-node">动手动脚找东西</span>
-            </a>
-        <a href="/theme/3/">
-                <span class="label label-default meta-node">CQU公告</span>
-            </a>
-        <a href="/theme/4/">
-                <span class="label label-default meta-node">CQU身边事</span>
-            </a>
-        <a href="/theme/5/">
-                <span class="label label-default meta-node">技术栏目</span>
-            </a>
-        <a href="/theme/6/">
-                <span class="label label-default meta-node">文学交流</span>
-            </a>
-
-    </div>
-</div>
+                        <a href="/theme/1/">
+                            <span class="label label-default meta-node">那个谁，我想对你说</span>
+                        </a>
 
 
-    <div class="panel panel-default">
-    <div class="panel-heading">论坛信息</div>
-	    <div class="panel-body">
-	    <p style="margin: 0; text-align: center; height: 28px;">
-            <a>
-                <strong>总注册人数：</strong>
-            </a>
-            <a>
-                <strong>{% site_info  HAHA %}</strong>
-            </a>
-        </p>
-            <p  style="margin: 0; text-align: center; height: 28px;">
-                <a>
-                    <strong>论坛总帖量：</strong>
-            </a>
-            <a>
-                <strong> {% all_theme  HAHA %}  </strong>
-            </a>
-            </p>
-	    </div>
-	    </div>
+                        <a href="/theme/2/">
+                            <span class="label label-default meta-node">动手动脚找东西</span>
+                        </a>
+                        <a href="/theme/3/">
+                            <span class="label label-default meta-node">CQU公告</span>
+                        </a>
+                        <a href="/theme/4/">
+                            <span class="label label-default meta-node">CQU身边事</span>
+                        </a>
+                        <a href="/theme/5/">
+                            <span class="label label-default meta-node">技术栏目</span>
+                        </a>
+                        <a href="/theme/6/">
+                            <span class="label label-default meta-node">文学交流</span>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">小功能及友链</div>
+                    <div class="panel-body">
 
 
+                        <a href="http://www.cqu.edu.cn/">
+                            <span class="label label-default meta-node">CQU官网</span>
+                        </a>
+
+                        <a href="https://github.com/loopyme/CQUHub">
+                            <span class="label label-default meta-node">网站源码</span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">论坛信息</div>
+                    <div class="panel-body">
+                        <p style="margin: 0; text-align: center; height: 28px;">
+                            <a>
+                                <strong>总注册人数：</strong>
+                            </a>
+                            <a>
+                                <strong>{% site_info HAHA %}</strong>
+                            </a>
+                        </p>
+                        <p style="margin: 0; text-align: center; height: 28px;">
+                            <a>
+                                <strong>论坛总帖量：</strong>
+                            </a>
+                            <a>
+                                <strong> {% all_theme HAHA %}  </strong>
+                            </a>
+                        </p>
+                    </div>
+                </div>
 
 
-        {% endblock %}
+            {% endblock %}
 
         </div><!-- END RIGHT -->
     </div>
@@ -243,17 +252,25 @@ ga('send', 'pageview');
 
 <script src="{% static  'bootstrap.min.js' %}"></script>
 <script>
-    $(document).ready(function(){
-        $('#navSearchBtn').click(function(e){
+    $(document).ready(function () {
+        $('#navSearchBtn').click(function (e) {
             e.preventDefault();
             var keyword = $('#keywordInput').val();
-            if(keyword){
-                window.location = "/search/" + keyword +"/"; // FIXME: Use url tag!
+            if (keyword) {
+                window.location = "/search/" + keyword + "/"; // FIXME: Use url tag!
             }
         });
     });
 </script>
 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom center-block" >
+    <li class="nav-item" align = "center">
+      <a class="nav-link" href="#">CQU Hub开发组</a>
+    </li>
+    <li class="nav-item" align = "center">
+      <a class="nav-link" href="#">蜀ICP备17038882号</a>
+    </li>
+</nav>
 <!--Niji Forum (Demo)-->
 </body>
 </html>
