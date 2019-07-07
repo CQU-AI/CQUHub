@@ -213,6 +213,57 @@ class Info_Profile(View):
         return render(request, 'topic/info_profile.html',
                       {'userinfo': userinfo, 'user_theme': user_theme, 'user_reply': user_reply,'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id,'username':username1})
 
+def Info_page(request, username1, page_id):
+    userinfo=User_Info.objects.get(username=username1)
+    user_theme = userinfo.create_topic_set.all()
+    user_reply = userinfo.topic_comment_set.all()
+    paginator = Paginator(user_theme, 2)
+    page_range = paginator.page_range
+    pre_id = page_id-1
+    next_id = page_id+1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id-1
+    try:
+        user_theme = paginator.page(page_id)
+    except  PageNotAnInteger:
+        user_theme = paginator.page(1)
+    except EmptyPage:
+        user_theme = []
+    return render(request, 'topic/info_profile.html',
+                    {'userinfo': userinfo, 'user_theme': user_theme, 'user_reply': user_reply,'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id,'username':username1})
+
+def Go_info_page(request, username1):
+    userinfo=User_Info.objects.get(username=username1)
+    user_theme = userinfo.create_topic_set.all()
+    user_reply = userinfo.topic_comment_set.all()
+    try:
+        page_id = int(request.GET.get('go_info'))
+    except:
+        page_id = int('cur_page')
+    paginator = Paginator(user_theme, 2)
+    page_range = paginator.page_range
+    max = len(page_range)
+    if(page_id > max):
+        page_id = int(request.GET.get('cur_page'))
+    pre_id = page_id-1
+    next_id = page_id+1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id-1
+    try:
+        user_theme = paginator.page(page_id)
+    except  PageNotAnInteger:
+        user_theme = paginator.page(1)
+    except EmptyPage:
+        user_theme = []
+    return render(request, 'topic/info_profile.html',
+                    {'userinfo': userinfo, 'user_theme': user_theme, 'user_reply': user_reply,'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id,'username':username1})
+
 
 class Info_Reply(View):
     def get(self, request, username1):

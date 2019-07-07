@@ -62,11 +62,24 @@
                 <li class=""><a href="/"><strong>主页</strong></a></li>
                 <li class=""><a href="/theme/7/"><strong>论坛公告</strong></a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search" action="/search/">
+            <form method="GET" class="navbar-form navbar-left" role="search" action="/search/go/"> 
+                {% csrf_token %}
                 <div class="form-group">
-                    <input type="text" id="keywordInput" name="keyword" class="form-control" placeholder="搜索">
+                    <input type="text" id="nvkeywords" name="nvkeywords" class="form-control" placeholder="搜索">
                 </div>
-                <button type="submit" id="navSearchBtn" class="btn btn-default">搜索</button>
+                <button type="submit"  class="btn btn-default" >搜索</button>
+
+                <!-- <script type="text/javascript">
+                    window.search=function()
+                    {
+                        var zx=document.getElementById("nvkeywords");
+                        if(nvkeywords="")
+                        {
+                           alert("搜索内容不能为空！")
+                        }
+                        
+                    }
+                </script> -->
             </form>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -182,24 +195,22 @@
                     <div class="panel-heading">内置主题</div>
                     <div class="panel-body">
 
-                        <a href="/theme/1/">
+                        <a href="/theme/1/1">
                             <span class="label label-default meta-node">那个谁，我想对你说</span>
                         </a>
-
-
-                        <a href="/theme/2/">
+                        <a href="/theme/2/1">
                             <span class="label label-default meta-node">动手动脚找东西</span>
                         </a>
-                        <a href="/theme/3/">
+                        <a href="/theme/3/1">
                             <span class="label label-default meta-node">CQU公告</span>
                         </a>
-                        <a href="/theme/4/">
+                        <a href="/theme/4/1">
                             <span class="label label-default meta-node">CQU身边事</span>
                         </a>
-                        <a href="/theme/5/">
+                        <a href="/theme/5/1">
                             <span class="label label-default meta-node">技术栏目</span>
                         </a>
-                        <a href="/theme/6/">
+                        <a href="/theme/6/1">
                             <span class="label label-default meta-node">文学交流</span>
                         </a>
 

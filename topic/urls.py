@@ -6,8 +6,7 @@ __date__ = 2018 / 9 / 11
 
 from django.contrib import admin
 from django.urls import path, include
-
-from .views import Go_theme_Page,Theme1_View, PubTopic_View, Index_View, default_index, Topic_Content_View, Go_Page,Theme2_View
+from .views import Go_theme_Page,Theme1_View, PubTopic_View, Index_View, default_index, Topic_Content_View, Go_Page,Theme2_View,delete_topic,search
 
 app_name = 'topic'
 urlpatterns = [
@@ -19,4 +18,7 @@ urlpatterns = [
     path('theme/<int:theme_id>/<int:page_id>/', Theme2_View.as_view(), name='theme1'),
     path('page/go/', Go_Page,name='go'),
     path('theme/go/<int:theme_id>/', Go_theme_Page, name='theme_change'),
+    # path('info/go/<str:username1>/',Go_info_page, name='info_Pagego'),
+    path('search/go/', search, name='search'),  
+    path('delete/<str:title1>/',delete_topic.as_view(), name='delete_topic'),
 ]

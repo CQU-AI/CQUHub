@@ -270,3 +270,62 @@ class TestReplywindow(View):
     def get(self, request):
         return render(request, 'topic/test_replywindow.html')
 
+
+def search(request):
+    nvkeywords =str(request.GET.get('nvkeywords'))
+    
+    if (nvkeywords!=""):
+        error_msg = ''
+        topic_list = Create_Topic.objects.filter(title__icontains = nvkeywords)
+        #print(len(post_list))
+    
+    else:
+        error_msg='请输入搜索内容!'
+        topic_list=[]
+    
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+    
+    return render(request, 'search_base.html', {'error_msg': error_msg,
+                                               'topic_list': topic_list})
+
+
+# def search(request):
+#     nvkeywords = request.GET.get('nvkeywords')
+
+#     error_msg = ''
+#     if not nvkeywords:
+#         error_msg = '请输入关键词'
+#     return render(request, 'templates/errors.html', {'error_msg': error_msg})
+
+#     post_list = Create_Topic.objects.filter(div_id_content_raw_icontains=nvkeywords)#注意这里
+
+#     # theme2 = Create_Topic.objects.filter(node = node_id)
+#     # try:
+#     #     page_id = int(request.GET.get('go_theme_page'))
+#     # except:
+#     #     page_id = int(request.GET.get('cur_page'))
+
+#     paginator = Paginator(post_list, 4)
+#     page_range = paginator.page_range
+#     max = len(page_range)
+#     if(page_id > max):
+#         page_id = int(request.GET.get('cur_page'))
+#     pre_id = page_id-1
+#     next_id = page_id+1
+#     if page_id == 1:
+#         pre_id = 1
+#     if page_id == len(page_range):
+#         next_id = page_id
+#         pre_id = page_id-1
+#     try:
+#         themes = paginator.page(page_id)
+#     except  PageNotAnInteger:
+#         themes = paginator.page(1)
+#     except EmptyPage:
+#         themes = []
+#     return render(request, 'templates/search_base.html', {'error_msg': error_msg,'post_list': post_list})
+class delete_topic(View):
+    def post(self, request, title1):
+        Create_Topic.objects.filter(title=title1).delete()
+        return redirect(to='/page/1')
