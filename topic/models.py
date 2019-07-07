@@ -31,9 +31,17 @@ class Create_Topic(models.Model):
         ('文学交流', '文学交流'),
         # ('comments', '论坛公告'),
     )
+
+    xuanze = (
+        ('不匿名', '不匿名'),
+        ('匿名', '匿名'),
+    )
+
     node = models.CharField(max_length=50, choices=theme, verbose_name='主题结点')
+    ifAnony = models.CharField(max_length=50, choices=xuanze, verbose_name='是否匿名')
     top = models.CharField(max_length=5, verbose_name="是否置顶")
     notice = models.CharField(max_length=5, verbose_name='公告')
+    # ifAnony = models.BooleanField(default=False, verbose_name="匿名")
 
     class Meta:
         verbose_name = '发布主题'
