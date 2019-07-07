@@ -227,3 +227,4 @@ def Go_Page(request):
     except EmptyPage:
         topics = []
     return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
+
