@@ -162,16 +162,53 @@ class Theme1_View(View):
             '7': '论坛公告'
         }
         node_id = reservedict[str(theme_id)]
-        theme1 = Create_Topic.objects.filter(node=node_id)
-        return render(request, 'topic_base.html', {'theme': theme1, 'theme_id': theme_id})
+        themes = Create_Topic.objects.filter(node=node_id)
+        return render(request, 'topic_base.html', {'theme': themes, 'theme_id': theme_id})
+
+class Theme2_View(View):
+    def get(self, request, theme_id ,page_id):
+        reservedict = {
+            '1': '那个谁，我想对你说',
+            '2': '动手动脚找东西',
+            '3': 'CQU公告',
+            '4': 'CQU身边事',
+            '5': '技术栏目',
+            '6': '文学交流',
+            '7': '论坛公告'
+        }
+        node_id = reservedict[str(theme_id)]
+        theme2 = Create_Topic.objects.filter(node=node_id)
+
+
+        paginator = Paginator(theme2, 10)
+        page_range = paginator.page_range
+        page = request.GET.get(page_id)
+        test = page_id
+        # test=page
+        try:
+            themes = paginator.page(page_id)
+            # test=topics
+        except  PageNotAnInteger:
+            themes = paginator.page(1)
+            # test=topics
+        except EmptyPage:
+            themes = []
+            # paginator.page(paginator.num_pages)
+        # 处理侧边栏信息
+
+        return render(request, 'topic_base.html', {'theme': themes, 'theme_id': (theme_id)})
 
 def Go_Page(request):
-    page_id = request.POST.get('go_page')
+    try:
+        page_id = int(request.GET.get('go_page'))
+    except:
+        page_id = 1
     topic_list = Create_Topic.objects.all().order_by('-pub_time')
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
-    #if str(type(page_id)) != str(type(1)) and page_id > max:
-     #   page_id = 1
+    max = len(topic_list)
+    if(page_id > max):
+        page_id = 1
     pre_id = page_id-1
     next_id = page_id+1
     if page_id == 1:
@@ -179,19 +216,14 @@ def Go_Page(request):
     if page_id == len(page_range):
         next_id = page_id
         pre_id = page_id-1
-    # test=page
     try:
         topics = paginator.page(page_id)
-        # test=topics
     except  PageNotAnInteger:
         topics = paginator.page(1)
-        # test=topics
     except EmptyPage:
         topics = []
-        # paginator.page(paginator.num_pages)
-    # 处理侧边栏信息
-
     return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
+
 class TestReplywindow(View):
     def get(self, request):
         return render(request, 'topic/test_replywindow.html')
