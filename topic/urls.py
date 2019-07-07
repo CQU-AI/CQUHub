@@ -19,5 +19,4 @@ urlpatterns = [
     path('theme/<int:theme_id>/<int:page_id>/', Theme2_View.as_view(), name='theme1'),
     path('page/go/', Go_Page,name='go'),
     path('theme/go/<int:theme_id>/', Go_theme_Page, name='theme_change'),
-    path('postTestReplywindow/', TestReplywindow.as_view(), name='test_replywindow'),
-
+]
