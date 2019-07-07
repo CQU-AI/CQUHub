@@ -2,15 +2,15 @@
 {% load  all_node_theme %}
 {% load  theme_to_reply %}
 {% load  recent_reply %}
-
+{% load  static %}
 {% block  left_content %}
 
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <!-- <div class="col-xs-2 col-sm-1">
-                <img class="user-avatar" src="http://www.gravatar.com/avatar/e7299b7998581a411f3189c4139ce032?s=48&amp;d=" alt=""/>
-            </div> -->
+            <div class="col-xs-2 col-sm-1">
+                <img class="user-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt=""/>
+            </div>
             <div class="col-xs-9 col-sm-10">
                 <p>{{ userinfo.username }}</p>
                 <p>唯一标识符：{{ userinfo.id }}</p>

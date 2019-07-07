@@ -20,7 +20,6 @@ urlpatterns = [
     path('page/go/', Go_Page,name='go'),
     path('theme/go/<int:theme_id>/', Go_theme_Page, name='theme_change'),
     # path('info/go/<str:username1>/',Go_info_page, name='info_Pagego'),
-    path('postTestReplywindow/', TestReplywindow.as_view(), name='test_replywindow'),
     path('search/go/', search, name='search'),
 
     

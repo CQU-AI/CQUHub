@@ -90,7 +90,8 @@
     <div class="row">
         <div class="col-lg-8"> <!-- LEFT -->
 
-            {% block  left_content %}
+
+{% block left_content %}
             {% endblock %}
 
         </div><!-- END LEFT -->
@@ -98,23 +99,20 @@
 
         <div class="col-lg-4"> <!-- RIGHT -->
 
-            {% if  request.user.is_authenticated %}
-                <div class="panel panel-default">
-                    <div class="panel-body user-panel">
-                        <div class="panel-user-info">
-                            <div class="avatar-name">
+{% if request.user.is_authenticated %}
+    <div class="panel panel-default">
+    <div class="panel-body user-panel">
+        <div class="panel-user-info">
+            <div class="avatar-name">
+                <!-- Avatar -->
+                <img class="user-avatar" id="panel-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt="Avatar" style="width:100px; height:100px; border-radius: 5px;"/>
+                <!-- Avatar -->
 
-                                <!-- Avatar -->
-                                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}"
-                                                 alt=""/></a>
-                                <!-- Avatar -->
-
-                                <span class="panel-username" style="display:inline-block">
-                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
-                        &nbsp; &nbsp;
-                        <a href="/user/{{ request.user.username }}/">{{ request.user.username }}</a>
+                <span class="panel-username" style="display:inline-block">
+                        <p><label style="font-size: 15pt">{{ request.user.nickname }}</label></p>
+                        <p><a href="/user/{{ request.user.username }}/">{{ request.user.username }}</a></p>
                 </span>
-                            </div>
+            </div>
                             <div class="row panel-user-meta">
                                 <div class="col-xs-4 panel-user-meta-item">
                                     <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
@@ -134,56 +132,54 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-xs-4 panel-user-meta-item">
-                                    <a href="#">
-                                        <div class="text-center">
-                                            <p class="panel-user-meta-item-value"><strong>{{ request.user.id }}</strong>
-                                            </p>
-                                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+
+                <div class="col-xs-4 panel-user-meta-item">
+                    <a href="#">
+                        <div class="text-center">
+                            <p class="panel-user-meta-item-value"><strong>{{ request.user.id }}</strong></p>
+                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
                         </div>
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="{% url  'topic:create_topic' username=request.user.username %}">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                创建一篇文章
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a class="text-success" href="/notifications/">
-
-                                <span class="text-muted"><strong>【唯一标识符是您的幸运数字，用来参加活动使用】</strong></span>
-
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="{% url 'user:logout' %}">
-                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                                注销
-                            </a>
-                        </li>
-                    </ul>
+                    </a>
                 </div>
-            {% else %}
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>CQU Hub</strong></div>
-                    <div class="panel-body">
-                        <strong>欢迎来到 CQU Hub！</strong>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="{% url  'user:login' %}" class="btn btn-block btn-info">登录</a>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="{% url  'user:register' %}" class="btn btn-block btn-default">注册</a>
-                            </div>
-                        </div>
-                        <hr/>
-
+            </div>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{% url  'topic:create_topic' username=request.user.username %}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                创建一篇文章
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="{% url 'user:info' username=request.user.username %}">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                个人信息
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="{% url 'user:logout' %}">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                注销
+            </a>
+        </li>
+    </ul>
+</div>
+{% else %}
+<div class="panel panel-default">
+    <div class="panel-heading"><strong>CQU Hub</strong></div>
+    <div class="panel-body">
+        <strong>欢迎来到 CQU Hub！</strong>
+        <hr/>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{% url  'user:login' %}" class="btn btn-block btn-info">登录</a>
+            </div>
+            <div class="col-md-6">
+                <a href="{% url  'user:register' %}" class="btn btn-block btn-default">注册</a>
+            </div>
+        </div>
+        <hr/>
 
                     </div>
                 </div>
