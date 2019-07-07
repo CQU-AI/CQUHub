@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static  'main.css' %}"/>
     <title>Login-Niji Forum (Demo)</title>
+    <script src="{% static  'jquery-2.2.4.min.js' %}"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script type="text/javascript" src="{% static 'jquery-2.2.4.min.js' %}"></script>
     <script>
@@ -30,9 +31,7 @@ ga('send', 'pageview');
 
 <!-- 发帖回帖组测试： -->
     <link href="{% static  'replyWindow.css' %}" rel="stylesheet" type="text/css">
-    <!-- 废掉的代码应该 -->
-    <!-- <script src="js/jquery.min.js" type="text/javascript"></script> -->
-    <script src="/staticfiles/replyWindow.js" type="text/javascript"></script>
+    <script src="{% static  'replyWindow.js' %}" type="text/javascript"></script>
 <!-- 发帖回帖组测试该块结束 -->
 
 </head>
@@ -242,7 +241,6 @@ ga('send', 'pageview');
     </div>
 </div>
 
-<script src="{% static  'jquery-2.2.4.min.js' %}"></script>
 <script src="{% static  'bootstrap.min.js' %}"></script>
 <script>
     $(document).ready(function(){

@@ -63,6 +63,7 @@ class PubTopic_View(View):
         if forms.is_valid():
             node = forms.cleaned_data["node"]
             title = forms.cleaned_data["title"]
+            ifAnony = forms.cleaned_data["ifAnony"]
             if Create_Topic.objects.filter(title=title).exists():
                 return render(request, 'topic/create_topic.html', {'forms': forms, 'message': '该标题已经存在,请换一个标题'})
             content = forms.cleaned_data['content_raw']
@@ -73,6 +74,7 @@ class PubTopic_View(View):
             topic.title = title
             topic.node = node
             topic.content = content
+            topic.ifAnony = ifAnony
             topic.save()
             return redirect(to='topic:index')
         else:
@@ -91,6 +93,7 @@ class Topic_Content_View(View):
         title = topic_content.title
         name = topic_content.user.username
         node = topic_content.node
+        ifAnony = topic_content.ifAnony
         content = markdown.markdown(
             topic_content.content,
             extensions=[
@@ -115,7 +118,7 @@ class Topic_Content_View(View):
 
         return render(request, 'topic/topic_content.html',
                       {'content_topic': topic_content, "time": time, "title": title, "name": name, "content": content,
-                       "node": node, 'forms': forms, 'comment': comment, 'len_comment': len_comment})
+                       "node": node, "ifAnony": ifAnony,'forms': forms, 'comment': comment, 'len_comment': len_comment})
 
 
 '''
@@ -142,10 +145,10 @@ def default_index(request):
 
 
 '''
-redirect  
-可传递的参数： 
-一个模型对象：这个模型的get_absolute_url() 会被调用。 
-一个视图名称，可带参数，该视图会被反向生成。 
+redirect
+可传递的参数：
+一个模型对象：这个模型的get_absolute_url() 会被调用。
+一个视图名称，可带参数，该视图会被反向生成。
 一个绝对路径或相对路径，用作反向定位。
 '''
 
@@ -223,7 +226,3 @@ def Go_Page(request):
     except EmptyPage:
         topics = []
     return render(request, 'topic/base.html', {'topics': topics, 'page_id': page_id, 'next_id':next_id, 'pre_id':pre_id})
-
-class TestReplywindow(View):
-    def get(self, request):
-        return render(request, 'topic/test_replywindow.html')

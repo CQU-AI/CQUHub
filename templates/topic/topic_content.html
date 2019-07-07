@@ -16,7 +16,11 @@
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p class="text-muted">
+                        {% if ifAnony == '匿名' %}
+                        An anonymous CQUer
+                        {% else %}
                         <a href="/u/1/">{{ name }}</a>
+                        {% endif %}
                         <br/>
                         <span>发表于{{ time }} 主题：<a class="text-primary" href="/n/1/">{{ node }}</a>, </span>
                         <!--span>阅读次数  366</span-->
@@ -65,9 +69,29 @@
 
                         <p></p>
                     </div>
-                    <p class="reply-link">
-                        <a href="/postTestReplywindow/" class="reply-to">回复</a>
-                    </p>
+                    <!-- <p class="reply-link"> -->
+                    <!-- 回复功能：暂时舍弃。2019.7.6 -->
+                    <!-- <p class="reply-link">
+                            <button type="button" onclick="dianwo()">回复</button>
+                            <div class="zhezhao" id='zhezhao'>
+                                <div class="tankuang">
+                                    <div id="header">
+                                        <span>我是弹窗</span>
+                                        <div id="header-right" onclick="hidder()">x</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                document.getElementById('zhezhao').style.display="none";
+                                function dianwo(){
+                                    document.getElementById('zhezhao').style.display="";
+                                }
+                                function hidder(){
+                                    document.getElementById('zhezhao').style.display="none";
+                                }
+                            </script>
+                    </p> -->
+                    <!-- 回复功能END -->
                 </li>
 {% endfor %}
 
