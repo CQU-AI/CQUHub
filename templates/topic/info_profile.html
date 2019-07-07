@@ -17,62 +17,98 @@
         </div>
     </div>
 </div>
-    <div class="panel panel-default">
-        <div class="panel-body panel-subtitle">
-            <span class="label label-success">
-
-                <font size="3" color="#1e90ff">    由【{{ userinfo.username }}】创造的主题</font>
-
-            </span>
-        </div>
+<div class="panel panel-default">
+    <div class="panel-body panel-subtitle">
+        <span class="label label-success">
+            <font size="3" color="#1e90ff">    由【{{ userinfo.username }}】创造的主题</font>
+        </span>
+    </div>
         <!-- List group -->
-        <ul class="list-group topic-list">
-
-            {% for  each_user_theme in  user_theme %}
-
-                <li class="list-group-item topic-entry">
-                    <div class="entry media">
-                        <div class="media-body media-middle">
-                            <a href="{% url  'topic:topic_content'  content_id=each_user_theme.id %}" class="entry-link">
-                               {{  each_user_theme.title  }}
-                            </a>
-                            <p class="entry-meta">
-                                <a href="/theme/{% all_node_theme each_user_theme.node %}/">
-                                        <span class="label label-default meta-node">
-                                        {{ each_user_theme.node }}
-                                        </span>
-                                </a>
-                                    <span class="meta meta-pub_date">
-
-                                        <strong>发表时间:{{ each_user_theme.pub_time }}</strong>
-                                    </span>
-                                    <span class="meta meta-last_replied hidden-xs">
-                                        <strong>最新回复人: {% recent_reply  each_user_theme.title %}</strong>
-                                    </span>
-                            </p>
-                        </div>
-                        <div class="media-right media-middle">
-                            <span class="badge">{% theme_to_reply  each_user_theme.title %}</span>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
+    <ul class="list-group topic-list">
+    {% for  each_user_theme in  user_theme %}
+        <li class="list-group-item topic-entry">
+            <div class="entry media">
+                <div class="media-body media-middle">
+                    <a href="{% url  'topic:topic_content'  content_id=each_user_theme.id %}" class="entry-link">
+                        {{  each_user_theme.title  }}
+                    </a>
+                    <p class="entry-meta">
+                        <a href="/theme/{% all_node_theme each_user_theme.node %}/">
+                            <span class="label label-default meta-node">
+                                {{ each_user_theme.node }}
+                            </span>
+                        </a>
+                        <span class="meta meta-pub_date">
+                            <strong>发表时间:{{ each_user_theme.pub_time }}</strong>
+                        </span>
+                        <span class="meta meta-last_replied hidden-xs">
+                            <strong>最新回复人: {% recent_reply  each_user_theme.title %}</strong>
+                        </span>
+                    </p>
+                <div>
+                <div class="media-right media-middle">
+                  <span class="badge">{% theme_to_reply  each_user_theme.title %}</span>                    
+                </div>
+            </div>
+        </li>
+    {% endfor %}
 
             <li class="list-group-item">
                 <!--a href="/u/279/topics/" class="text-success">More topics from this user</a-->
             </li>
-        </ul>
-    </div>
+    </ul>
 
-    <div class="panel panel-default">
-        <!-- List group -->
+
+    <!-- <div class="panel panel-default">
+        List group
         <ul class="list-group topic-list">
 
         </ul>
+    </div> -->
+    <div class="panel-footer">
+        <nav>
+        <!-- 这里要改成动态的页面显示，此处连接到index_view -->
+            <ul class="pager">
+                {% ifequal page_id 1 %}
+                {% else %}
+                <li>
+                    <a href="/user/{{username}}/{{pre_id}}" aria-label="Prev">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a>   
+                </li>
+                <li>
+                        <a href="/user/{{username}}/{{pre_id}}">
+                            <span>{{pre_id}}</span>
+                        </a>
+                </li>
+                {% endifequal %}
+                <li>
+                    <a href="/user/{{username}}/{{page_id}}" style="color:floralwhite; background-color: deepskyblue">
+                        <span>{{page_id}}</span>
+                    </a>
+                </li>
+                {% ifequal page_id next_id %}
+                {% else %}
+                <li>
+                        <a href="/user/{{username}}/{{next_id}}">
+                            <span>{{next_id}}</span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="/user/{{username}}/{{next_id}}" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a>
+                </li>
+                {% endifequal %}
+                <br><br>
+                <form methods="GET" action="/page/go/">
+                    <input type="hidden" name="cur_page" id="cur_page" value="{{page_id}}">
+                    <label>跳转到：</label>                       
+                    <input type="text" style="width: 20px" id="go_page" name="go_page" style="padding-right: 100px">
+                    <button type="submit" style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">GO</button>
+                </form>                
+            </ul>
+        </nav>
     </div>
-
-
-
-
-
+</div>
 {% endblock %}
