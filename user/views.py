@@ -42,7 +42,7 @@ class Login_View(View):
             return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
 
 
-class Revise_View(View):
+
     def get(self, request):
         forms = Register()
         return render(request, 'user/revise.html', {'forms': forms})
@@ -66,33 +66,8 @@ class Revise_View(View):
             return render(request, 'user/revise.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
 
 
-class Info_View(View):
-    def get(self, request, username):
-        forms = Info()
-        return render(request, 'user/info.html', {'forms':forms})
-    
-    def post(self, request, username):
-        # user = User_Info.objects.get(username=username)
-        forms = Info(request.POST)
-        if 'nicknameButton' in request.POST and forms.is_valid():
-            print(2**100, '\n', forms, '\n', "0" * 100)
-            newNickname = forms.cleaned_data['nickname']
-            User_Info.objects.filter(username=username).update(nickname=newNickname)
-            forms = Info()
-        return render(request, 'user/info.html', {'forms': forms})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect(to='topic:index')
-
-
-class Register_Voew(View):
-    def get(self, request):
-        forms = Register()
-        return render(request, 'user/register.html', {'forms': forms})
-
-    def generate_verify_code(self, student_id):
+class Verify_View(View):
+        def generate_verify_code(self, student_id):
         res = ""
         code_map = {}
         code = "9128405367"
@@ -130,6 +105,33 @@ CQU Hub开发组
         smtp.sendmail(sender_mail, receiver, msg.as_string())
         smtp.quit()
 
+
+class Info_View(View):
+    def get(self, request, username):
+        forms = Info()
+        return render(request, 'user/info.html', {'forms':forms})
+    
+    def post(self, request, username):
+        # user = User_Info.objects.get(username=username)
+        forms = Info(request.POST)
+        if 'nicknameButton' in request.POST and forms.is_valid():
+            print(2**100, '\n', forms, '\n', "0" * 100)
+            newNickname = forms.cleaned_data['nickname']
+            User_Info.objects.filter(username=username).update(nickname=newNickname)
+            forms = Info()
+        return render(request, 'user/info.html', {'forms': forms})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(to='topic:index')
+
+
+class Register_View(View):
+    def get(self, request):
+        forms = Register()
+        return render(request, 'user/register.html', {'forms': forms})
+
     def post(self, request):
         forms = Register(request.POST)
         if forms.is_valid():
@@ -164,7 +166,7 @@ CQU Hub开发组
             user.nickname = nickname
             user.save()
             login(request, user)
-            return redirect(to='topic:index')
+            return redirect(to='users:verification')
         else:
             return render(request, 'user/register.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
 
@@ -242,3 +244,5 @@ def upload(request):
                 f.write(line)
         return HttpResponse('ok')
     return redirect(to='user:register')
+
+
