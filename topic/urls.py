@@ -7,7 +7,7 @@ __date__ = 2018 / 9 / 11
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import Theme1_View, PubTopic_View, Index_View, default_index, Topic_Content_View, Go_Pag,Theme2_View
+from .views import Theme1_View, PubTopic_View, Index_View, default_index, Topic_Content_View, Go_Page,Theme2_View
 
 app_name = 'topic'
 urlpatterns = [

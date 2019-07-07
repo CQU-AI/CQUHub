@@ -148,3 +148,10 @@ operation/migrations/0002_topic_reply.py
 templates/topic/base.html
 topic/views.py
 user/migrations/0003_auto_20190706_1548.py
+operation/migrations/0001_initial.py
+operation/migrations/0001_initial.py
+operation/migrations/0001_initial.py
+operation/migrations/0002_topic_reply.py
+operation/migrations/
+topic/migrations/
+user/migrations/

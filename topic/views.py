@@ -64,6 +64,7 @@ class PubTopic_View(View):
             node = forms.cleaned_data["node"]
             title = forms.cleaned_data["title"]
             ifAnony = forms.cleaned_data["ifAnony"]
+            # ifAnony = forms.cleaned_data["ifAnony"]
             if Create_Topic.objects.filter(title=title).exists():
                 return render(request, 'topic/create_topic.html', {'forms': forms, 'message': '该标题已经存在,请换一个标题'})
             content = forms.cleaned_data['content_raw']

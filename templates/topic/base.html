@@ -92,13 +92,13 @@
                             </a>
                         </span>
                         <span class="meta meta-username">
+                            {% if topic.ifAnony == '匿名' %}
+                            <strong>An anonymous CQUer</strong>
+                            {% else %}
                             <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
-                                {% if topic.ifAnony == '匿名' %}
-                                <strong>An anonymous CQUer</strong>
-                                {% else %}
                                 <strong>{{ topic.user.username }}</strong>
-                                {% endif %}
                             </a>
+                            {% endif %}
                         </span>
                         <span class="meta meta-pub_date">
                             <strong>{{ topic.pub_time }}</strong>
