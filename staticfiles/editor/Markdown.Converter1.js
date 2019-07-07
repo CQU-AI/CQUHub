@@ -4,7 +4,7 @@ if (typeof exports === "object" && typeof require === "function") // we're in a 
     Markdown = exports;
 else
     Markdown = {};
-    
+
 // The following text is included for historical reasons, but should
 // be taken with a pinch of salt; it's not all true anymore.
 
@@ -52,10 +52,16 @@ else
 
 (function () {
 
-    function identity(x) { return x; }
-    function returnFalse(x) { return false; }
+    function identity(x) {
+        return x;
+    }
 
-    function HookCollection() { }
+    function returnFalse(x) {
+        return false;
+    }
+
+    function HookCollection() {
+    }
 
     HookCollection.prototype = {
 
@@ -95,7 +101,9 @@ else
     // http://meta.stackoverflow.com/questions/64655/strange-wmd-bug
     // (granted, switching from Array() to Object() alone would have left only __proto__
     // to be a problem)
-    function SaveHash() { }
+    function SaveHash() {
+    }
+
     SaveHash.prototype = {
         set: function (key, value) {
             this["s_" + key] = value;
@@ -107,26 +115,26 @@ else
 
     Markdown.Converter = function () {
         var pluginHooks = this.hooks = new HookCollection();
-        
+
         // given a URL that was encountered by itself (without markup), should return the link text that's to be given to this link
         pluginHooks.addNoop("plainLinkText");
-        
+
         // called with the orignal text as given to makeHtml. The result of this plugin hook is the actual markdown source that will be cooked
         pluginHooks.addNoop("preConversion");
-        
+
         // called with the text once all normalizations have been completed (tabs to spaces, line endings, etc.), but before any conversions have
         pluginHooks.addNoop("postNormalization");
-        
+
         // Called with the text before / after creating block elements like code blocks and lists. Note that this is called recursively
         // with inner content, e.g. it's called with the full text, and then only with the content of a blockquote. The inner
         // call will receive outdented text.
         pluginHooks.addNoop("preBlockGamut");
         pluginHooks.addNoop("postBlockGamut");
-        
+
         // called with the text of a single block element before / after the span-level conversions (bold, code spans, etc.) have been made
         pluginHooks.addNoop("preSpanGamut");
         pluginHooks.addNoop("postSpanGamut");
-        
+
         // called with the final cooked HTML code. The result of this plugin hook is the actual output of makeHtml
         pluginHooks.addNoop("postConversion");
 
@@ -156,7 +164,7 @@ else
             // Don't do that.
             if (g_urls)
                 throw new Error("Recursive call to converter.makeHtml");
-        
+
             // Create the private state objects.
             g_urls = new SaveHash();
             g_titles = new SaveHash();
@@ -191,7 +199,7 @@ else
             // match consecutive blank lines with /\n+/ instead of something
             // contorted like /[ \t]*\n+/ .
             text = text.replace(/^[ \t]+$/mg, "");
-            
+
             text = pluginHooks.postNormalization(text);
 
             // Turn block-level HTML blocks into hash entries
@@ -403,17 +411,19 @@ else
 
             return blockText;
         }
-        
-        var blockGamutHookCallback = function (t) { return _RunBlockGamut(t); }
+
+        var blockGamutHookCallback = function (t) {
+            return _RunBlockGamut(t);
+        }
 
         function _RunBlockGamut(text, doNotUnhash) {
             //
             // These are all the transformations that form block-level
             // tags like paragraphs, headers, and list items.
             //
-            
+
             text = pluginHooks.preBlockGamut(text, blockGamutHookCallback);
-            
+
             text = _DoHeaders(text);
 
             // Do Horizontal Rules:
@@ -425,7 +435,7 @@ else
             text = _DoLists(text);
             text = _DoCodeBlocks(text);
             text = _DoBlockQuotes(text);
-            
+
             text = pluginHooks.postBlockGamut(text, blockGamutHookCallback);
 
             // We already ran _HashHTMLBlocks() before, in Markdown(), but that
@@ -445,7 +455,7 @@ else
             //
 
             text = pluginHooks.preSpanGamut(text);
-            
+
             text = _DoCodeSpans(text);
             text = _EscapeSpecialCharsWithinTagAttributes(text);
             text = _EncodeBackslashEscapes(text);
@@ -459,15 +469,15 @@ else
             // Must come after _DoAnchors(), because you can use < and >
             // delimiters in inline links like [this](<url>).
             text = _DoAutoLinks(text);
-            
+
             text = text.replace(/~P/g, "://"); // put in place to prevent autolinking; reset now
-            
+
             text = _EncodeAmpsAndAngles(text);
             text = _DoItalicsAndBold(text);
 
             // Do hard breaks:
             text = text.replace(/  +\n/g, " <br>\n");
-            
+
             text = pluginHooks.postSpanGamut(text);
 
             return text;
@@ -692,7 +702,7 @@ else
 
             return text;
         }
-        
+
         function attributeEncode(text) {
             // unconditionally replace angle brackets here -- what ends up in an attribute (e.g. alt or title)
             // never makes sense to have verbatim HTML in it (and the sanitizer would totally break it)
@@ -725,7 +735,7 @@ else
                     return whole_match;
                 }
             }
-            
+
             alt_text = escapeCharacters(attributeEncode(alt_text), "*_[]()");
             url = escapeCharacters(url, "*_");
             var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
@@ -754,11 +764,15 @@ else
             //  --------
             //
             text = text.replace(/^(.+)[ \t]*\n=+[ \t]*\n+/gm,
-                function (wholeMatch, m1) { return "<h1>" + _RunSpanGamut(m1) + "</h1>\n\n"; }
+                function (wholeMatch, m1) {
+                    return "<h1>" + _RunSpanGamut(m1) + "</h1>\n\n";
+                }
             );
 
             text = text.replace(/^(.+)[ \t]*\n-+[ \t]*\n+/gm,
-                function (matchFound, m1) { return "<h2>" + _RunSpanGamut(m1) + "</h2>\n\n"; }
+                function (matchFound, m1) {
+                    return "<h2>" + _RunSpanGamut(m1) + "</h2>\n\n";
+                }
             );
 
             // atx-style headers:
@@ -859,7 +873,7 @@ else
             return text;
         }
 
-        var _listItemMarkers = { ol: "\\d+[.]", ul: "[*+-]" };
+        var _listItemMarkers = {ol: "\\d+[.]", ul: "[*+-]"};
 
         function _ProcessListItems(list_str, list_type) {
             //
@@ -908,7 +922,7 @@ else
             //
             // We changed this to behave identical to MarkdownSharp. This is the constructed RegEx,
             // with {MARKER} being one of \d+[.] or [*+-], depending on list_type:
-        
+
             /*
             list_str = list_str.replace(/
                 (^[ \t]*)                       // leading whitespace = $1
@@ -1088,10 +1102,10 @@ else
 
             // <strong> must go first:
             text = text.replace(/([\W_]|^)(\*\*|__)(?=\S)([^\r]*?\S[\*_]*)\2([\W_]|$)/g,
-            "$1<strong>$3</strong>$4");
+                "$1<strong>$3</strong>$4");
 
             text = text.replace(/([\W_]|^)(\*|_)(?=\S)([^\r\*_]*?\S)\2([\W_]|$)/g,
-            "$1<em>$3</em>$4");
+                "$1<em>$3</em>$4");
 
             return text;
         }
@@ -1129,7 +1143,7 @@ else
                     bq = bq.replace(/(^|\n)/g, "$1  ");
                     // These leading spaces screw with <pre> content, so we need to fix that:
                     bq = bq.replace(
-                            /(\s*<pre>[^\r]+?<\/pre>)/gm,
+                        /(\s*<pre>[^\r]+?<\/pre>)/gm,
                         function (wholeMatch, m1) {
                             var pre = m1;
                             // attacklab: hack around Konqueror 3.5.4 bug:
@@ -1156,7 +1170,7 @@ else
 
             var grafs = text.split(/\n{2,}/g);
             var grafsOut = [];
-            
+
             var markerRe = /~K(\d+)K/;
 
             //
@@ -1230,7 +1244,7 @@ else
             text = text.replace(/\\([`*_{}\[\]()>#+-.!])/g, escapeCharacters_callback);
             return text;
         }
-        
+
         function handleTrailingParens(wholeMatch, lookbehind, protocol, link) {
             if (lookbehind)
                 return wholeMatch;
@@ -1257,7 +1271,7 @@ else
                     return "";
                 });
             }
-            
+
             return "<" + protocol + link + ">" + tail;
         }
 
@@ -1273,8 +1287,10 @@ else
             text = text.replace(/(="|<)?\b(https?|ftp)(:\/\/[-A-Z0-9+&@#\/%?=~_|\[\]\(\)!:,\.;]*[-A-Z0-9+&@#\/%=~_|\[\])])(?=$|\W)/gi, handleTrailingParens);
 
             //  autolink anything like <http://example.com>
-            
-            var replacer = function (wholematch, m1) { return "<a href=\"" + m1 + "\">" + pluginHooks.plainLinkText(m1) + "</a>"; }
+
+            var replacer = function (wholematch, m1) {
+                return "<a href=\"" + m1 + "\">" + pluginHooks.plainLinkText(m1) + "</a>";
+            }
             text = text.replace(/<((https?|ftp):[^'">\s]+)>/gi, replacer);
 
             // Email addresses: <address@domain.foo>
@@ -1335,8 +1351,8 @@ else
                 return text;
 
             var spaces = ["    ", "   ", "  ", " "],
-            skew = 0,
-            v;
+                skew = 0,
+                v;
 
             return text.replace(/[\n\t]/g, function (match, offset) {
                 if (match === "\n") {

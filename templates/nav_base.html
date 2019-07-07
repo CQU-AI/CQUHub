@@ -38,7 +38,7 @@
     <!-- 发帖回帖组测试： -->
     <link href="{% static  'replyWindow.css' %}" rel="stylesheet" type="text/css">
     <script src="{% static  'replyWindow.js' %}" type="text/javascript"></script>
-<!-- 发帖回帖组测试该块结束 -->
+    <!-- 发帖回帖组测试该块结束 -->
 
 </head>
 <body>
@@ -62,12 +62,12 @@
                 <li class=""><a href="/"><strong>主页</strong></a></li>
                 <li class=""><a href="/theme/7/"><strong>论坛公告</strong></a></li>
             </ul>
-            <form method="GET" class="navbar-form navbar-left" role="search" action="/search/go/"> 
+            <form method="GET" class="navbar-form navbar-left" role="search" action="/search/go/">
                 {% csrf_token %}
                 <div class="form-group">
                     <input type="text" id="nvkeywords" name="nvkeywords" class="form-control" placeholder="搜索">
                 </div>
-                <button type="submit"  class="btn btn-default" >搜索</button>
+                <button type="submit" class="btn btn-default">搜索</button>
 
                 <!-- <script type="text/javascript">
                     window.search=function()
@@ -91,7 +91,7 @@
         <div class="col-lg-8"> <!-- LEFT -->
 
 
-{% block left_content %}
+            {% block left_content %}
             {% endblock %}
 
         </div><!-- END LEFT -->
@@ -99,20 +99,22 @@
 
         <div class="col-lg-4"> <!-- RIGHT -->
 
-{% if request.user.is_authenticated %}
-    <div class="panel panel-default">
-    <div class="panel-body user-panel">
-        <div class="panel-user-info">
-            <div class="avatar-name">
-                <!-- Avatar -->
-                <img class="user-avatar" id="panel-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt="Avatar" style="width:100px; height:100px; border-radius: 5px;"/>
-                <!-- Avatar -->
+            {% if request.user.is_authenticated %}
+                <div class="panel panel-default">
+                    <div class="panel-body user-panel">
+                        <div class="panel-user-info">
+                            <div class="avatar-name">
+                                <!-- Avatar -->
+                                <img class="user-avatar" id="panel-avatar"
+                                     src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt="Avatar"
+                                     style="width:100px; height:100px; border-radius: 5px;"/>
+                                <!-- Avatar -->
 
-                <span class="panel-username" style="display:inline-block">
+                                <span class="panel-username" style="display:inline-block">
                         <p><label style="font-size: 15pt">{{ request.user.nickname }}</label></p>
                         <p><a href="/user/{{ request.user.username }}/">{{ request.user.username }}</a></p>
                 </span>
-            </div>
+                            </div>
                             <div class="row panel-user-meta">
                                 <div class="col-xs-4 panel-user-meta-item">
                                     <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
@@ -133,59 +135,57 @@
                                     </a>
                                 </div>
 
-                <div class="col-xs-4 panel-user-meta-item">
-                    <a href="#">
-                        <div class="text-center">
-                            <p class="panel-user-meta-item-value"><strong>{{ request.user.id }}</strong></p>
-                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
+                                <div class="col-xs-4 panel-user-meta-item">
+                                    <a href="#">
+                                        <div class="text-center">
+                                            <p class="panel-user-meta-item-value"><strong>{{ request.user.id }}</strong>
+                                            </p>
+                                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </a>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{% url  'topic:create_topic' username=request.user.username %}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                创建一篇文章
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'user:info' username=request.user.username %}">
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                个人信息
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'user:logout' %}">
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                注销
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="{% url  'topic:create_topic' username=request.user.username %}">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                创建一篇文章
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="{% url 'user:info' username=request.user.username %}">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                个人信息
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="{% url 'user:logout' %}">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                注销
-            </a>
-        </li>
-    </ul>
-</div>
-{% else %}
-<div class="panel panel-default">
-    <div class="panel-heading"><strong>CQU Hub</strong></div>
-    <div class="panel-body">
-        <strong>欢迎来到 CQU Hub！</strong>
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="{% url  'user:login' %}" class="btn btn-block btn-info">登录</a>
-            </div>
-            <div class="col-md-6">
-                <a href="{% url  'user:register' %}" class="btn btn-block btn-default">注册</a>
-            </div>
-        </div>
-        <hr/>
+            {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>CQU Hub</strong></div>
+                    <div class="panel-body">
+                        <strong>欢迎来到 CQU Hub！</strong>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="{% url  'user:login' %}" class="btn btn-block btn-info">登录</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url  'user:register' %}" class="btn btn-block btn-default">注册</a>
+                            </div>
+                        </div>
+                        <hr/>
 
                     </div>
                 </div>
-
-
-
 
             {% endif %}
 
@@ -274,12 +274,12 @@
     });
 </script>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom center-block" >
-    <li class="nav-item" align = "center">
-      <a class="nav-link" href="#">CQU Hub开发组</a>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom center-block">
+    <li class="nav-item" align="center">
+        <a class="nav-link" href="#">CQU Hub开发组</a>
     </li>
-    <li class="nav-item" align = "center">
-      <a class="nav-link" href="#">蜀ICP备17038882号</a>
+    <li class="nav-item" align="center">
+        <a class="nav-link" href="#">蜀ICP备17038882号</a>
     </li>
 </nav>
 <!--Niji Forum (Demo)-->
