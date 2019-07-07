@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from .views import Login_View, Register_Voew, logout_view, Info_Profile, Info_Reply, Revise_View, upload，Info_page, Go_info_page，Info_View
+from .views import Login_View, Register_Voew, logout_view, Info_Profile, Info_Reply, Revise_View, upload, Info_page, Go_info_page,Info_View
 
 app_name = 'user'
 urlpatterns = [
