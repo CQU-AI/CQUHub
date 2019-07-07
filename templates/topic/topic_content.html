@@ -6,7 +6,7 @@
         <div class="panel-body">
             <ol class="breadcrumb">
                 <li><a href="/">主页</a></li>
-                <li><a href="/n/1/">{{ node }}</a></li>
+                <li><a href="/theme/{{ theme_id }}/1/">{{ node }}</a></li>
                 <li class="active">{{ title }}</li>
             </ol>
             <h1 class="topic-title">{{ title }}</h1>
@@ -22,7 +22,7 @@
                         <a href="/u/1/">{{ name }}</a>
                         {% endif %}
                         <br/>
-                        <span>发表于{{ time }} 主题：<a class="text-primary" href="/n/1/">{{ node }}</a>, </span>
+                        <span>发表于{{ time }} 主题：<a class="text-primary" href="/theme/{{ theme_id }}/1/">{{ node }}</a>, </span>
                         <!--span>阅读次数  366</span-->
                     </p>
                 </div>

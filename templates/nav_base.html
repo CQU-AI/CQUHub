@@ -99,7 +99,7 @@
                                 <span class="panel-username" style="display:inline-block">
                         <label style="font-size: 15pt">{{ request.user.nickname }}</label>
                         &nbsp; &nbsp;
-                        <a href="#">{{ request.user.username }}</a>
+                        <a href="/user/{{ request.user.username }}/">{{ request.user.username }}</a>
                 </span>
                             </div>
                             <div class="row panel-user-meta">
@@ -155,11 +155,6 @@
                         </li>
                     </ul>
                 </div>
-
-
-
-
-
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>CQU Hub</strong></div>
@@ -184,6 +179,7 @@
 
 
             {% endif %}
+
             {% block  theme_tag %}
 
                 <div class="panel panel-default">
@@ -216,6 +212,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">小功能及友链</div>
                     <div class="panel-body">
+
 
                         <a href="http://www.cqu.edu.cn/">
                             <span class="label label-default meta-node">CQU官网</span>

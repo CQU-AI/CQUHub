@@ -161,6 +161,7 @@
                     {% endifequal %}
                     <br><br>
                     <form methods="GET" action="/page/go/">
+                        <input type="hidden" name="cur_page" id="cur_page" value="{{page_id}}">
                         <label>跳转到：</label>                       
                         <input type="text" style="width: 20px" id="go_page" name="go_page" style="padding-right: 100px">
                         <button type="submit" style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">GO</button>
