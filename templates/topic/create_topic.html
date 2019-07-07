@@ -26,7 +26,14 @@
                 主题<span class="asteriskField">*</span> </label> <div class="controls ">
                   {{ forms.node }}
 </div> </div> <div id="div_id_title" class="form-group"> <label for="id_title" class="control-label  requiredField">
+        匿名<span class="asteriskField">*</span> </label> <div class="controls ">
+                {{ forms.ifAnony }}
+</div> </div> <div id="div_id_title" class="form-group"> <label for="id_title" class="control-label  requiredField">
                 标题<span class="asteriskField">*</span> </label> <div class="controls "> {{ forms.title }} </div> </div> <div id="div_id_content_raw" class="form-group"> <label for="id_content_raw" class="control-label  requiredField">
+                <!-- 控制是否匿名 -->
+                <!-- <input type="checkbox" name="ifAnony" id="ifAnony" value="匿名">匿名 -->
+                <!-- {{ forms.ifAnony }}匿名 -->
+                <!-- <br>     -->
                 内容<span class="asteriskField">*</span> </label> <div class="controls "> <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper"> <div class="wmd-panel"> <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content_raw }} </div> <p class="wmd-preview-title"><small>markdown输出浏览:</small></p> <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div> </div> </div> </div> <div class="form-group"> <div class="controls "> <input type="submit"
     name="submit"
     value="Submit"
