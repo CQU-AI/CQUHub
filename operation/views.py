@@ -27,3 +27,10 @@ class Comment_View(View):
             return redirect(to='topic:topic_content', content_id=content_id)
 
         return redirect(to='topic:topic_content', content_id=content_id)
+
+class deleteComment(View):
+    def get(self, request, content_id, comment_id):
+        commentTmp = Topic_Comment.objects.get(id=comment_id)
+        commentTmp.delete()
+        return redirect(to='topic:topic_content', content_id=content_id)
+
