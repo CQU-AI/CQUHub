@@ -1,5 +1,6 @@
 {% extends  'nav_base.html' %}
 {% block  left_content %}
+{% load static %}
 <div class="panel panel-default">
     <div class="panel-body">
         {% if  message %}
@@ -49,6 +50,7 @@
     </div>
 
     <script>
+        // Click to refresh captcha
         $(function () {
             $('.captcha').css({
                 'cursor': 'pointer'
@@ -63,6 +65,6 @@
             });
         })
     </script>
-    <script src='../../staticfiles/jquery-2.2.4.min.js'></script>
+    <script src="{% static 'jquery-2.2.4.min.js' %}"></script>
 </div>
 {% endblock %}

@@ -86,15 +86,13 @@ ga('send', 'pageview');
     <div class="panel-body user-panel">
         <div class="panel-user-info">
             <div class="avatar-name">
-
                 <!-- Avatar -->
-                <a href="#"><img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt=""/></a>
+                <img class="user-avatar" id="panel-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt="Avatar" style="width:100px; height:100px;"/>
                 <!-- Avatar -->
 
                 <span class="panel-username" style="display:inline-block">
-                        <label style="font-size: 15pt">{{ request.user.nickname }}</label>
-                        &nbsp; &nbsp;
-                        <a href="#">{{ request.user.username }}</a>
+                        <p><label style="font-size: 15pt">{{ request.user.nickname }}</label></p>
+                        <p><a href="#">{{ request.user.username }}</a></p>
                 </span>
             </div>
             <div class="row panel-user-meta">
