@@ -106,7 +106,8 @@ class Register_Voew(View):
             user.password = make_password(password)
             user.nickname = nickname
             user.save()
-            return redirect(to='user:login')
+            login(request, user)
+            return redirect(to='topic:index')
         else:
             return render(request, 'user/register.html', {'message': '您的信息不符合要求，可能是验证码有误，请您核对信息', 'forms': forms})
 
