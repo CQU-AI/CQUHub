@@ -142,7 +142,7 @@
                     </li>
                     {% endifequal %}
                     <li>
-                        <a href="/page/{{ page_id }}">
+                        <a href="/page/{{ page_id }}" style="color:floralwhite; background-color: deepskyblue">
                             <span>{{page_id}}</span>
                         </a>
                     </li>
@@ -158,18 +158,13 @@
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
                     </li>
+                    {% endifequal %}
                     <br><br>
-                    <form methods="POST" action="/page/go/">
-                            <li>
-                                <input type="text" style="width: 20px" id="go_page" name="go_page">
-                            </li>
-                            <li>
-                                <button type="submit">GO</button>
-                            </li>
-                    </form>
-                    
-                    
-                    {% endifequal %}                
+                    <form methods="GET" action="/page/go/">
+                        <label>跳转到：</label>                       
+                        <input type="text" style="width: 20px" id="go_page" name="go_page" style="padding-right: 100px">
+                        <button type="submit" style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">GO</button>
+                    </form>                
                 </ul>
             </nav>
         </div>
