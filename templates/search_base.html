@@ -79,44 +79,60 @@
         </u1>
         <div class="panel-footer">
             <nav>
-                <!-- 这里要改成动态的页面显示，此处连接到index_view -->
+                <!-- <ul class="pagination">
+
+                        <li><a href="/theme/{{ theme_id }}/1/">1</a></li>
+
+                        <li><a href="/theme/{{ theme_id }}/2/">2</a></li>
+
+                        <li><a href="/theme/{{ theme_id }}/3/">3</a></li>
+
+                <li>
+                    <a href="/theme/{{ theme_id }}/2/" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+        </ul> -->
                 <ul class="pager">
                     {% ifequal page_id 1 %}
                     {% else %}
                         <li>
-                            <a href="/page/{{ pre_id }}/" aria-label="Prev">
+                            <a href="/search/{{keywords}}/{{ pre_id }}/" aria-label="Prev">
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a>
                         </li>
                         <li>
-                            <a href="/page/{{ pre_id }}">
+                            <a href="/search/{{keywords}}/{{ pre_id }}">
                                 <span>{{ pre_id }}</span>
                             </a>
                         </li>
                     {% endifequal %}
                     <li>
-                        <a href="/page/{{ page_id }}" style="color:floralwhite; background-color: deepskyblue">
+                        <a href="/search/{{keywords}}/{{ page_id }}"
+                           style="color:floralwhite; background-color: deepskyblue">
                             <span>{{ page_id }}</span>
                         </a>
                     </li>
                     {% ifequal page_id next_id %}
                     {% else %}
                         <li>
-                            <a href="/page/{{ next_id }}">
+                            <a href="/search/{{keywords}}/{{ next_id }}">
                                 <span>{{ next_id }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="/page/{{ next_id }}/" aria-label="Next">
+                            <a href="/search/{{keywords}}/{{ next_id }}/" aria-label="Next">
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a>
                         </li>
                     {% endifequal %}
                     <br><br>
-                    <form methods="GET" action="/page/go/">
+                    <form methods="GET" action="/search/go/{{ keywords }}/">
                         <input type="hidden" name="cur_page" id="cur_page" value="{{ page_id }}">
                         <label>跳转到：</label>
-                        <input type="text" style="width: 20px" id="go_page" name="go_page" style="padding-right: 100px">
+                        <input type="text" style="width: 20px" id="go_page" name="go_page"
+                               style="padding-right: 100px">
                         <button type="submit"
                                 style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">
                             GO
@@ -124,6 +140,7 @@
                     </form>
                 </ul>
             </nav>
+
         </div>
     </div>
 {% endblock %}

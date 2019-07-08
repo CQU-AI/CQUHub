@@ -22,6 +22,9 @@ class Index_View(View):
     """
 
     def get(self, request, page_id):
+        # topic_list1 = Create_Topic.objects.get(top="置頂").order_by("-pub_time")
+        # topip_list2 = Create_Topic.objects.get(top="不置頂").order_by("-pub_time")
+        # topic_list = topic_list1 + topip_list2
         topic_list = Create_Topic.objects.all().order_by("-pub_time")
         paginator = Paginator(topic_list, 2)
         page_range = paginator.page_range
@@ -292,7 +295,7 @@ class Theme1_View(View):
         node_id = reservedict[str(theme_id)]
         themes = Create_Topic.objects.filter(node=node_id)
         return render(
-            request, "topic_base.html", {"theme": themes, "theme_id": theme_id}
+            request, "topic_base.html", {"theme": themes, "theme_id": theme_id, "node_id": node_id}
         )
 
 
@@ -329,6 +332,7 @@ class Theme2_View(View):
             request,
             "topic_base.html",
             {
+                "node_id":node_id,
                 "theme": themes,
                 "theme_id": (theme_id),
                 "page_id": page_id,
@@ -347,7 +351,7 @@ def Go_Page(request):
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
@@ -365,7 +369,7 @@ def Go_Page(request):
     return render(
         request,
         "topic/base.html",
-        {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id},
+         {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id}，
     )
 
 
@@ -388,7 +392,7 @@ def Go_theme_Page(request, theme_id):
     paginator = Paginator(theme2, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
@@ -415,18 +419,16 @@ def Go_theme_Page(request, theme_id):
         },
     )
 
-# 是否需要删掉？
-class TestReplywindow(View):
-    def get(self, request):
-        return render(request, "topic/test_replywindow.html")
 
 
-def search(request):
+
+def search1(request,page_id):
+
     nvkeywords = str(request.GET.get("nvkeywords"))
-
     if nvkeywords != "":
         error_msg = ""
         topic_list = Create_Topic.objects.filter(title__icontains=nvkeywords)
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         # print(len(post_list))
 
     else:
@@ -436,10 +438,98 @@ def search(request):
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
 
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
+    
     return render(
-        request, "search_base.html", {"error_msg": error_msg, "topic_list": topic_list}
+        request, "search_base.html", {"error_msg": error_msg,"keywords":nvkeywords, "topic_list": topic_list,"page_id": page_id,
+                "next_id": next_id,
+                "pre_id": pre_id},
     )
 
+def  search2(request,page_id,keywords):
+    
+
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
+        # print(len(post_list))
+
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
+    return render(
+        request, "search_base.html", 
+                {"keywords":keywords,
+                 "topic_list": topic_list,
+                 "page_id": page_id,
+                 "next_id": next_id,
+                 "pre_id": pre_id},
+    )
+def Go_Search_Page(request,keywords):
+
+    # print("8888888888888888888888888888888888888888")
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    try:
+        page_id = int(request.GET.get("go_page"))
+    except:
+        page_id = int(request.GET.get("cur_page")) 
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
+   
+    return render(
+        request, "search_base.html", 
+                {"keywords":keywords,
+                 "topic_list": topic_list,
+                 "page_id": page_id,
+                 "next_id": next_id,
+                 "pre_id": pre_id},
+    )
 class delete_topic(View):
     def post(self, request, title1):
         Create_Topic.objects.filter(title=title1).delete()

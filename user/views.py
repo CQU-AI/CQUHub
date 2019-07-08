@@ -186,6 +186,7 @@ class Info_Profile(View):
         #     '6': '文学交流',
         #     '7': '论坛公告'
         # }
+        ss = Create_Topic.objects.get(user = userinfo)
         user_theme = userinfo.create_topic_set.all()
         user_reply = userinfo.topic_comment_set.all()
         paginator = Paginator(user_theme, 2)
@@ -263,7 +264,7 @@ def Go_info_page(request, username1):
     paginator = Paginator(user_theme, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
