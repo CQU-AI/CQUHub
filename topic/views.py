@@ -278,7 +278,7 @@ def Go_Page(request):
     return render(
         request,
         "topic/base.html",
-        {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id},
+         {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id}
     )
 
 
@@ -334,12 +334,15 @@ class TestReplywindow(View):
         return render(request, "topic/test_replywindow.html")
 
 
-def search(request):
-    nvkeywords = str(request.GET.get("nvkeywords"))
 
+
+def search1(request,page_id):
+
+    nvkeywords = str(request.GET.get("nvkeywords"))
     if nvkeywords != "":
         error_msg = ""
         topic_list = Create_Topic.objects.filter(title__icontains=nvkeywords)
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         # print(len(post_list))
 
     else:
@@ -349,10 +352,98 @@ def search(request):
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
 
-    return render(
-        request, "search_base.html", {"error_msg": error_msg, "topic_list": topic_list}
-    )
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
     
+    return render(
+        request, "search_base.html", {"error_msg": error_msg,"keywords":nvkeywords, "topic_list": topic_list,"page_id": page_id,
+                "next_id": next_id,
+                "pre_id": pre_id},
+    )
+
+def  search2(request,page_id,keywords):
+    
+
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
+        # print(len(post_list))
+
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
+    return render(
+        request, "search_base.html", 
+                {"keywords":keywords,
+                 "topic_list": topic_list,
+                 "page_id": page_id,
+                 "next_id": next_id,
+                 "pre_id": pre_id},
+    )
+def Go_Search_Page(request,keywords):
+
+    # print("8888888888888888888888888888888888888888")
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    try:
+        page_id = int(request.GET.get("go_page"))
+    except:
+        page_id = int(request.GET.get("cur_page")) 
+    paginator = Paginator(topic_list, 2)
+    page_range = paginator.page_range
+    max = len(page_range)
+    if page_id > max:
+        page_id = int(request.GET.get("cur_page"))
+    pre_id = page_id - 1
+    next_id = page_id + 1
+    if page_id == 1:
+        pre_id = 1
+    if page_id == len(page_range):
+        next_id = page_id
+        pre_id = page_id - 1
+    try:
+        topic_list = paginator.page(page_id)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+    except EmptyPage:
+        topic_list = []
+   
+    return render(
+        request, "search_base.html", 
+                {"keywords":keywords,
+                 "topic_list": topic_list,
+                 "page_id": page_id,
+                 "next_id": next_id,
+                 "pre_id": pre_id},
+    )
 class delete_topic(View):
     def post(self, request, title1):
         Create_Topic.objects.filter(title=title1).delete()
