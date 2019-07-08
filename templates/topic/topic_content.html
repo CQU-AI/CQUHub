@@ -25,8 +25,9 @@
                         {% if ifAnony == '匿名' %}
                             An anonymous CQUer
                         {% else %}
-                        <!-- 此处要显示昵称，并且点击昵称跳转到该同学的个人主页 -->
-                            <a href="{% url 'user:infoprofile'  username1=user.username %}">{{ user.nickname }}</a>
+                            <a href="{% url  'user:infoprofile' username1=name%}">
+                                <strong>{{ nickname }}</strong>
+                            </a>
                         {% endif %}
                         <br/>
                         <span>发表于{{ time }} 主题：<a class="text-primary" href="/theme/{{ theme_id }}/1/">{{ node }}</a>, </span>
