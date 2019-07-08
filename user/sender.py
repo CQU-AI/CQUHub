@@ -7,7 +7,7 @@ import time, random
 class Sender:
     sender_cache = {}
 
-    def __init__(self, id, debug=False):
+    def __init__(self, id="000000", debug=False):
         self.content = """
         您好:
 
@@ -23,6 +23,9 @@ class Sender:
         self.student_id = id
         self.debug = debug
 
+    def set_id(self, id):
+        self.student_id = id
+
     def generate_token(self):
         token = str(random.randint(0, 10 ** 6 - 1)).zfill(6)
         self.sender_cache[self.student_id] = [token, time.time()]
@@ -35,6 +38,8 @@ class Sender:
         return self.student_id in self.sender_cache.keys() and self.sender_cache[self.student_id][0] == userInputCode
 
     def send_verify_mail(self):
+        if self.student_id == "000000":
+            raise Exception("Defult student_id detected")
         if self.debug:
             print("*" * 79 + "\n" + str(self.generate_token()) + "\n" + "*" * 79)
             return
