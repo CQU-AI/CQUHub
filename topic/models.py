@@ -29,11 +29,11 @@ class Create_Topic(models.Model):
         ("CQU身边事", "CQU身边事"),
         ("技术栏目", "技术栏目"),
         ("文学交流", "文学交流"),
-        # ('comments', '论坛公告'),
+        ('论坛公告', '论坛公告'),
     )
 
     choices = (("不匿名", "不匿名"), ("匿名", "匿名"))
-
+    
     node = models.CharField(max_length=50, choices=theme, verbose_name="主题结点")
     ifAnony = models.CharField(max_length=50, choices=choices, verbose_name="是否匿名")
     top = models.CharField(max_length=5, default="不置顶", verbose_name="是否置顶")

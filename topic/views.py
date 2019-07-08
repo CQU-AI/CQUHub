@@ -104,6 +104,7 @@ class Topic_Content_View(View):
         title = topic_content.title
         name = topic_content.user.username
         node = topic_content.node
+        nickname = topic_content.user.nickname
         get_id = {
             "那个谁，我想对你说": "1",
             "动手动脚找东西": "2",
@@ -152,6 +153,7 @@ class Topic_Content_View(View):
                 "comment": comment,
                 "len_comment": len_comment,
                 "theme_id": theme_id,
+                "nickname":nickname
             },
         )
 
@@ -350,43 +352,7 @@ def search(request):
     return render(
         request, "search_base.html", {"error_msg": error_msg, "topic_list": topic_list}
     )
-
-
-# def search(request):
-#     nvkeywords = request.GET.get('nvkeywords')
-
-#     error_msg = ''
-#     if not nvkeywords:
-#         error_msg = '请输入关键词'
-#     return render(request, 'templates/errors.html', {'error_msg': error_msg})
-
-#     post_list = Create_Topic.objects.filter(div_id_content_raw_icontains=nvkeywords)#注意这里
-
-#     # theme2 = Create_Topic.objects.filter(node = node_id)
-#     # try:
-#     #     page_id = int(request.GET.get('go_theme_page'))
-#     # except:
-#     #     page_id = int(request.GET.get('cur_page'))
-
-#     paginator = Paginator(post_list, 4)
-#     page_range = paginator.page_range
-#     max = len(page_range)
-#     if(page_id > max):
-#         page_id = int(request.GET.get('cur_page'))
-#     pre_id = page_id-1
-#     next_id = page_id+1
-#     if page_id == 1:
-#         pre_id = 1
-#     if page_id == len(page_range):
-#         next_id = page_id
-#         pre_id = page_id-1
-#     try:
-#         themes = paginator.page(page_id)
-#     except  PageNotAnInteger:
-#         themes = paginator.page(1)
-#     except EmptyPage:
-#         themes = []
-#     return render(request, 'templates/search_base.html', {'error_msg': error_msg,'post_list': post_list})
+    
 class delete_topic(View):
     def post(self, request, title1):
         Create_Topic.objects.filter(title=title1).delete()

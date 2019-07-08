@@ -2,6 +2,7 @@
 {% load theme_to_reply %}
 {% load  all_node_theme %}
 {% block  left_content %}
+{% load static %}
     <div class="panel panel-default">
         <div class="panel-body panel-subtitle">
             <span class="label label-success">{{ theme.last.node }}</span>
@@ -19,32 +20,51 @@
         </div>
         <!-- List group -->
         <ul class="list-group topic-list">
-
             {% for  each_theme  in  theme %}
                 <li class="list-group-item topic-entry">
                     <div class="entry media">
-                        <div class="media-left media-middle">
-                            <a class="list-avatar-link" href="/u/1/"><img class="user-avatar"
-                                                                          src="http://www.gravatar.com/avatar/4e5750bb485db473fc5fcaac227b78e3?s=48&amp;d="></a>
-                        </div>
+                        {% if each_theme.ifAnony == '匿名' %}
+                            <div class="media-left media-middle">
+                                <img class="user-avatar" src="{% static  'avatar/defaultAvatar.jpg' %}"></a>
+                            </div>
+                        {% else %}
+                            <div class="media-left media-middle">
+                                <a class="list-avatar-link"
+                                    href="{% url  'user:infoprofile' username1=each_theme.user.username %}">
+                                    <img class="user-avatar" src="{% static 'avatar/' %}{{ each_theme.user.avatarID }}" alt=""/>
+                                </a>
+                            </div>
+                            <!-- <div class="media-left media-middle">
+                                    <a class="list-avatar-link" href="/u/1/"><img class="user-avatar"
+                                                                                  src="http://www.gravatar.com/avatar/4e5750bb485db473fc5fcaac227b78e3?s=48&amp;d="></a>
+                            </div> -->
+                        {% endif %}
                         <div class="media-body media-middle">
                             <a href="{% url 'topic:topic_content'  content_id=each_theme.id %}" class="entry-link">
                                 {{ each_theme.title }}
                             </a>
                             <p class="entry-meta">
-
                                 <span class="meta">
                                     <a href="/theme/{% all_node_theme each_theme.node %}/1">
                                         <span class="label label-default meta-node">
-                                        {{ each_theme.node }}l
+                                        {{ each_theme.node }}
                                         </span>
                                     </a>
                                 </span>
                                 <span class="meta meta-username">
+                                {% if each_theme.ifAnony == '匿名' %}
+                                    <strong>An anonymous CQUer</strong>
+                                {% else %}
+                                    <a href="{% url  'user:infoprofile' username1=each_theme.user.username %}">
+                                    <strong>{{ each_theme.user.nickname }}</strong>
+                                    </a>
+                                {% endif %}
+                                </span>
+                                <!-- <span class="meta meta-username">
                                         <a href="/user/{{ each_theme.user }}/">
                                             {{ each_theme.user }}
                                         </a>
-                                    </span>
+                                    </span> -->
                                 <span class="meta meta-pub_date">
                                         {{ each_theme.pub_time }}
                                     </span>
