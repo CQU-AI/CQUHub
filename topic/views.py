@@ -328,11 +328,6 @@ def Go_theme_Page(request, theme_id):
         },
     )
 
-# 是否需要删掉？
-class TestReplywindow(View):
-    def get(self, request):
-        return render(request, "topic/test_replywindow.html")
-
 
 def search(request):
     nvkeywords = str(request.GET.get("nvkeywords"))
