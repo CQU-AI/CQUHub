@@ -99,3 +99,15 @@ class Info(forms.Form):
             }
         ),
     )
+
+
+class Verify(forms.Form):
+    veriCode = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "type": "text",
+                "placeholder": "请输入邮箱验证码",
+            }
+        )
+    )

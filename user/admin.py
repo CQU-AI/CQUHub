@@ -10,7 +10,7 @@ from .models import User_Info
 class UserProfileAdmin(admin.ModelAdmin):
     fieldsets = [
         ('用户信息', {'fields': ['username', 'password']}),
-        ('个人信息', {'fields': ['nick_name', 'email', 'mobile']}),
+        #('个人信息', {'fields': ['nick_name', 'email', 'mobile']}),
         ('状态', {'fields': ['is_active']}),
         ('登录状态', {'fields': ['date_joined', 'last_login']})
     ]
