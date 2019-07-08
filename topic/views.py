@@ -22,6 +22,9 @@ class Index_View(View):
     """
 
     def get(self, request, page_id):
+        # topic_list1 = Create_Topic.objects.get(top="置頂").order_by("-pub_time")
+        # topip_list2 = Create_Topic.objects.get(top="不置頂").order_by("-pub_time")
+        # topic_list = topic_list1 + topip_list2
         topic_list = Create_Topic.objects.all().order_by("-pub_time")
         paginator = Paginator(topic_list, 2)
         page_range = paginator.page_range
@@ -205,7 +208,7 @@ class Theme1_View(View):
         node_id = reservedict[str(theme_id)]
         themes = Create_Topic.objects.filter(node=node_id)
         return render(
-            request, "topic_base.html", {"theme": themes, "theme_id": theme_id}
+            request, "topic_base.html", {"theme": themes, "theme_id": theme_id, "node_id": node_id}
         )
 
 
@@ -242,6 +245,7 @@ class Theme2_View(View):
             request,
             "topic_base.html",
             {
+                "node_id":node_id,
                 "theme": themes,
                 "theme_id": (theme_id),
                 "page_id": page_id,
@@ -260,7 +264,7 @@ def Go_Page(request):
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
@@ -301,7 +305,7 @@ def Go_theme_Page(request, theme_id):
     paginator = Paginator(theme2, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1

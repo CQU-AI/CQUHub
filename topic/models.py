@@ -36,7 +36,7 @@ class Create_Topic(models.Model):
     
     node = models.CharField(max_length=50, choices=theme, verbose_name="主题结点")
     ifAnony = models.CharField(max_length=50, choices=choices, verbose_name="是否匿名")
-    #top = models.CharField(max_length=5, verbose_name="是否置顶")
+    top = models.CharField(max_length=5, verbose_name="是否置顶")
 
     class Meta:
         verbose_name = "发布主题"
