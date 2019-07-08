@@ -86,7 +86,7 @@
                                                                                                    src="{% static  'image/3.jpg' %}"></a>
                     </div>
                     <div class="media-body media-middle">
-                        <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
+                        <a href="{% url 'topic:topic_content1'  content_id=topic.id  page_id=1%}" class="entry-link">
                             {{ topic.title }}
                         </a>
                         <p class="entry-meta">

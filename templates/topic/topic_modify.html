@@ -1,0 +1,53 @@
+{% extends  'nav_base.html' %}
+{% load  static %}
+{% block  left_content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">重新编辑您的帖子</div>
+    <div class="panel-body">
+
+            <form action="{% url 'topic:topicmodify'  content_id=content_id_aaa %}" method="POST">
+
+                <form method="post">
+
+                    {% csrf_token %}
+                    <link href="{% static  'editor/demo.css' %}" type="text/css" media="all" rel="stylesheet"/>
+
+
+                    <link href="{% static  'editor/editor1.css' %}" type="text/css" media="all" rel="stylesheet"/>
+                    <script type="text/javascript" src="{% static  'editor/Markdown.Converter.js' %}"></script>
+                    <script type="text/javascript" src="{% static  'editor/Markdown.Converter1.js' %}"></script>
+                    <script type="text/javascript" src="{% static  'editor/Markdown.Sanitizer.js' %}"></script>
+                    <script type="text/javascript" src="{% static   'editor/Markdown.Editor.js' %}"></script>
+                    <script type="text/javascript" src="{% static  'editor/Markdown.Extra.js' %}"></script>
+                    <script type="text/javascript" src="{% static  'editor/pagedown_init.js' %}"></script>
+                    <div id="div_id_content_raw" class="form-group">
+                        <div class="controls ">
+                            <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper">
+                                <div class="wmd-panel">
+                                    <div id="id_content_raw_wmd_button_bar"></div>
+                                    {{ forms.content_raw }} </div>
+                                <p class="wmd-preview-title">
+                                    <small>Preview:</small>
+                                </p>
+                                <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls "><input type="submit"
+                                                      name="submit"
+                                                      value="Submit"
+
+                                                      class="btn btn-primary"
+                                                      id="submit-id-submit"
+
+
+                        /></div>
+                    </div>
+                </form>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
