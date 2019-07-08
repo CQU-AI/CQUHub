@@ -15,7 +15,8 @@ from .views import (
     search1,
     search2,
     Go_Search_Page,
-   
+    topicmodify,
+    modifypage
 )
 
 app_name = "topic"
@@ -33,4 +34,6 @@ urlpatterns = [
     path("search/<str:keywords>/<int:page_id>/", search2, name="search2"),
     path("delete/<str:title1>/", delete_topic.as_view(), name="delete_topic"),
     path("search/go/<str:keywords>/", Go_Search_Page, name="go_search_page"),
+    path("modifypage/<int:content_id>/", modifypage.as_view(), name="modifypage"),
+    path("topicmodify/<int:content_id>/", topicmodify.as_view(), name="topicmodify"),
 ]

@@ -16,7 +16,7 @@
                         <img class="user-avatar" src="{% static  'avatar/defaultAvatar.jpg' %}" alt=""/>
                     {% else %}
                         <img class="user-avatar" id="panel-avatar"
-                        src="{% static 'avatar/' %}{{ user.avatarID }}" alt="Avatar"/>
+                        src="{% static 'avatar/' %}{{ content_topic.user.avatarID }}" alt="Avatar"/>
                         <!-- style="width:100px; height:100px; border-radius: 5px;" -->
                     {% endif %}
                 </div>
@@ -25,9 +25,8 @@
                         {% if ifAnony == '匿名' %}
                             An anonymous CQUer
                         {% else %}
-                            <a href="{% url  'user:infoprofile' username1=name%}">
-                                <strong>{{ nickname }}</strong>
-                            </a>
+                        <!-- 此处要显示昵称，并且点击昵称跳转到该同学的个人主页 -->
+                            <a href="{% url 'user:infoprofile'  username1=content_topic.user.username %}">{{ content_topic.user.nickname }}</a>
                         {% endif %}
                         <br/>
                         <span>发表于{{ time }} 主题：<a class="text-primary" href="/theme/{{ theme_id }}/1/">{{ node }}</a>, </span>
@@ -43,6 +42,12 @@
 
 
             </div>
+            <!-- 帖子的重编辑，确认编辑人为帖子发布人且已经登录 -->
+            {% if  request.user.is_authenticated %}
+                {% if  request.user == content_topic.user %}
+                    <a href="{% url 'topic:modifypage'  content_id=content_topic.id %}">重新编辑</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
     <div class="panel panel-default">
@@ -67,7 +72,7 @@
                         <div class="col-xs-9 col-sm-10">
                             <p class="text-muted">
                                 <!-- 此处要显示昵称，并且点击昵称跳转到该同学的个人主页 -->
-                                <a href="{% url 'user:infoprofile'  username1=user.username %}">{{ user.nickname }}</a>
+                                <a href="{% url 'user:infoprofile'  username1=each_comment.user.username %}">{{ each_comment.user.nickname }}</a>
                                 <span>{{ each_comment.add_time }}</span>
                             </p>
                         </div>

@@ -47,3 +47,14 @@ class Comment_Forms(forms.Form):
             }
         )
     )
+
+class Postmodify_Forms(forms.Form):
+    content_raw = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "pagedownwidget form-control wmd-input",
+                "cols": "40",
+                "rows": "10",
+            }
+        )
+    )
