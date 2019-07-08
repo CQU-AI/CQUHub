@@ -70,25 +70,21 @@
                     </div>
                 </li>
         {% endif %} -->
-        {% for topic  in  topics %}
+        {% if error_msg %}
+            <p>{{ error_msg }}</p>
+        {% endif %}
+        {% for topic  in  topic_list %}
             <li class="list-group-item topic-entry">
                 <div class="entry media">
                     <!-- 这里点击头像是没有响应的，不知道原来的连接是干啥的 -->
                     <!-- <div class="media-left media-middle">
                     <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
                 </div> -->
-                    {% if topic.ifAnony == '匿名' %}
-                        <div class="media-left media-middle">
-                            <img class="user-avatar" src="{% static  'avatar/defaultAvatar.jpg' %}"></a>
-                        </div>
-                    {% else %}
-                        <div class="media-left media-middle">
-                            <a class="list-avatar-link"
-                               href="{% url  'user:infoprofile' username1=topic.user.username %}"><img
-                                    class="user-avatar"
-                                    src="{% static  'image/3.jpg' %}"></a>
-                        </div>
-                    {% endif %}
+                    <div class="media-left media-middle">
+                        <a class="list-avatar-link"
+                           href="{% url  'user:infoprofile' username1=topic.user.username %}"><img class="user-avatar"
+                                                                                                   src="{% static  'image/3.jpg' %}"></a>
+                    </div>
                     <div class="media-body media-middle">
                         <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
                             {{ topic.title }}
@@ -102,13 +98,9 @@
                             </a>
                         </span>
                             <span class="meta meta-username">
-                            {% if topic.ifAnony == '匿名' %}
-                                <strong>An anonymous CQUer</strong>
-                            {% else %}
-                                <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
+                            <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
                                 <strong>{{ topic.user.username }}</strong>
                             </a>
-                            {% endif %}
                         </span>
                             <span class="meta meta-pub_date">
                             <strong>{{ topic.pub_time }}</strong>
@@ -124,8 +116,14 @@
                     </div>
                 </div>
             </li>
+        {% empty %}
+            <div class="no-post">
+                没有搜索到符合条件的文章
+            </div>
         {% endfor %}
-        </ul>
+
+
+        </u1>
         <div class="panel-footer">
             <nav>
                 <!-- 这里要改成动态的页面显示，此处连接到index_view -->

@@ -1,70 +1,70 @@
 {% extends  'nav_base.html' %}
 {% block  left_content %}
-{% load static %}
-<div class="panel panel-default">
-    <div class="panel-body">
-        {% if  message %}
-            <ul class="list-group">
-                <li class="list-group-item info">{{ message }}</li>
-            </ul>
-        {% endif %}
-        <form method="post" action="{% url 'user:register' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="usernameInput">学号:</label>
-                {{ forms.username }}
-                <label style="color: grey; font-weight:lighter;margin-top: 10px;">
-                    *我们将向您学号对应的重庆大学邮箱发送一封验证邮件以确认您的身份
-                </label>
-            </div>
+    {% load static %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% if  message %}
+                <ul class="list-group">
+                    <li class="list-group-item info">{{ message }}</li>
+                </ul>
+            {% endif %}
+            <form method="post" action="{% url 'user:register' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="usernameInput">学号:</label>
+                    {{ forms.username }}
+                    <label style="color: grey; font-weight:lighter;margin-top: 10px;">
+                        *我们将向您学号对应的重庆大学邮箱发送一封验证邮件以确认您的身份
+                    </label>
+                </div>
 
-            <div class="form-group">
-                <label for="nicknameInput">昵称：</label>
-                {{ forms.nickname }}
-            </div>
+                <div class="form-group">
+                    <label for="nicknameInput">昵称：</label>
+                    {{ forms.nickname }}
+                </div>
 
-            <div class="form-group">
-                <label for="InputPassword1">密码:</label>
-                {{ forms.password }}
-            </div>
+                <div class="form-group">
+                    <label for="InputPassword1">密码:</label>
+                    {{ forms.password }}
+                </div>
 
-            <div class="form-group">
-                <label for="InputPassword2">确认密码:</label>
-                {{ forms.passwordConfirm }}
-            </div>
+                <div class="form-group">
+                    <label for="InputPassword2">确认密码:</label>
+                    {{ forms.passwordConfirm }}
+                </div>
 
-            <div>
-                <label>头像</label>
-                <input type="file" name="avatar">
-            </div>
+                <div>
+                    <label>头像</label>
+                    <input type="file" name="avatar">
+                </div>
 
-            <div class="form-group">
-                <label>为防止你是机器人，请输入验证码</label>
-                <br>
-                {{ forms.captcha }}
-            </div>
+                <div class="form-group">
+                    <label>为防止你是机器人，请输入验证码</label>
+                    <br>
+                    {{ forms.captcha }}
+                </div>
 
-            <button type="submit" class="btn btn-default">提交</button>
+                <button type="submit" class="btn btn-default">提交</button>
 
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <script>
-        // Click to refresh captcha
-        $(function () {
-            $('.captcha').css({
-                'cursor': 'pointer'
-            })
-            $('.captcha').click(function () {
-                console.log('click');
-                $.getJSON("/captcha/refresh/",
-                function (result) {
-                    $('.captcha').attr('src', result['image_url']);
-                    $('#id_captcha_0').val(result['key'])
+        <script>
+            // Click to refresh captcha
+            $(function () {
+                $('.captcha').css({
+                    'cursor': 'pointer'
+                })
+                $('.captcha').click(function () {
+                    console.log('click');
+                    $.getJSON("/captcha/refresh/",
+                        function (result) {
+                            $('.captcha').attr('src', result['image_url']);
+                            $('#id_captcha_0').val(result['key'])
+                        });
                 });
-            });
-        })
-    </script>
-    <script src="{% static 'jquery-2.2.4.min.js' %}"></script>
-</div>
+            })
+        </script>
+        <script src="{% static 'jquery-2.2.4.min.js' %}"></script>
+    </div>
 {% endblock %}
