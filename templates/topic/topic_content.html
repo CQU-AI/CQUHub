@@ -19,8 +19,8 @@
                         {% if ifAnony == '匿名' %}
                             An anonymous CQUer
                         {% else %}
-                            <a href="{% url  'user:infoprofile' username1=user.username %}">
-                                <strong>{{ user.nickname }}</strong>
+                            <a href="{% url  'user:infoprofile' username1=name%}">
+                                <strong>{{ nickname }}</strong>
                             </a>
                         {% endif %}
                         <br/>

@@ -104,6 +104,7 @@ class Topic_Content_View(View):
         title = topic_content.title
         name = topic_content.user.username
         node = topic_content.node
+        nickname = topic_content.user.nickname
         get_id = {
             "那个谁，我想对你说": "1",
             "动手动脚找东西": "2",
@@ -152,6 +153,7 @@ class Topic_Content_View(View):
                 "comment": comment,
                 "len_comment": len_comment,
                 "theme_id": theme_id,
+                "nickname":nickname
             },
         )
 

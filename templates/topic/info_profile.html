@@ -41,13 +41,17 @@
                                 {{ each_user_theme.node }}
                             </span>
                                 </a>
-                                <span class="meta meta-pub_date">
-                            <strong>发表时间:{{ each_user_theme.pub_time }}</strong>
-                        </span>
-                                <span class="meta meta-last_replied hidden-xs">
-                            <strong>最新回复人: {% recent_reply each_user_theme.title %}</strong>
-                        </span>
-
+                            <span class="meta meta-pub_date">
+                                <strong>发表时间:{{ each_user_theme.pub_time }}</strong>
+                            </span>
+                            <span class="meta meta-last_replied hidden-xs">
+                                <strong>最新回复人: {% recent_reply each_user_theme.title %}</strong>
+                            </span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <span class="badge">{% theme_to_reply each_user_theme.title %}</span>
+                        </div>
+                        <div>
                                 <script type="text/javascript">
                                     window.onload = function () {
                                         var zx = document.getElementById("del");
@@ -61,15 +65,13 @@
                                     }
                                 </script>
                             {% ifequal userinfo.username request.user.username  %}
+                            
                             <form action="/delete/{{ each_user_theme.title }}/" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="删除" id="del"
                                        style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;"/>
                             </form>
-                            {% endifequal %}
-                        </div>
-                        <div class="media-right media-middle">
-                            <span class="badge">{% theme_to_reply each_user_theme.title %}</span>
+                            {% endifequal %}    
                         </div>
                     </div>
                 </li>
