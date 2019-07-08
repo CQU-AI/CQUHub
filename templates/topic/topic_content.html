@@ -126,6 +126,64 @@
         </div>
     </div>
 
+    <div class="panel-footer">
+        <nav>
+            <!-- 这里要改成动态的页面显示，此处连接到index_view -->
+            <ul class="pager">
+                {% ifequal page_id 1 %}
+                {% else %}
+                    <li>
+                        <a href="/content/{{content_id}}/{{ pre_id }}" aria-label="Prev">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a>
+                    </li>
+                    <!-- <li><a href="/page/1/">1</a></li>
+                    <li><a href="/page/2/">2</a></li>
+                    <li><a href="/page/3/">3</a></li> -->
+                    <!-- <li>
+                    <a href="/page/{{ page_id }}/" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li> -->
+                    <li>
+                        <a href="/content/{{content_id}}/{{ pre_id}}">
+                            <span>{{ pre_id }}</span>
+                        </a>
+                    </li>
+                {% endifequal %}
+                <li>
+                    <a href="/content/{{content_id}}/{{ page_id}}" style="color:floralwhite; background-color: deepskyblue">
+                        <span>{{ page_id }}</span>
+                    </a>
+                </li>
+                {% ifequal page_id next_id %}
+                {% else %}
+                    <li>
+                        <a href="/content/{{content_id}}/{{ next_id}}">
+                            <span>{{ next_id }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/content/{{content_id}}/{{ next_id}}" aria-label="Next">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a>
+                    </li>
+                {% endifequal %}
+                <br><br>
+                <form methods="GET" action="/comment/go/{{content_id}}">
+                    <input type="hidden" name="cur_comment_page" id="cur_comment_page" value="{{ page_id }}">
+                    <label>跳转到：</label>
+                    <input type="text" style="width: 20px" id="go_comment_page" name="go_comment_page" style="padding-right: 100px">
+                    <button type="submit"
+                            style="background-color:lightsalmon; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;">
+                        GO
+                    </button>
+                </form>
+            </ul>
+        </nav>
+    </div>
+
+
 
     <div class="panel panel-default">
         <div class="panel-heading">留下一个评论</div>

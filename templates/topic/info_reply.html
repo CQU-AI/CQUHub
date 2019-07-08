@@ -33,7 +33,7 @@
 
                 <li class="list-group-item reply-entry reply-entry-title">
                     评论的帖子：
-                    <a href="{% url  'topic:topic_content' content_id=each_user_reply.topic.id %}">{{ each_user_reply.topic.title }}</a>
+                    <a href="{% url  'topic:topic_content1' content_id=each_user_reply.topic.id  page_id=1%}">{{ each_user_reply.topic.title }}</a>
                     <span class="pull-right">{{ each_user_reply.add_time }}</span>
                 </li>
                 <li class="list-group-item reply-entry reply-entry-content">
