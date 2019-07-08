@@ -7,7 +7,7 @@ from django.contrib.sessions.backends.db import SessionStore
 
 from user.models import User_Info
 from .models import Create_Topic
-from .forms import PubTopic, Comment_Forms
+from .forms import PubTopic, Comment_Forms, Postmodify_Forms
 from operation.models import Topic_Comment
 
 import markdown
@@ -391,3 +391,31 @@ class delete_topic(View):
     def post(self, request, title1):
         Create_Topic.objects.filter(title=title1).delete()
         return redirect(to="/page/1")
+
+class modifypage(View):
+    def get(self, request, content_id):
+        forms = Postmodify_Forms()
+        topic_content = Create_Topic.objects.get(id=content_id)
+        # forms.content_raw.widget.attrs.values = topic_content.content
+        return render(
+            request,
+            "topic/topic_modify.html",
+            {"content_id_aaa": content_id, "forms":forms},
+        )
+
+class topicmodify(View):
+    def post(self, request,content_id):
+        forms = Postmodify_Forms(request.POST)
+
+        if forms.is_valid():
+            content = forms.cleaned_data["content_raw"]
+            content = content.replace("<", " &lt;")
+            content = content.replace(">", "&gt;")
+            Create_Topic.objects.filter(id=content_id).update(content=content)
+            return redirect(to="topic:topic_content", content_id=content_id)
+        else:
+            return render(
+                request,
+                "topic/topic_modify.html",
+                {"forms": forms, "message": "输入的数据无法通过检查，请重新输入"},
+            )
