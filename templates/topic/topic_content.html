@@ -19,7 +19,9 @@
                         {% if ifAnony == '匿名' %}
                             An anonymous CQUer
                         {% else %}
-                            <a href="/user/{{ name }}/">{{ name }}</a>
+                            <a href="{% url  'user:infoprofile' username1=user.username %}">
+                                <strong>{{ user.nickname }}</strong>
+                            </a>
                         {% endif %}
                         <br/>
                         <span>发表于{{ time }} 主题：<a class="text-primary" href="/theme/{{ theme_id }}/1/">{{ node }}</a>, </span>
