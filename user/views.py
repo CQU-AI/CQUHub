@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from .sender import generate_verify_code, validate_code, send_verify_mail
 import markdown, os, uuid, time
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
@@ -14,7 +13,7 @@ from operation.models import Topic_Comment
 from .models import User_Info
 from .forms import Login, Register, Info, Verify
 
-from .sender import generate_verify_code, validate_code, send_verify_mail
+from .sender import Sender
 
 # Create your views here.
 
@@ -48,12 +47,15 @@ class Login_View(View):
 
 
 class Verify_View(View):
-    
     def get(self, request):
         username = request.session.get("username", None)
         if username == None:
             raise Http404("You do not have the access to this page")
-        send_verify_mail(username)
+        if request.session.get("is sent", None) == None:
+            sender = Sender(username)
+            # print("get: ", self.sender.student_id)
+            sender.send_verify_mail()
+            request.session['is sent'] = "True"
         forms = Verify()
         return render(request, "user/verify.html", {"forms": forms})
 
@@ -64,7 +66,12 @@ class Verify_View(View):
         forms = Verify(request.POST)
         if forms.is_valid():
             code = forms.cleaned_data['veriCode']
-            if validate_code(code):
+            sender = Sender(username)
+            # print("post: ", self.sender.student_id)
+            # print("user input:", code)
+            result = sender.validate_code(code)
+            # print(result)
+            if result:
                 user.save()
                 login(request, user)
                 return redirect(to="topic:index")

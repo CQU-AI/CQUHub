@@ -4,9 +4,10 @@ from smtplib import SMTP_SSL
 import time, random
 from my_project.settings import DEBUG
 
+sender_cache = {}
 
 class Sender:
-    sender_cache = {}
+    global sender_cache
 
     def __init__(self, id="000000", debug=DEBUG):
         self.content = """
@@ -29,14 +30,14 @@ class Sender:
 
     def generate_token(self):
         token = str(random.randint(0, 10 ** 6 - 1)).zfill(6)
-        self.sender_cache[self.student_id] = [token, time.time()]
+        sender_cache[self.student_id] = [token, time.time()]
         return token
 
     def validate_code(self, userInputCode):
-        for id in list(self.sender_cache.keys()):
-            if self.sender_cache[id][1] - time.time() > 3600:
-                del self.sender_cache[id]
-        return self.student_id in self.sender_cache.keys() and self.sender_cache[self.student_id][0] == userInputCode
+        for id in list(sender_cache.keys()):
+            if sender_cache[id][1] - time.time() > 3600:
+                del sender_cache[id]
+        return self.student_id in sender_cache.keys() and sender_cache[self.student_id][0] == userInputCode
 
     def send_verify_mail(self):
         if self.student_id == "000000":
