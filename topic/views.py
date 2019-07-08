@@ -282,7 +282,7 @@ def Go_Page(request):
     return render(
         request,
         "topic/base.html",
-         {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id}
+         {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id}，
     )
 
 
