@@ -24,17 +24,14 @@ class Sender:
         self.debug = debug
 
     def generate_token(self):
-        token = ""
-        for i in range(6):
-            token += str(random.randint(0, 9))
-            self.sender_cache[self.student_id] = [token, time.time()]
+        token = str(random.randint(0, 10 ** 6 - 1)).zfill(6)
+        self.sender_cache[self.student_id] = [token, time.time()]
         return token
 
     def validate_code(self, userInputCode):
         for id in list(self.sender_cache.keys()):
             if self.sender_cache[id][1] - time.time() > 3600:
                 del self.sender_cache[id]
-        print(self.sender_cache)
         return self.student_id in self.sender_cache.keys() and self.sender_cache[self.student_id][0] == userInputCode
 
     def send_verify_mail(self):
