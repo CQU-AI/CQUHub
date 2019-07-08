@@ -22,68 +22,17 @@
             </span>
 
         </div>
-        <!-- List group -->
-        <!-- 这一部分不知道是干啥的 -->
-        <!-- <ul class="list-group topic-list"> -->
-        <!-- {% if topics.top %}
-            <li class="list-group-item topic-entry">
-                    <div class="entry media">
-                        <div class="media-left media-middle">
-                            <a class="list-avatar-link" href="{% url 'topic:index' %}
-            "><img class="user-avatar" src="http://www.gravatar.com/avatar/4e5750bb485db473fc5fcaac227b78e3?s=48&amp;d="></a>
-                        </div>
-                        <div class="media-body media-middle">
-                            <a href="{% url 'topic:index' %}" class="entry-link">
-                                {{ topic.title }}
-                            </a>
-                            <p class="entry-meta">
-
-                                <span class="meta">
-                                    <span class="label label-info meta-top">
-                                        TOP
-                                    </span>
-                                </span>
-
-                                <span class="meta">
-                                    <a href="/n/1/">
-                                        <span class="label label-default meta-node">
-                                        General
-                                        </span>
-                                    </a>
-                                </span>
-                                    <span class="meta meta-username">
-                                        <a href="/u/1/">
-                                            eric
-                                        </a>
-                                    </span>
-                                    <span class="meta meta-pub_date">
-                                        {{ topic.pub_time }}
-                                    </span>
-                                    <span class="meta meta-last_replied hidden-xs">
-                                        Last Replied: 4 日 之前
-                                    </span>
-                            </p>
-                        </div>
-                        <div class="media-right media-middle">
-                            <span class="badge">{{ topic.title }}</span>
-                        </div>
-                    </div>
-                </li>
-        {% endif %} -->
         {% if error_msg %}
             <p align="center">{{ error_msg }}</p>
         {% else %}
         {% for topic  in  topic_list %}
             <li class="list-group-item topic-entry">
                 <div class="entry media">
-                    <!-- 这里点击头像是没有响应的，不知道原来的连接是干啥的 -->
-                    <!-- <div class="media-left media-middle">
-                    <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
-                </div> -->
                     <div class="media-left media-middle">
                         <a class="list-avatar-link"
-                           href="{% url  'user:infoprofile' username1=topic.user.username %}"><img class="user-avatar"
-                                                                                                   src="{% static  'image/3.jpg' %}"></a>
+                            href="{% url  'user:infoprofile' username1=topic.user.username %}">
+                            <img class="user-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt=""/>
+                        </a>
                     </div>
                     <div class="media-body media-middle">
                         <a href="{% url 'topic:topic_content'  content_id=topic.id %}" class="entry-link">
@@ -139,14 +88,6 @@
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a>
                         </li>
-                        <!-- <li><a href="/page/1/">1</a></li>
-                        <li><a href="/page/2/">2</a></li>
-                        <li><a href="/page/3/">3</a></li> -->
-                        <!-- <li>
-                        <a href="/page/{{ page_id }}/" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li> -->
                         <li>
                             <a href="/page/{{ pre_id }}">
                                 <span>{{ pre_id }}</span>
