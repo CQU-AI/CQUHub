@@ -26,11 +26,64 @@
         </div>
         <!-- List group -->
         <ul class="list-group topic-list">
+        {% ifequal userinfo.username request.user.username  %}
             {% for  each_user_theme in  user_theme %}
                 <li class="list-group-item topic-entry">
                     <div class="entry media">
                         <div class="media-body media-middle">
                             <a href="{% url  'topic:topic_content1'  content_id=each_user_theme.id  page_id=1%}"
+                               class="entry-link">
+                                {{ each_user_theme.title }}
+                            </a>
+                            <p class="entry-meta">
+                                <a href="/theme/{% all_node_theme each_user_theme.node %}/1/">
+                            <span class="label label-default meta-node">
+                                {{ each_user_theme.node }}
+                            </span>
+                                </a>
+                            <span class="meta meta-pub_date">
+                                <strong>发表时间:{{ each_user_theme.pub_time }}</strong>
+                            </span>
+                            <span class="meta meta-last_replied hidden-xs">
+                                <strong>最新回复人: {% recent_reply each_user_theme.title %}</strong>
+                            </span>
+                        </div>
+                        <div class="media-right media-middle">
+                            <span class="badge">{% theme_to_reply each_user_theme.title %}</span>
+                        </div>
+                        <div>
+                                <script type="text/javascript">
+                                    window.onload = function () {
+                                        var zx = document.getElementById("del");
+                                        zx.onclick = function () {
+                                            if (confirm("确定要删除吗?")) {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                </script>
+                            {% ifequal userinfo.username request.user.username  %}
+                            
+                            <form action="/delete/{{ each_user_theme.title }}/" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="删除" id="del"
+                                       style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;"/>
+                            </form>
+                            {% endifequal %}    
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            {% for  each_user_theme in  user_theme %}
+                {% if each_user_theme.ifAnony == '匿名' %}
+                {% else %}
+                <li class="list-group-item topic-entry">
+                    <div class="entry media">
+                        <div class="media-body media-middle">
+                            <a href="{% url  'topic:topic_content'  content_id=each_user_theme.id %}"
                                class="entry-link">
                                 {{ each_user_theme.title }}
                             </a>
@@ -59,19 +112,23 @@
                                         }
                                     }
                                 </script>
+                            {% ifequal userinfo.username request.user.username  %}
                             <form action="/delete/{{ each_user_theme.title }}/" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="删除" id="del"
                                        style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 30px;height:25px;"/>
                             </form>
-                            </p>
+                            {% endifequal %}
                         </div>
                         <div class="media-right media-middle">
                             <span class="badge">{% theme_to_reply each_user_theme.title %}</span>
                         </div>
                     </div>
                 </li>
+                {% endif %}
             {% endfor %}
+
+        {% endifequal %}
 
             <!-- <li class="list-group-item">
                 <a href="/u/279/topics/" class="text-success">More topics from this user</a>

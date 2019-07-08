@@ -20,6 +20,9 @@ topic/migrations/
 # apple
 .DS_Store
 
+# ubuntu-venv
+mygo
+
 # avatar
 staticfiles/avatar/*
 !staticfiles/avatar/defaultAvatar.jpg

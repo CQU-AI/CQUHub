@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import markdown, os, uuid
+import markdown, os, uuid, time
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic import View  # 继承通用类视图
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password  # 对数据库进行加密
@@ -11,11 +11,9 @@ from django.contrib.auth.hashers import make_password  # 对数据库进行加�
 from topic.models import Create_Topic
 from operation.models import Topic_Comment
 from .models import User_Info
-from .forms import Login, Register, Info
-from email.mime.text import MIMEText
-from email.header import Header
-from smtplib import SMTP_SSL
+from .forms import Login, Register, Info, Verify
 
+from .sender import Sender
 
 # Create your views here.
 
@@ -49,46 +47,40 @@ class Login_View(View):
 
 
 class Verify_View(View):
-    def generate_verify_code(self, student_id):
-        res = ""
-        code_map = {}
-        code = "9128405367"
-        for i in range(10):
-            code_map[str(i)] = code[i]
-        for i in str(hash(str(student_id)) % (3 ** 12)):
-            res += code_map[i]
-        return res
+    def get(self, request):
+        username = request.session.get("username", None)
+        if username == None:
+            raise Http404("You do not have the access to this page")
+        if request.session.get("is sent", None) == None:
+            sender = Sender(username)
+            # print("get: ", self.sender.student_id)
+            sender.send_verify_mail()
+            request.session['is sent'] = "True"
+        forms = Verify()
+        return render(request, "user/verify.html", {"forms": forms})
 
-    def send_verify_mail(self, student_id):
-        host_server = "smtp.exmail.qq.com"
-        pwd = "Djangosucks123"
-        sender_mail = "cquhub-no-reply@mail.loopy.tech"
-        receiver = "{}@cqu.edu.cn".format(student_id)
-        mail_title = "CQU Hub的注册验证"
-        mail_content = """同学你好:
-
-    感谢您使用CQU Hub！
-    为确保论坛只对重大学子开放，请确认您的学号为{}，并使用验证码{}来完成您的注册！
-
-CQU Hub开发组
-{}""".format(
-            student_id,
-            self.generate_verify_code(student_id),
-            time.strftime("%Y-%m-%d %X", time.localtime()),
-        )
-
-        smtp = SMTP_SSL(host_server)
-
-        smtp.set_debuglevel(0)
-        smtp.ehlo(host_server)
-        smtp.login(sender_mail, pwd)
-
-        msg = MIMEText(mail_content, "plain", "utf-8")
-        msg["Subject"] = Header(mail_title, "utf-8")
-        msg["From"] = sender_mail
-        msg["To"] = receiver
-        smtp.sendmail(sender_mail, receiver, msg.as_string())
-        smtp.quit()
+    def post(self, request):
+        username = request.session.get("username", None)
+        user = User_Info.objects.get(username=username)
+        User_Info.objects.filter(username=username).delete()
+        forms = Verify(request.POST)
+        if forms.is_valid():
+            code = forms.cleaned_data['veriCode']
+            sender = Sender(username)
+            # print("post: ", self.sender.student_id)
+            # print("user input:", code)
+            result = sender.validate_code(code)
+            # print(result)
+            if result:
+                user.save()
+                login(request, user)
+                return redirect(to="topic:index")
+            else:
+                forms = Verify()
+                message = "验证码错误"
+                return render(request, "user/verify.html", {"forms":forms, "message": message})
+        else:
+            raise Http404("Unexpected Error")
 
 
 class Info_View(View):
@@ -157,8 +149,10 @@ class Register_View(View):
             user.password = make_password(password)
             user.nickname = nickname
             user.save()
-            login(request, user)
-            return redirect(to="topic:index")
+            # request.session['user'] = user
+            request.session['username'] = username
+            # login(request, user)
+            return redirect(to="user:verify")
         else:
             return render(
                 request,
