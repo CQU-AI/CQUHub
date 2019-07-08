@@ -23,8 +23,8 @@
 
         </div>
         {% if error_msg %}
-            <p>{{ error_msg }}</p>
-        {% endif %}
+            <p align="center">{{ error_msg }}</p>
+        {% else %}
         {% for topic  in  topic_list %}
             <li class="list-group-item topic-entry">
                 <div class="entry media">
@@ -64,13 +64,17 @@
                         <span class="badge">{% theme_to_reply topic.title %}</span>
                     </div>
                 </div>
+                <!-- {{topic.rec}} -->
+                <!-- {% ifequal rec 1 %}
+                    <p align="center">没有搜索到符合条件的文章</p>
+                {% endifequal %} -->
+                {% empty %}
+                    <p align="center">没有搜索到符合条件的文章</p>
             </li>
-        {% empty %}
-            <div class="no-post">
-                没有搜索到符合条件的文章
-            </div>
+        
+            
         {% endfor %}
-
+        {% endif %}
 
         </u1>
         <div class="panel-footer">
