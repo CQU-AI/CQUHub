@@ -208,7 +208,7 @@ class Info_Profile(View):
         #     '6': '文学交流',
         #     '7': '论坛公告'
         # }
-        ss = Create_Topic.objects.get(user = userinfo)
+        # ss = Create_Topic.objects.get(user = userinfo)
         user_theme = userinfo.create_topic_set.all()
         user_reply = userinfo.topic_comment_set.all()
         paginator = Paginator(user_theme, 2)
