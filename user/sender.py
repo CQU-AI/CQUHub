@@ -2,12 +2,13 @@ from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
 import time, random
+from my_project.settings import DEBUG
 
 
 class Sender:
     sender_cache = {}
 
-    def __init__(self, id="000000", debug=False):
+    def __init__(self, id="000000", debug=DEBUG):
         self.content = """
         您好:
 
