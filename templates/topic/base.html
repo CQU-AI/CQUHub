@@ -84,9 +84,9 @@
                     {% else %}
                         <div class="media-left media-middle">
                             <a class="list-avatar-link"
-                               href="{% url  'user:infoprofile' username1=topic.user.username %}"><img
-                                    class="user-avatar"
-                                    src="{% static  'image/3.jpg' %}"></a>
+                                href="{% url  'user:infoprofile' username1=topic.user.username %}">
+                                <img class="user-avatar" src="{% static 'avatar/' %}{{ topic.user.avatarID }}" alt=""/>
+                            </a>
                         </div>
                     {% endif %}
                     <div class="media-body media-middle">
@@ -106,7 +106,7 @@
                                 <strong>An anonymous CQUer</strong>
                             {% else %}
                                 <a href="{% url  'user:infoprofile' username1=topic.user.username %}">
-                                <strong>{{ topic.user.username }}</strong>
+                                <strong>{{ topic.user.nickname }}</strong>
                             </a>
                             {% endif %}
                         </span>
