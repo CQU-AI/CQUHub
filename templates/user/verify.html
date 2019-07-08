@@ -1,0 +1,37 @@
+{% extends  'nav_base.html' %}
+{% block  left_content %}
+{% load static %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% if messsge %}
+        <ul class="list-group">
+            <li class="list-group-item info">{{ messsge }}</li>
+        </ul>
+        {% endif %}
+        <!-- <p>
+            恭喜您，注册的第一步已经完成。一封带有验证码的邮件已经发往您的重大邮箱。
+            由于重大邮箱速度有限，您可能会等待数分钟至数小时不等。
+            在此期间，请您不要关闭浏览器，否则注册将会失败。
+            在没有验证您的重大邮箱之前，您的账号不会被注册。
+        </p> -->
+        <p>
+            Congratulations! Now you just have one step from CQU Hub.
+            An email with verification code was send to your CQU mail (your_ID@cqu.edu.cn).
+            Due to their crappy server, the arrival of your mail may delay for up to 10 minutes.
+            During this time, please do not close your brower, or your registration will fail.
+            Before your CQU mail is verified, you account will not be registered.
+            Thank you for your patience. :)
+        </p>
+
+        <form method="post" action="/user/verify/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="veriCodeInput">邮件验证码</label>
+                {{ forms.veriCode }}
+            </div>
+            <button type="submit" class="btn btn-default">确认</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
