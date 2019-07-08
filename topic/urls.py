@@ -13,6 +13,8 @@ from .views import (
     Theme2_View,
     delete_topic,
     search,
+    topicmodify,
+    modifypage
 )
 
 app_name = "topic"
@@ -28,4 +30,6 @@ urlpatterns = [
     # path('info/go/<str:username1>/',Go_info_page, name='info_Pagego'),
     path("search/go/", search, name="search"),
     path("delete/<str:title1>/", delete_topic.as_view(), name="delete_topic"),
+    path("modifypage/<int:content_id>/", modifypage.as_view(), name="modifypage"),
+    path("topicmodify/<int:content_id>/", topicmodify.as_view(), name="topicmodify"),
 ]
