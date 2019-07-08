@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import markdown, os, uuid
+import markdown, os, uuid, time
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from django.shortcuts import render, redirect
