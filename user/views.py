@@ -86,15 +86,37 @@ class Verify_View(View):
 class Info_View(View):
     def get(self, request, username):
         forms = Info()
-        return render(request, 'user/info.html', {'forms':forms})
-
+        return render(request, 'user/info.html', {'forms': forms})
     def post(self, request, username):
-        # user = User_Info.objects.get(username=username)
+        avatar = request.FILES.get('avatar', None)
         forms = Info(request.POST)
+        user = User_Info.objects.get(username=username)
+        if avatar != None:
+            # 获取上传文件的扩展名
+            uploadDirPath = os.path.join(
+                os.getcwd(), 'staticfiles/avatar')
+            if user.avatarID != 'defaultAvatar.jpg':
+                os.remove(str(uploadDirPath) + os.sep + str(user.avatarID))
+            print("2"*100, user.avatarID, "2"*100)
+            fileType = os.path.splitext(avatar.name)[1]
+            if not os.path.exists(uploadDirPath):
+                os.mkdir(uploadDirPath)
+            # 生成唯一文件名
+            newName = str(uuid.uuid4()) + fileType
+            user.avatarID = newName
+            # 拼接要上传的文件在服务器上的全路径
+            fileFullPath = uploadDirPath + os.sep + newName
+            # 上传文件
+            with open(fileFullPath, 'wb+') as fp:
+                for chunk in avatar.chunks():
+                    fp.write(chunk)
+            User_Info.objects.filter(
+                username=username).update(avatarID=newName)
+            print("0"*100, User_Info.avatarID, "0"*100)
         if 'nicknameButton' in request.POST and forms.is_valid():
-            print(2**100, '\n', forms, '\n', "0" * 100)
             newNickname = forms.cleaned_data['nickname']
-            User_Info.objects.filter(username=username).update(nickname=newNickname)
+            User_Info.objects.filter(
+                username=username).update(nickname=newNickname)
             forms = Info()
         return render(request, 'user/info.html', {'forms': forms})
 

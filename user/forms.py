@@ -99,6 +99,7 @@ class Info(forms.Form):
             }
         ),
     )
+    image = forms.ImageField(required=False)
 
 
 class Verify(forms.Form):
