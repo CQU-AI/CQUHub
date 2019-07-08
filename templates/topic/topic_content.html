@@ -12,14 +12,21 @@
             <h1 class="topic-title">{{ title }}</h1>
             <div class="topic-meta row">
                 <div class="col-xs-2 col-sm-1">
-                    <img class="user-avatar" src="{% static  'image/4.jpg' %}" alt=""/>
+                    {% if ifAnony == '匿名' %}
+                        <img class="user-avatar" src="{% static  'avatar/defaultAvatar.jpg' %}" alt=""/>
+                    {% else %}
+                        <img class="user-avatar" id="panel-avatar"
+                        src="{% static 'avatar/' %}{{ user.avatarID }}" alt="Avatar"/>
+                        <!-- style="width:100px; height:100px; border-radius: 5px;" -->
+                    {% endif %}
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p class="text-muted">
                         {% if ifAnony == '匿名' %}
                             An anonymous CQUer
                         {% else %}
-                            <a href="/u/1/">{{ name }}</a>
+                        <!-- 此处要显示昵称，并且点击昵称跳转到该同学的个人主页 -->
+                            <a href="{% url 'user:infoprofile'  username1=user.username %}">{{ user.nickname }}</a>
                         {% endif %}
                         <br/>
                         <span>发表于{{ time }} 主题：<a class="text-primary" href="/theme/{{ theme_id }}/1/">{{ node }}</a>, </span>
@@ -52,11 +59,14 @@
                 <li class="list-group-item reply-item">
                     <div class="topic-meta row">
                         <div class="col-xs-2 col-sm-1">
-                            <img class="user-avatar" src="{% static 'image/1.jpg' %}" alt="">
+                            <img class="user-avatar" id="panel-avatar"
+                            src="{% static 'avatar/' %}{{ each_comment.user.avatarID }}" alt="Avatar"/>
+                            <!-- style="width:100px; height:100px; border-radius: 5px;" -->
                         </div>
                         <div class="col-xs-9 col-sm-10">
                             <p class="text-muted">
-                                <a href="/u/15/">{{ each_comment.user }}</a> <br>
+                                <!-- 此处要显示昵称，并且点击昵称跳转到该同学的个人主页 -->
+                                <a href="{% url 'user:infoprofile'  username1=user.username %}">{{ user.nickname }}</a>
                                 <span>{{ each_comment.add_time }}</span>
                             </p>
                         </div>
@@ -71,9 +81,9 @@
                     {% if  request.user.is_authenticated %}
                         {% if  request.user == each_comment.user %}
                             <a href="{% url 'operation:deleteComment'  content_id=content_topic.id comment_id=each_comment.id %}">删除</a>
-                        {% endif %}
-                        {% if  request.user == content_topic.user %}
+                        {% elif  request.user == content_topic.user %}
                             <a href="{% url 'operation:deleteComment'  content_id=content_topic.id comment_id=each_comment.id %}">删除</a>
+                        {% else %}
                         {% endif %}
                     {% endif %}
                     <!-- <p class="reply-link"> -->
