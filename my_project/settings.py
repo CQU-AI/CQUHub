@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "user",
     "topic",
     "captcha",
+    'Addon',
 ]
 
 # 验证码
