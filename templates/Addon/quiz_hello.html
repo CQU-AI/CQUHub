@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CQUHub-附加功能-知识竞赛</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static '/CSS/Addon_quiz.css' %}">
+</head>
+
+<body>
+    <h1>知识竞赛</h1>
+    <p></p>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>海洋知识知多少<h2></div>
+        <div class="panel-body">
+            <h3>海洋是地球上最广阔的水体的总称，海洋的中心部分称作洋，边缘部分称作海，彼此沟通组成统一的水体。</h3> 
+            <h3>在浩瀚的宇宙中，地球看上去就像一个蔚蓝色的大水球。地球上海洋的总面积约为3.6亿平方公里，约占地球表面积的71%，平均水深约3795米。海洋中含有十三亿五千多万立方千米的水，约占地球上总水量的97%，而可用于人类饮用只占2%。地球四个主要的大洋为太平洋、大西洋、印度洋、北冰洋，大部分以陆地和海底地形线为界。目前为止，人类已探索的海底只有5%，还有95%是未知的。</h3>
+            <h3>随着世界人口急剧增加，陆地上的资源日渐匮乏，人类和其他生物的生存空间也变得极为有限。此时，广阔的海洋世界再次进入了人类的视野，在蓝色的波涛下，一切都充满了未知，等待着我们去发掘，去探索。让我们关注海洋、了解海洋、利用海洋、保护海洋，使这片深邃的蔚蓝世界为人类文明的不断进步注入源源不断的生命力。</h3>
+    
+            <p></p>
+            <hr></hr>
+            <div class="col-md-8">
+                <form action="quiz" method="POST">
+                    {% csrf_token %}
+                    <h4><input type="submit" class="btn btn-block btn-info" value="开始答题"></h4>
+                </form>
+            </div>
+            <h1></h1>
+    </div>
+</body>
+</html>

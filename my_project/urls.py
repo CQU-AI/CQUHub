@@ -28,4 +28,5 @@ urlpatterns = [
     path("", include("topic.urls")),
     re_path("^captcha/", include("captcha.urls")),
     # path('search/', search, name='search_page'),
+    path('addon/', include('Addon.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

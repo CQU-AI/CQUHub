@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CQUHub-附加功能-知识竞赛</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static '/CSS/Addon_quiz.css' %}">
+</head>
+
+<body>
+    <h1>知识竞赛</h1>
+    <p></p>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>海洋知识知多少<h2></div>
+        <div class="panel-body">
+            <h2 style="color: red; font-size:40px">游戏结束</h2>
+            <h2></h2>
+            <h3>您的答对的题目：{{ questionNum }}道</h3>
+            <h3>您的得分：{{ score }}</h3>
+            
+            <p></p>
+            <hr></hr>
+            <div class="col-md-8">
+                <form action="/Addon/quiz_hello" method="POST">
+                    {% csrf_token %}
+                    <h4><input type="submit" class="btn btn-block btn-info" value="重新开始"></h4>
+                </form>
+            </div>
+            <h1></h1>
+    
+    </div>
+</body>
+</html>

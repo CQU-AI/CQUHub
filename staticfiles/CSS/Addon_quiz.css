@@ -1,0 +1,66 @@
+body {
+    background: url("../image/bg.jpg");
+}
+
+h1
+{
+    color:darkgreen;
+    font-size: 60px;
+    margin-left: 120px;
+    margin-top: 40px;
+    font-family: 'Microsoft YaHei'
+}
+
+h2
+{
+    color:darkblue;
+    font-size: 48px;
+    margin-left:144px;
+    font-family:'STXinwei';
+}
+
+h3
+{
+    color:darkblue;
+    font-size:28px;
+    margin-left:120px;
+    margin-right: 228px;
+    font-family:'STXinwei';
+    text-indent: 2em;
+}
+
+h4
+{
+    color:darkblue;
+    font-size: 80px;
+    margin-left: 110px;
+    font-family: 'Microsoft YaHei';
+}
+
+h5
+{
+    color:darkgreen;
+    font-size: 32px;
+    margin-left:110px;
+    font-family: 'SimHei';
+}
+
+h6
+{
+    color:darkblue;
+    font-size: 36px;
+    margin-left: 120px;
+    font-family: 'Microsoft Yahei'
+}
+
+p
+{
+    margin-left: 100px;
+    margin-top: 10px;
+}
+
+hr
+{
+    color: darkblue;
+    width: 4px;
+}
