@@ -31,7 +31,7 @@
                     <div class="media-left media-middle">
                         <a class="list-avatar-link"
                             href="{% url  'user:infoprofile' username1=topic.user.username %}">
-                            <img class="user-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt=""/>
+                            <img class="user-avatar" src="{% static 'avatar/' %}{{ topic.user.avatarID }}" alt=""/>
                         </a>
                     </div>
                     <div class="media-body media-middle">

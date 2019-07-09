@@ -9,7 +9,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-2 col-sm-1">
-                    <img class="user-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt=""/>
+                    <img class="user-avatar" src="{% static 'avatar/' %}{{ userinfo.avatarID }}" alt=""/>
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p>{{ userinfo.username }}</p>
