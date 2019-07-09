@@ -9,9 +9,8 @@ from user.models import User_Info
 from .models import Create_Topic
 from .forms import PubTopic, Comment_Forms, Postmodify_Forms
 from operation.models import Topic_Comment
-
 import markdown
-
+from itertools import chain
 
 # Create your views here.
 
@@ -22,10 +21,11 @@ class Index_View(View):
     """
 
     def get(self, request, page_id):
-        # topic_list1 = Create_Topic.objects.get(top="置頂").order_by("-pub_time")
-        # topip_list2 = Create_Topic.objects.get(top="不置頂").order_by("-pub_time")
-        # topic_list = topic_list1 + topip_list2
-        topic_list = Create_Topic.objects.all().order_by("-pub_time")
+        topic_list1 = Create_Topic.objects.filter(top="置顶").order_by("-pub_time")
+        topic_list2 = Create_Topic.objects.filter(top="不置顶").order_by("-pub_time")
+        topic_list = list(topic_list1) + list(topic_list2)
+        topic_list = topic_list1 | topic_list2
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         paginator = Paginator(topic_list, 8)
         page_range = paginator.page_range
         page = request.GET.get(page_id)

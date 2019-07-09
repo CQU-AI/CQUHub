@@ -71,12 +71,13 @@
                 </li>
         {% endif %} -->
         {% for topic  in  topics %}
-            <li class="list-group-item topic-entry">
+        {% if topic.top == "置顶"%}
+            <li class="list-group-item topic-entry" style="background-color:lightgray">
                 <div class="entry media">
-                    <!-- 这里点击头像是没有响应的，不知道原来的连接是干啥的 -->
-                    <!-- <div class="media-left media-middle">
-                    <a class="list-avatar-link" href="{% url 'topic:index' %}"><img class="user-avatar" src="{% static  'image/3.jpg' %}"></a>
-                </div> -->
+        {% else %}
+             <li class="list-group-item topic-entry">
+                <div class="entry media">       
+        {% endif %}
                     {% if topic.ifAnony == '匿名' %}
                         <div class="media-left media-middle">
                             <img class="user-avatar" src="{% static  'avatar/defaultAvatar.jpg' %}"></a>
