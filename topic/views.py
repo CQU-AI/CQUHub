@@ -531,9 +531,9 @@ def Go_Search_Page(request,keywords):
                  "pre_id": pre_id},
     )
 class delete_topic(View):
-    def post(self, request, title1):
+    def post(self, request, title1, name):
         Create_Topic.objects.filter(title=title1).delete()
-        return redirect(to="/page/1")
+        return redirect(to="/user/{}/".format(name))
 
 class modifypage(View):
     def get(self, request, content_id):

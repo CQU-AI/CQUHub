@@ -66,8 +66,8 @@
                                 <!-- 去掉了浏览量，为了方便删除 -->
                                 {% ifequal userinfo.username request.user.username  %}
                             
-                                    <form action="/delete/{{ each_user_theme.title }}/" method="post">
-                                {% csrf_token %}                                
+                                    <form action="/delete/{{ each_user_theme.title }}/{{ userinfo.username }}/" method="post">
+                                {% csrf_token %} 
                                         <input type="submit" value="删除" id="del"
                                             style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 36px;height:25px;"/>
                                     </form>
