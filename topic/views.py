@@ -9,9 +9,8 @@ from user.models import User_Info
 from .models import Create_Topic
 from .forms import PubTopic, Comment_Forms, Postmodify_Forms
 from operation.models import Topic_Comment
-
 import markdown
-
+from itertools import chain
 
 # Create your views here.
 
@@ -22,11 +21,16 @@ class Index_View(View):
     """
 
     def get(self, request, page_id):
-        # topic_list1 = Create_Topic.objects.get(top="置頂").order_by("-pub_time")
-        # topip_list2 = Create_Topic.objects.get(top="不置頂").order_by("-pub_time")
-        # topic_list = topic_list1 + topip_list2
-        topic_list = Create_Topic.objects.all().order_by("-pub_time")
-        paginator = Paginator(topic_list, 2)
+        topic_list1 = Create_Topic.objects.filter(top="置顶").order_by("-pub_time")
+        topic_list2 = Create_Topic.objects.filter(top="不置顶").order_by("-pub_time")
+        for i in topic_list1:
+            print(i, "="*100)
+        for i in topic_list2:
+            print(i, "="*100)
+        topic_list = list(topic_list1) + list(topic_list2)
+        # topic_list = topic_list1 | topic_list2
+        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
+        paginator = Paginator(topic_list, 8)
         page_range = paginator.page_range
         page = request.GET.get(page_id)
         pre_id = page_id - 1
@@ -197,7 +201,7 @@ class Topic_Content_View1(View):
         )
 
         comment_list = topic_content.topic_comment_set.all().order_by("-add_time")
-        paginator = Paginator(comment_list, 2)
+        paginator = Paginator(comment_list, 8)
         page_range = paginator.page_range
         page = request.GET.get(page_id)
         pre_id = page_id - 1
@@ -315,7 +319,7 @@ class Theme2_View(View):
 
         pre_id = page_id - 1
         next_id = page_id + 1
-        paginator = Paginator(theme2, 2)
+        paginator = Paginator(theme2, 8)
         page_range = paginator.page_range
         if page_id == 1:
             pre_id = 1
@@ -348,7 +352,7 @@ def Go_Page(request):
     except:
         page_id = int(request.GET.get("cur_page"))
     topic_list = Create_Topic.objects.all().order_by("-pub_time")
-    paginator = Paginator(topic_list, 2)
+    paginator = Paginator(topic_list, 8)
     page_range = paginator.page_range
     max = len(page_range)
     if page_id > max or page_id < 1:
@@ -389,7 +393,7 @@ def Go_theme_Page(request, theme_id):
         page_id = int(request.GET.get("go_theme_page"))
     except:
         page_id = int(request.GET.get("cur_page"))
-    paginator = Paginator(theme2, 2)
+    paginator = Paginator(theme2, 8)
     page_range = paginator.page_range
     max = len(page_range)
     if page_id > max or page_id < 1:
@@ -423,7 +427,7 @@ def Go_theme_Page(request, theme_id):
 
 
 def search1(request,page_id):
-
+    
     nvkeywords = str(request.GET.get("nvkeywords"))
     if nvkeywords != "":
         error_msg = ""
@@ -435,7 +439,7 @@ def search1(request,page_id):
         error_msg = "请输入搜索内容!"
         topic_list = []
 
-    paginator = Paginator(topic_list, 2)
+    paginator = Paginator(topic_list, 8)
     page_range = paginator.page_range
 
     max = len(page_range)
@@ -463,12 +467,12 @@ def search1(request,page_id):
 
 def  search2(request,page_id,keywords):
     
-
+    keywords=str(keywords)
     topic_list = Create_Topic.objects.filter(title__icontains=keywords)
         # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         # print(len(post_list))
 
-    paginator = Paginator(topic_list, 2)
+    paginator = Paginator(topic_list, 8)
     page_range = paginator.page_range
 
     max = len(page_range)
@@ -495,18 +499,20 @@ def  search2(request,page_id,keywords):
                  "next_id": next_id,
                  "pre_id": pre_id},
     )
-def Go_Search_Page(request,keywords):
+def Go_Search_Page(request):
 
-    # print("8888888888888888888888888888888888888888")
-    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    
+    keywords = str(request.GET.get("keywords"))
     try:
-        page_id = int(request.GET.get("go_page"))
+        page_id = int(request.GET.get("go_search_page"))
     except:
         page_id = int(request.GET.get("cur_page")) 
-    paginator = Paginator(topic_list, 2)
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    print(page_id)
+    paginator = Paginator(topic_list, 8)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
@@ -531,9 +537,9 @@ def Go_Search_Page(request,keywords):
                  "pre_id": pre_id},
     )
 class delete_topic(View):
-    def post(self, request, title1):
+    def post(self, request, title1, name):
         Create_Topic.objects.filter(title=title1).delete()
-        return redirect(to="/page/1")
+        return redirect(to="/user/{}/".format(name))
 
 class modifypage(View):
     def get(self, request, content_id):
@@ -597,7 +603,7 @@ class Go_Comment_Page(View):
         except:
             page_id = int(request.GET.get("cur_comment_page"))
         comment_list = topic_content.topic_comment_set.all().order_by("-add_time")
-        paginator = Paginator(comment_list, 2)
+        paginator = Paginator(comment_list, 8)
         page_range = paginator.page_range
         max = len(page_range)
         if page_id >max:

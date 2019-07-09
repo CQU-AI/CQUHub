@@ -9,7 +9,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-2 col-sm-1">
-                    <img class="user-avatar" src="{% static 'avatar/' %}{{ request.user.avatarID }}" alt=""/>
+                    <img class="user-avatar" src="{% static 'avatar/' %}{{ userinfo.avatarID }}" alt=""/>
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p>{{ userinfo.username }}</p>
@@ -66,8 +66,8 @@
                                 <!-- 去掉了浏览量，为了方便删除 -->
                                 {% ifequal userinfo.username request.user.username  %}
                             
-                                    <form action="/delete/{{ each_user_theme.title }}/" method="post">
-                                {% csrf_token %}                                
+                                    <form action="/delete/{{ each_user_theme.title }}/{{ userinfo.username }}/" method="post">
+                                {% csrf_token %} 
                                         <input type="submit" value="删除" id="del"
                                             style="background-color:red; color:floralwhite; border: slategray; border-radius: 30%;font-size: 12px;width: 36px;height:25px;"/>
                                     </form>
