@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CQUHub-附加功能-知识竞赛</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static  'bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static '/CSS/Addon_quiz.css' %}">
+    <script src="{% static 'scripts/Addon/Quiz201907091011.js' %}"></script>
+</head>
+
+<body onload="timer()">
+    <h1>知识竞赛</h1>
+    <h1></h1>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>海洋知识知多少<h2></div>
+        <div class="panel-body">
+            {% if isCorrect %}
+                {% ifequal isCorrect "True" %}
+                    <h6 style="color: green; font-size: 28px">上一题结果：回答正确！</h6>
+                {% else %}
+                    {% if lastCorrectAns %}
+                        <h6 style="color: red; font-size: 28px">上一题结果：回答错误！   正确答案：{{ lastCorrectAns }}</h6>
+                    {% endif %}
+                {% endifequal %}
+            {% endif %}
+            <h3></h3>
+
+            <h6><input type="text" style="border-style: none" name="questionNum" value="第{{ questionNum }}题："></h6>
+            <h3>{{ question }}</h3>
+            <p></p>
+            <hr></hr>
+
+            <form action="quiz/{{ rightAns }}/A/{{ timeLeft }}" method="POST">
+                {% csrf_token %}
+                <div class="col-md-10">
+                    <h4><input type="submit" class="btn btn-block btn-info" value="A. {{ optionA }}"></h4>
+                </div>
+                <p></p>
+            </form>
+
+            <form action="quiz/{{ rightAns }}/B/{{ timeLeft }}" method="POST">
+                {% csrf_token %}
+                <div class="col-md-10">
+                    <h4><input type="submit" class="btn btn-block btn-info" value="B. {{ optionB }}"></h4>
+                </div>
+                <p></p>
+            </form>
+
+            <form action="quiz/{{ rightAns }}/C/{{ timeLeft }}" method="POST">
+                {% csrf_token %}
+                <div class="col-md-10">
+                    <h4><input type="submit" class="btn btn-block btn-info" value="C. {{ optionC }}"></h4>
+                </div>
+                <p></p>
+            </form>
+
+            <form action="quiz/{{ rightAns }}/D/{{ timeLeft }}" method="POST">
+                {% csrf_token %}
+                <div class="col-md-10">
+                    <h4><input type="submit" class="btn btn-block btn-info" value="D. {{ optionD }}"></h4>
+                </div>
+                <p></p>
+            </form>
+        </div>
+        {% if score %}
+            <h5>当前得分：<input type="text" style="border-style: none" name="score" value="{{ score }}"></h5>
+        {% else %}
+            <h5>当前得分：<input type="text" style="border-style: none" name="score" value="0"></h5>
+        {% endif %}
+
+        {% if timeLeft %}
+            <h5>剩余时间：<input type="text" style="border-style: none" name="timeLeft" value="{{ timeLeft }}"></h5>
+        {% else %}
+            <h5>剩余时间：<input type="text" style="border-style: none" name="timeLeft" value="20"></h5>
+        {% endif %}
+        <h1></h1>
+    </div>
+</body>
+</html>
