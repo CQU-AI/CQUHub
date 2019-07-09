@@ -1,6 +1,6 @@
 {% extends  'nav_base.html' %}
 {% block  left_content %}
-    {% load static %}
+{% load static %}
     <div class="panel panel-default">
         <div class="panel-body">
             {% if  message %}
@@ -34,16 +34,18 @@
                 </div>
 
                 <div>
-                    <label>头像</label>
-                    <input type="file" name="avatar">
+                    <label>头像:</label><br>
+                    <img id="avatar-preview" src="{% static 'avatar/defaultAvatar.jpg' %}" style="width: 100px; height:100px;border-radius: 50px;margin-bottom: 10px; margin-top: 10px;">
+                    <input type="file" name="avatar" id ="avatar-slot">
                 </div>
 
                 <div class="form-group">
+                    <br>
                     <label>为防止你是机器人，请输入验证码</label>
                     <br>
                     {{ forms.captcha }}
                 </div>
-
+                <br>
                 <button type="submit" class="btn btn-default">提交</button>
 
             </form>
@@ -65,6 +67,38 @@
                 });
             })
         </script>
-        <script src="{% static 'jquery-2.2.4.min.js' %}"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#avatar-slot').change(function () {
+                    // 封装图片信息
+                    formData = new FormData()
+                    fileInfo = $('#avatar-slot')[0].files[0]
+                    formData.append('file', fileInfo)
+                    // 发送ajax请求
+                    $.ajax({
+                        async: true,
+                        url: '/user/ajax/preview',
+                        type: 'post',
+                        headers: { "X-CSRFToken": $.cookie('csrftoken') },
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data != '不是图片') {
+                                // 回显图片
+                                console.log(data)
+                                $("#avatar-preview").attr('src', data);
+                                // 获取文件名
+                                // pname = data.split('/')[3];
+                                // 将文件名设置到隐藏域中，跟表单一起提交
+                                // $('#imgname').val(pname);
+                            }
+                        }
+
+                    });
+                });
+            });
+        </script>
     </div>
 {% endblock %}

@@ -348,3 +348,26 @@ def upload(request):
                 f.write(line)
         return HttpResponse("ok")
     return redirect(to="user:register")
+
+
+def avatarPreview(request):
+    obj = request.FILES.get('file', None)
+    allowedTypes = ['.jpg', '.png', '.gif', '.jpeg', '.bmp']
+    fileType = os.path.splitext(obj.name)[1]
+    if fileType in allowedTypes:
+        uploadDirPath = os.path.join(os.getcwd(), 'media/avatar-cache/')
+        print('\n' * 10, uploadDirPath, '\n' * 10)
+        if not os.path.exists(uploadDirPath):
+            os.mkdir(uploadDirPath)
+        newName = str(uuid.uuid4()) + fileType
+        fileFullPath = uploadDirPath + os.sep + newName
+        print('\n' * 10, fileFullPath, '\n' * 10)
+        with open(fileFullPath, 'wb+') as fp:
+            for chunk in obj.chunks():
+                fp.write(chunk)
+        # picurl = '/staticfiles/avatar/defaultAvatar.jpg'
+        picurl = '/media/avatar-cache/' + newName
+        print('\n' * 10, picurl, '\n' * 10)
+        return HttpResponse(picurl)
+    else:
+        return HttpResponse('WTF??')

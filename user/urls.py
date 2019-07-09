@@ -14,6 +14,7 @@ from .views import (
     Go_info_page,
     Info_View,
     Verify_View,
+    avatarPreview,
 )
 
 app_name = "user"
@@ -23,6 +24,7 @@ urlpatterns = [
     path("info/<str:username>", Info_View.as_view(), name="info"),
     path("logout/", logout_view, name="logout"),
     path("verify/", Verify_View.as_view(), name="verify"),
+    path("ajax/preview", avatarPreview, name = "preview"),
     path("info/go/<str:username1>/", Go_info_page, name="info_Pagego"),
     path("reply/<str:username1>/", Info_Reply.as_view(), name="inforeply"),
     url(r"^upload", upload),
