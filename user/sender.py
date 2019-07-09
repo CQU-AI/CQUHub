@@ -2,7 +2,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
 import time, random
-from my_project.settings import DEBUG，MAIL_PSW
+from my_project.settings import DEBUG, MAIL_PSW
 
 sender_cache = {}
 

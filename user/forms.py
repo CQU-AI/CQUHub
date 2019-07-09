@@ -89,7 +89,7 @@ class Info(forms.Form):
     nickname = forms.CharField(
         required=False,
         max_length=10,
-        min_length=1,
+        min_length=5,
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
@@ -112,3 +112,12 @@ class Verify(forms.Form):
             }
         )
     )
+
+
+class Password(forms.Form):
+    oldpassword = forms.CharField(label='密码', required=True, min_length=6, widget=forms.PasswordInput(
+        attrs={"class": "form-control", "id": "password", "name": "password", "placeholder": "请输入原密码"}))
+    newpassword = forms.CharField(required=True, max_length=20, min_length=6,
+        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "password1", "placeholder": "请输入您的新密码"}))
+    passwordConfirm = forms.CharField(required=True, max_length=20, min_length=6,
+        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "password2", "placeholder": "请再次输入您的密码"}))

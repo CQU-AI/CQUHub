@@ -11,9 +11,10 @@ from django.contrib.auth.hashers import make_password  # 对数据库进行加�
 from topic.models import Create_Topic
 from operation.models import Topic_Comment
 from .models import User_Info
-from .forms import Login, Register, Info, Verify
+from .forms import Login, Register, Info, Verify, Password
 
 from .sender import Sender
+
 
 # Create your views here.
 
@@ -31,15 +32,19 @@ class Login_View(View):
             user_name = forms.cleaned_data["username"]
             pass_word = forms.cleaned_data["password"]
             user = authenticate(username=user_name, password=pass_word)
-            if user is not None:
+            if user is not None and user.isActivated:
                 login(request, user)
                 return redirect(to="topic:index")
             else:
+                message = "您输入的学号或者密码验证有误"
+                if not user.isActivated:
+                    message = "你是个骗子，你自己干了什么你知道！请你重新注册！！！"
+                    User_Info.objects.filter(username=user.username).delete()
                 forms = Login()
                 return render(
                     request,
                     "user/login.html",
-                    {"login": forms, "messsge": "您输入的学号或者密码验证有误"},
+                    {"login": forms, "messsge": message},
                 )
         else:
             forms = Login()
@@ -72,13 +77,14 @@ class Verify_View(View):
             result = sender.validate_code(code)
             # print(result)
             if result:
+                user.isActivated = True
                 user.save()
                 login(request, user)
                 return redirect(to="topic:index")
             else:
                 forms = Verify()
                 message = "验证码错误"
-                return render(request, "user/verify.html", {"forms":forms, "message": message})
+                return render(request, "user/verify.html", {"forms": forms, "message": message})
         else:
             raise Http404("Unexpected Error")
 
@@ -87,6 +93,7 @@ class Info_View(View):
     def get(self, request, username):
         forms = Info()
         return render(request, 'user/info.html', {'forms': forms})
+
     def post(self, request, username):
         avatar = request.FILES.get('avatar', None)
         forms = Info(request.POST)
@@ -97,7 +104,7 @@ class Info_View(View):
                 os.getcwd(), 'staticfiles/avatar')
             if user.avatarID != 'defaultAvatar.jpg':
                 os.remove(str(uploadDirPath) + os.sep + str(user.avatarID))
-            print("2"*100, user.avatarID, "2"*100)
+            print("2" * 100, user.avatarID, "2" * 100)
             fileType = os.path.splitext(avatar.name)[1]
             if not os.path.exists(uploadDirPath):
                 os.mkdir(uploadDirPath)
@@ -112,12 +119,13 @@ class Info_View(View):
                     fp.write(chunk)
             User_Info.objects.filter(
                 username=username).update(avatarID=newName)
-            print("0"*100, User_Info.avatarID, "0"*100)
+            print("0" * 100, User_Info.avatarID, "0" * 100)
         if 'nicknameButton' in request.POST and forms.is_valid():
-            newNickname = forms.cleaned_data['nickname']
-            User_Info.objects.filter(
-                username=username).update(nickname=newNickname)
-            forms = Info()
+            if len(forms.cleaned_data['nickname']) > 3:
+                newNickname = forms.cleaned_data['nickname']
+                User_Info.objects.filter(
+                    username=username).update(nickname=newNickname)
+        forms = Info()
         return render(request, 'user/info.html', {'forms': forms})
 
 
@@ -208,12 +216,12 @@ class Info_Profile(View):
         #     '6': '文学交流',
         #     '7': '论坛公告'
         # }
-        #ss = Create_Topic.objects.get(user = userinfo)
-        if username1==request.user.username:
+        # ss = Create_Topic.objects.get(user = userinfo)
+        if username1 == request.user.username:
             user_theme = userinfo.create_topic_set.all()
         else:
             user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
-        
+
         user_reply = userinfo.topic_comment_set.all()
         paginator = Paginator(user_theme, 8)
         page_range = paginator.page_range
@@ -247,7 +255,7 @@ class Info_Profile(View):
 
 def Info_page(request, username1, page_id):
     userinfo = User_Info.objects.get(username=username1)
-    if username1==request.user.username:
+    if username1 == request.user.username:
         user_theme = userinfo.create_topic_set.all()
     else:
         user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
@@ -378,3 +386,29 @@ def avatarPreview(request):
         return HttpResponse(picurl)
     else:
         return HttpResponse('WTF??')
+
+
+class Password_View(View):
+    def get(self, request, username):
+        forms = Password()
+        return render(request, 'user/password.html', {'forms': forms})
+
+    def post(self, request, username):
+        forms = Password(request.POST)
+        if forms.is_valid():
+            oldpassword = forms.cleaned_data["oldpassword"]
+            newpassword = forms.cleaned_data["newpassword"]
+            passwordConfirm = forms.cleaned_data["passwordConfirm"]
+            user = authenticate(username=username, password=oldpassword)
+            if user is not None:
+                if newpassword != passwordConfirm:
+                    return render(request, 'user/password.html', {'message': '您两次输入的密码不相同', 'forms': forms})
+                else:
+                    user1 = request.user
+                    user1.password = make_password(newpassword)
+                    user1.save()
+                    return render(request, 'user/password.html', {'message': '修改成功', 'forms': forms})
+            else:
+                return render(request, 'user/password.html', {'message': '原密码输入错误', 'forms': forms})
+        else:
+            return render(request, 'user/password.html')

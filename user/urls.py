@@ -15,6 +15,7 @@ from .views import (
     Info_View,
     Verify_View,
     avatarPreview,
+    Password_View,
 )
 
 app_name = "user"
@@ -22,6 +23,7 @@ urlpatterns = [
     path("login/", Login_View.as_view(), name="login"),
     path("register/", Register_View.as_view(), name="register"),
     path("info/<str:username>", Info_View.as_view(), name="info"),
+    path('update_pwd/<str:username>', Password_View.as_view(), name='update_pwd'),
     path("logout/", logout_view, name="logout"),
     path("verify/", Verify_View.as_view(), name="verify"),
     path("ajax/preview", avatarPreview, name = "preview"),

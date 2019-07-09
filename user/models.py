@@ -9,6 +9,7 @@ class User_Info(AbstractUser):
     nickname = models.CharField(max_length=20, verbose_name="昵称", default="")
     studentID = models.CharField(max_length=20, verbose_name="学号", default="")
     avatarID = models.CharField(max_length=50, default="defaultAvatar.jpg")
+    isActivated = models.BooleanField(default=False, verbose_name="是否验证过邮箱")
 
     class Meta:
         verbose_name = "用户信息"
