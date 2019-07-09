@@ -423,7 +423,7 @@ def Go_theme_Page(request, theme_id):
 
 
 def search1(request,page_id):
-
+    
     nvkeywords = str(request.GET.get("nvkeywords"))
     if nvkeywords != "":
         error_msg = ""
@@ -463,7 +463,7 @@ def search1(request,page_id):
 
 def  search2(request,page_id,keywords):
     
-
+    keywords=str(keywords)
     topic_list = Create_Topic.objects.filter(title__icontains=keywords)
         # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         # print(len(post_list))
@@ -495,18 +495,20 @@ def  search2(request,page_id,keywords):
                  "next_id": next_id,
                  "pre_id": pre_id},
     )
-def Go_Search_Page(request,keywords):
+def Go_Search_Page(request):
 
-    # print("8888888888888888888888888888888888888888")
-    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    
+    keywords = str(request.GET.get("keywords"))
     try:
-        page_id = int(request.GET.get("go_page"))
+        page_id = int(request.GET.get("go_search_page"))
     except:
         page_id = int(request.GET.get("cur_page")) 
+    topic_list = Create_Topic.objects.filter(title__icontains=keywords)
+    print(page_id)
     paginator = Paginator(topic_list, 2)
     page_range = paginator.page_range
     max = len(page_range)
-    if page_id > max:
+    if page_id > max or page_id < 1:
         page_id = int(request.GET.get("cur_page"))
     pre_id = page_id - 1
     next_id = page_id + 1
