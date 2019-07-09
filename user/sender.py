@@ -2,7 +2,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
 import time, random
-from my_project.settings import DEBUG
+from my_project.settings import DEBUG，MAIL_PSW
 
 sender_cache = {}
 
@@ -46,7 +46,7 @@ class Sender:
             print("*" * 79 + "\n" + str(self.generate_token()) + "\n" + "*" * 79)
             return
         host_server = "smtp.exmail.qq.com"
-        pwd = "Djangosucks123"
+        pwd = MAIL_PSW
         sender_mail = "cquhub-no-reply@mail.loopy.tech"
         receiver = "{}@cqu.edu.cn".format(self.student_id)
         mail_title = "CQU Hub的注册验证"
