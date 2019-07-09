@@ -215,7 +215,7 @@ class Info_Profile(View):
             user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
         
         user_reply = userinfo.topic_comment_set.all()
-        paginator = Paginator(user_theme, 2)
+        paginator = Paginator(user_theme, 8)
         page_range = paginator.page_range
         pre_id = page_id - 1
         next_id = page_id + 1
@@ -252,7 +252,7 @@ def Info_page(request, username1, page_id):
     else:
         user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
     user_reply = userinfo.topic_comment_set.all()
-    paginator = Paginator(user_theme, 2)
+    paginator = Paginator(user_theme, 8)
     page_range = paginator.page_range
     pre_id = page_id - 1
     next_id = page_id + 1
@@ -290,7 +290,7 @@ def Go_info_page(request, username1):
         page_id = int(request.GET.get("go_info"))
     except:
         page_id = int("cur_page")
-    paginator = Paginator(user_theme, 2)
+    paginator = Paginator(user_theme, 8)
     page_range = paginator.page_range
     max = len(page_range)
     if page_id > max or page_id < 1:
