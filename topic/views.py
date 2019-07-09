@@ -23,8 +23,12 @@ class Index_View(View):
     def get(self, request, page_id):
         topic_list1 = Create_Topic.objects.filter(top="置顶").order_by("-pub_time")
         topic_list2 = Create_Topic.objects.filter(top="不置顶").order_by("-pub_time")
+        for i in topic_list1:
+            print(i, "="*100)
+        for i in topic_list2:
+            print(i, "="*100)
         topic_list = list(topic_list1) + list(topic_list2)
-        topic_list = topic_list1 | topic_list2
+        # topic_list = topic_list1 | topic_list2
         # topic_list = Create_Topic.objects.all().order_by("-pub_time")
         paginator = Paginator(topic_list, 8)
         page_range = paginator.page_range
