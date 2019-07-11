@@ -103,6 +103,15 @@ class Info(forms.Form):
 
 
 class Verify(forms.Form):
+    inviteCode = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "type": "text",
+                "placeholder": "请输入内测邀请码",
+            }
+        )
+    )
     veriCode = forms.CharField(
         required=True,
         widget=forms.TextInput(

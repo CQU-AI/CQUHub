@@ -15,6 +15,8 @@ from .forms import Login, Register, Info, Verify, Password
 
 from .sender import Sender
 
+from my_project.settings import INVITECODE
+
 
 # Create your views here.
 
@@ -58,7 +60,7 @@ class Verify_View(View):
             raise Http404("You do not have the access to this page")
         if request.session.get("is sent", None) == None:
             sender = Sender(username)
-            # print("get: ", self.sender.student_id)
+            # print("get: ", sender.student_id)
             sender.send_verify_mail()
             request.session['is sent'] = "True"
         forms = Verify()
@@ -71,12 +73,13 @@ class Verify_View(View):
         forms = Verify(request.POST)
         if forms.is_valid():
             code = forms.cleaned_data['veriCode']
+            inviteCode = forms.cleaned_data['inviteCode']
             sender = Sender(username)
-            # print("post: ", self.sender.student_id)
+            # print("post: ", sender.student_id)
             # print("user input:", code)
             result = sender.validate_code(code)
             # print(result)
-            if result:
+            if result and inviteCode == INVITECODE:
                 user.isActivated = True
                 user.save()
                 login(request, user)
