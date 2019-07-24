@@ -18,3 +18,23 @@
 1. 修改`user\sender.py`中的`        sender_mail`,`receiver`,`mail_title`,`  mail_content`等验证邮件的相关配置，并将邮箱密码写入`my_project\settings.py`中的`MAIL_PSW`．
 1. 修改`my_project\settings.py`中的`SECRET_KEY`,`MAIL_PSW`,`ALLOWED_HOSTS`,并将`DEBUG`置为False．
 1. 根据服务器具体情况，参考`.\go`中的指令来启动网站
+
+## 贡献者
+- [0xSeanll](https://github.com/0xSeanll)
+- [1hunter0](https://github.com/1hunter0)
+- [Micheal-Hu](https://github.com/Micheal-Hu)
+- [Musenming](https://github.com/Musenming)
+- [Starfish666](https://github.com/Starfish666)
+- [hzj]()
+- [iiint](https://github.com/iiint)
+- [jbw]()
+- [loopyme](https://github.com/loopyme)
+- [reBiocoder](https://github.com/reBiocoder)
+- [tanrenxuan](https://github.com/tanrenxuan)
+- [zl]()
+- [zrb1234](https://github.com/zrb1234)
+
+需要特别指出的是: **排名不分先后**，部分贡献者没有Github贡献记录或帐号(已在commit message中指出)，其中reBiocoder大佬在本项目开发前期完成了大量的工作，后期loopyme，0xSeanll，1hunter0，iiint分别对项目整体,用户,删发帖,帖子的组织相关功能负责．
+
+## 协议
+本项目开源遵循[MIT](https://github.com/loopyme/CQUHub/blob/master/LICENSE)协议，欢迎fork或提issue
