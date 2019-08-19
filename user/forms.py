@@ -105,19 +105,45 @@ class Info(forms.Form):
 class Verify(forms.Form):
     veriCode = forms.CharField(
         required=True,
-        widget=forms.TextInput(
-            attrs={
-                "type": "text",
-                "placeholder": "请输入邮箱验证码",
-            }
-        )
+        widget=forms.TextInput(attrs={"type": "text", "placeholder": "请输入邮箱验证码"}),
     )
 
 
 class Password(forms.Form):
-    oldpassword = forms.CharField(label='密码', required=True, min_length=6, widget=forms.PasswordInput(
-        attrs={"class": "form-control", "id": "password", "name": "password", "placeholder": "请输入原密码"}))
-    newpassword = forms.CharField(required=True, max_length=20, min_length=6,
-        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "password1", "placeholder": "请输入您的新密码"}))
-    passwordConfirm = forms.CharField(required=True, max_length=20, min_length=6,
-        widget=forms.PasswordInput(attrs={"class": "form-control", "id": "password2", "placeholder": "请再次输入您的密码"}))
+    oldpassword = forms.CharField(
+        label="密码",
+        required=True,
+        min_length=6,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "id": "password",
+                "name": "password",
+                "placeholder": "请输入原密码",
+            }
+        ),
+    )
+    newpassword = forms.CharField(
+        required=True,
+        max_length=20,
+        min_length=6,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "id": "password1",
+                "placeholder": "请输入您的新密码",
+            }
+        ),
+    )
+    passwordConfirm = forms.CharField(
+        required=True,
+        max_length=20,
+        min_length=6,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "id": "password2",
+                "placeholder": "请再次输入您的密码",
+            }
+        ),
+    )

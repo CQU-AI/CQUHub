@@ -24,9 +24,9 @@ class Index_View(View):
         topic_list1 = Create_Topic.objects.filter(top="置顶").order_by("-pub_time")
         topic_list2 = Create_Topic.objects.filter(top="不置顶").order_by("-pub_time")
         for i in topic_list1:
-            print(i, "="*100)
+            print(i, "=" * 100)
         for i in topic_list2:
-            print(i, "="*100)
+            print(i, "=" * 100)
         topic_list = list(topic_list1) + list(topic_list2)
         # topic_list = topic_list1 | topic_list2
         # topic_list = Create_Topic.objects.all().order_by("-pub_time")
@@ -98,6 +98,7 @@ class PubTopic_View(View):
                 {"forms": forms, "message": "输入的数据无法通过检查，请重新输入"},
             )
 
+
 class Topic_Content_View(View):
     """
     文章详细内容展示
@@ -159,13 +160,9 @@ class Topic_Content_View(View):
                 "comment": comment,
                 "len_comment": len_comment,
                 "theme_id": theme_id,
-                "nickname":nickname
+                "nickname": nickname,
             },
         )
-
-
-
-
 
 
 class Topic_Content_View1(View):
@@ -216,7 +213,7 @@ class Topic_Content_View1(View):
         except PageNotAnInteger:
             comment = paginator.page(1)
         except EmptyPage:
-           comment = []
+            comment = []
         len_comment = len(comment_list)
         for each_comment in comment:
             markdown_comment = markdown.markdown(
@@ -244,7 +241,7 @@ class Topic_Content_View1(View):
                 "comment": comment,
                 "len_comment": len_comment,
                 "theme_id": theme_id,
-                "content_id":content_id,
+                "content_id": content_id,
                 "page_id": page_id,
                 "next_id": next_id,
                 "pre_id": pre_id,
@@ -299,7 +296,9 @@ class Theme1_View(View):
         node_id = reservedict[str(theme_id)]
         themes = Create_Topic.objects.filter(node=node_id)
         return render(
-            request, "topic_base.html", {"theme": themes, "theme_id": theme_id, "node_id": node_id}
+            request,
+            "topic_base.html",
+            {"theme": themes, "theme_id": theme_id, "node_id": node_id},
         )
 
 
@@ -336,7 +335,7 @@ class Theme2_View(View):
             request,
             "topic_base.html",
             {
-                "node_id":node_id,
+                "node_id": node_id,
                 "theme": themes,
                 "theme_id": (theme_id),
                 "page_id": page_id,
@@ -373,7 +372,7 @@ def Go_Page(request):
     return render(
         request,
         "topic/base.html",
-         {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id},
+        {"topics": topics, "page_id": page_id, "next_id": next_id, "pre_id": pre_id},
     )
 
 
@@ -424,10 +423,8 @@ def Go_theme_Page(request, theme_id):
     )
 
 
+def search1(request, page_id):
 
-
-def search1(request,page_id):
-    
     nvkeywords = str(request.GET.get("nvkeywords"))
     if nvkeywords != "":
         error_msg = ""
@@ -458,19 +455,27 @@ def search1(request,page_id):
         topic_list = paginator.page(1)
     except EmptyPage:
         topic_list = []
-    
+
     return render(
-        request, "search_base.html", {"error_msg": error_msg,"keywords":nvkeywords, "topic_list": topic_list,"page_id": page_id,
-                "next_id": next_id,
-                "pre_id": pre_id},
+        request,
+        "search_base.html",
+        {
+            "error_msg": error_msg,
+            "keywords": nvkeywords,
+            "topic_list": topic_list,
+            "page_id": page_id,
+            "next_id": next_id,
+            "pre_id": pre_id,
+        },
     )
 
-def  search2(request,page_id,keywords):
-    
-    keywords=str(keywords)
+
+def search2(request, page_id, keywords):
+
+    keywords = str(keywords)
     topic_list = Create_Topic.objects.filter(title__icontains=keywords)
-        # topic_list = Create_Topic.objects.all().order_by("-pub_time")
-        # print(len(post_list))
+    # topic_list = Create_Topic.objects.all().order_by("-pub_time")
+    # print(len(post_list))
 
     paginator = Paginator(topic_list, 8)
     page_range = paginator.page_range
@@ -492,21 +497,25 @@ def  search2(request,page_id,keywords):
     except EmptyPage:
         topic_list = []
     return render(
-        request, "search_base.html", 
-                {"keywords":keywords,
-                 "topic_list": topic_list,
-                 "page_id": page_id,
-                 "next_id": next_id,
-                 "pre_id": pre_id},
+        request,
+        "search_base.html",
+        {
+            "keywords": keywords,
+            "topic_list": topic_list,
+            "page_id": page_id,
+            "next_id": next_id,
+            "pre_id": pre_id,
+        },
     )
+
+
 def Go_Search_Page(request):
 
-    
     keywords = str(request.GET.get("keywords"))
     try:
         page_id = int(request.GET.get("go_search_page"))
     except:
-        page_id = int(request.GET.get("cur_page")) 
+        page_id = int(request.GET.get("cur_page"))
     topic_list = Create_Topic.objects.filter(title__icontains=keywords)
     print(page_id)
     paginator = Paginator(topic_list, 8)
@@ -527,19 +536,25 @@ def Go_Search_Page(request):
         topic_list = paginator.page(1)
     except EmptyPage:
         topic_list = []
-   
+
     return render(
-        request, "search_base.html", 
-                {"keywords":keywords,
-                 "topic_list": topic_list,
-                 "page_id": page_id,
-                 "next_id": next_id,
-                 "pre_id": pre_id},
+        request,
+        "search_base.html",
+        {
+            "keywords": keywords,
+            "topic_list": topic_list,
+            "page_id": page_id,
+            "next_id": next_id,
+            "pre_id": pre_id,
+        },
     )
+
+
 class delete_topic(View):
     def post(self, request, title1, name):
         Create_Topic.objects.filter(title=title1).delete()
         return redirect(to="/user/{}/".format(name))
+
 
 class modifypage(View):
     def get(self, request, content_id):
@@ -549,11 +564,12 @@ class modifypage(View):
         return render(
             request,
             "topic/topic_modify.html",
-            {"content_id_aaa": content_id, "forms":forms},
+            {"content_id_aaa": content_id, "forms": forms},
         )
 
+
 class topicmodify(View):
-    def post(self, request,content_id):
+    def post(self, request, content_id):
         forms = Postmodify_Forms(request.POST)
 
         if forms.is_valid():
@@ -569,9 +585,9 @@ class topicmodify(View):
                 {"forms": forms, "message": "输入的数据无法通过检查，请重新输入"},
             )
 
-class Go_Comment_Page(View):
 
-     def get(self, request, content_id):
+class Go_Comment_Page(View):
+    def get(self, request, content_id):
         forms = Comment_Forms()
         topic_content = Create_Topic.objects.get(id=content_id)
         time = topic_content.pub_time
@@ -606,7 +622,7 @@ class Go_Comment_Page(View):
         paginator = Paginator(comment_list, 8)
         page_range = paginator.page_range
         max = len(page_range)
-        if page_id >max:
+        if page_id > max:
             page_id = int(request.GET.get("cur_comment_page"))
         pre_id = page_id - 1
         next_id = page_id + 1
@@ -651,6 +667,6 @@ class Go_Comment_Page(View):
                 "page_id": page_id,
                 "next_id": next_id,
                 "pre_id": pre_id,
-                "content_id":content_id,
+                "content_id": content_id,
             },
         )

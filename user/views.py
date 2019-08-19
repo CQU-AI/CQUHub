@@ -42,13 +42,13 @@ class Login_View(View):
                     User_Info.objects.filter(username=user.username).delete()
                 forms = Login()
                 return render(
-                    request,
-                    "user/login.html",
-                    {"login": forms, "messsge": message},
+                    request, "user/login.html", {"login": forms, "messsge": message}
                 )
         else:
             forms = Login()
-            return render(request, 'user/login.html', {'login': forms, 'message': '您输入的信息不全'})
+            return render(
+                request, "user/login.html", {"login": forms, "message": "您输入的信息不全"}
+            )
 
 
 class Verify_View(View):
@@ -60,7 +60,7 @@ class Verify_View(View):
             sender = Sender(username)
             # print("get: ", self.sender.student_id)
             sender.send_verify_mail()
-            request.session['is sent'] = "True"
+            request.session["is sent"] = "True"
         forms = Verify()
         return render(request, "user/verify.html", {"forms": forms})
 
@@ -70,7 +70,7 @@ class Verify_View(View):
         User_Info.objects.filter(username=username).delete()
         forms = Verify(request.POST)
         if forms.is_valid():
-            code = forms.cleaned_data['veriCode']
+            code = forms.cleaned_data["veriCode"]
             sender = Sender(username)
             # print("post: ", self.sender.student_id)
             # print("user input:", code)
@@ -84,7 +84,9 @@ class Verify_View(View):
             else:
                 forms = Verify()
                 message = "验证码错误"
-                return render(request, "user/verify.html", {"forms": forms, "message": message})
+                return render(
+                    request, "user/verify.html", {"forms": forms, "message": message}
+                )
         else:
             raise Http404("Unexpected Error")
 
@@ -92,17 +94,16 @@ class Verify_View(View):
 class Info_View(View):
     def get(self, request, username):
         forms = Info()
-        return render(request, 'user/info.html', {'forms': forms})
+        return render(request, "user/info.html", {"forms": forms})
 
     def post(self, request, username):
-        avatar = request.FILES.get('avatar', None)
+        avatar = request.FILES.get("avatar", None)
         forms = Info(request.POST)
         user = User_Info.objects.get(username=username)
         if avatar != None:
             # 获取上传文件的扩展名
-            uploadDirPath = os.path.join(
-                os.getcwd(), 'staticfiles/avatar')
-            if user.avatarID != 'defaultAvatar.jpg':
+            uploadDirPath = os.path.join(os.getcwd(), "staticfiles/avatar")
+            if user.avatarID != "defaultAvatar.jpg":
                 os.remove(str(uploadDirPath) + os.sep + str(user.avatarID))
             print("2" * 100, user.avatarID, "2" * 100)
             fileType = os.path.splitext(avatar.name)[1]
@@ -114,30 +115,28 @@ class Info_View(View):
             # 拼接要上传的文件在服务器上的全路径
             fileFullPath = uploadDirPath + os.sep + newName
             # 上传文件
-            with open(fileFullPath, 'wb+') as fp:
+            with open(fileFullPath, "wb+") as fp:
                 for chunk in avatar.chunks():
                     fp.write(chunk)
-            User_Info.objects.filter(
-                username=username).update(avatarID=newName)
+            User_Info.objects.filter(username=username).update(avatarID=newName)
             print("0" * 100, User_Info.avatarID, "0" * 100)
-        if 'nicknameButton' in request.POST and forms.is_valid():
-            if len(forms.cleaned_data['nickname']) > 3:
-                newNickname = forms.cleaned_data['nickname']
-                User_Info.objects.filter(
-                    username=username).update(nickname=newNickname)
+        if "nicknameButton" in request.POST and forms.is_valid():
+            if len(forms.cleaned_data["nickname"]) > 3:
+                newNickname = forms.cleaned_data["nickname"]
+                User_Info.objects.filter(username=username).update(nickname=newNickname)
         forms = Info()
-        return render(request, 'user/info.html', {'forms': forms})
+        return render(request, "user/info.html", {"forms": forms})
 
 
 def logout_view(request):
     logout(request)
-    return redirect(to='topic:index')
+    return redirect(to="topic:index")
 
 
 class Register_View(View):
     def get(self, request):
         forms = Register()
-        return render(request, 'user/register.html', {'forms': forms})
+        return render(request, "user/register.html", {"forms": forms})
 
     def post(self, request):
         forms = Register(request.POST)
@@ -180,7 +179,7 @@ class Register_View(View):
             user.nickname = nickname
             user.save()
             # request.session['user'] = user
-            request.session['username'] = username
+            request.session["username"] = username
             # login(request, user)
             return redirect(to="user:verify")
         else:
@@ -220,7 +219,7 @@ class Info_Profile(View):
         if username1 == request.user.username:
             user_theme = userinfo.create_topic_set.all()
         else:
-            user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
+            user_theme = userinfo.create_topic_set.filter(ifAnony="不匿名")
 
         user_reply = userinfo.topic_comment_set.all()
         paginator = Paginator(user_theme, 8)
@@ -258,7 +257,7 @@ def Info_page(request, username1, page_id):
     if username1 == request.user.username:
         user_theme = userinfo.create_topic_set.all()
     else:
-        user_theme = userinfo.create_topic_set.filter(ifAnony='不匿名')
+        user_theme = userinfo.create_topic_set.filter(ifAnony="不匿名")
     user_reply = userinfo.topic_comment_set.all()
     paginator = Paginator(user_theme, 8)
     page_range = paginator.page_range
@@ -366,32 +365,32 @@ def upload(request):
 
 
 def avatarPreview(request):
-    obj = request.FILES.get('file', None)
-    allowedTypes = ['.jpg', '.png', '.gif', '.jpeg', '.bmp']
+    obj = request.FILES.get("file", None)
+    allowedTypes = [".jpg", ".png", ".gif", ".jpeg", ".bmp"]
     fileType = os.path.splitext(obj.name)[1]
     if fileType in allowedTypes:
-        uploadDirPath = os.path.join(os.getcwd(), 'media/avatar-cache/')
-        print('\n' * 10, uploadDirPath, '\n' * 10)
+        uploadDirPath = os.path.join(os.getcwd(), "media/avatar-cache/")
+        print("\n" * 10, uploadDirPath, "\n" * 10)
         if not os.path.exists(uploadDirPath):
             os.mkdir(uploadDirPath)
         newName = str(uuid.uuid4()) + fileType
         fileFullPath = uploadDirPath + os.sep + newName
-        print('\n' * 10, fileFullPath, '\n' * 10)
-        with open(fileFullPath, 'wb+') as fp:
+        print("\n" * 10, fileFullPath, "\n" * 10)
+        with open(fileFullPath, "wb+") as fp:
             for chunk in obj.chunks():
                 fp.write(chunk)
         # picurl = '/staticfiles/avatar/defaultAvatar.jpg'
-        picurl = '/media/avatar-cache/' + newName
-        print('\n' * 10, picurl, '\n' * 10)
+        picurl = "/media/avatar-cache/" + newName
+        print("\n" * 10, picurl, "\n" * 10)
         return HttpResponse(picurl)
     else:
-        return HttpResponse('WTF??')
+        return HttpResponse("WTF??")
 
 
 class Password_View(View):
     def get(self, request, username):
         forms = Password()
-        return render(request, 'user/password.html', {'forms': forms})
+        return render(request, "user/password.html", {"forms": forms})
 
     def post(self, request, username):
         forms = Password(request.POST)
@@ -402,13 +401,25 @@ class Password_View(View):
             user = authenticate(username=username, password=oldpassword)
             if user is not None:
                 if newpassword != passwordConfirm:
-                    return render(request, 'user/password.html', {'message': '您两次输入的密码不相同', 'forms': forms})
+                    return render(
+                        request,
+                        "user/password.html",
+                        {"message": "您两次输入的密码不相同", "forms": forms},
+                    )
                 else:
                     user1 = request.user
                     user1.password = make_password(newpassword)
                     user1.save()
-                    return render(request, 'user/password.html', {'message': '修改成功', 'forms': forms})
+                    return render(
+                        request,
+                        "user/password.html",
+                        {"message": "修改成功", "forms": forms},
+                    )
             else:
-                return render(request, 'user/password.html', {'message': '原密码输入错误', 'forms': forms})
+                return render(
+                    request,
+                    "user/password.html",
+                    {"message": "原密码输入错误", "forms": forms},
+                )
         else:
-            return render(request, 'user/password.html')
+            return render(request, "user/password.html")

@@ -48,6 +48,7 @@ class Comment_Forms(forms.Form):
         )
     )
 
+
 class Postmodify_Forms(forms.Form):
     content_raw = forms.CharField(
         widget=forms.Textarea(

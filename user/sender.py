@@ -6,6 +6,7 @@ from my_project.settings import DEBUG, MAIL_PSW
 
 sender_cache = {}
 
+
 class Sender:
     global sender_cache
 
@@ -37,7 +38,10 @@ class Sender:
         for id in list(sender_cache.keys()):
             if sender_cache[id][1] - time.time() > 3600:
                 del sender_cache[id]
-        return self.student_id in sender_cache.keys() and sender_cache[self.student_id][0] == userInputCode
+        return (
+            self.student_id in sender_cache.keys()
+            and sender_cache[self.student_id][0] == userInputCode
+        )
 
     def send_verify_mail(self):
         if self.student_id == "000000":

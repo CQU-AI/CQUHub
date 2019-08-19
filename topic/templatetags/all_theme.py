@@ -1,12 +1,11 @@
-from  django  import  template
+from django import template
 
-from  topic.models import Create_Topic
+from topic.models import Create_Topic
 
-register=template.Library()
-
+register = template.Library()
 
 
 @register.simple_tag
-def  all_theme(value):
+def all_theme(value):
     all_theme = len(Create_Topic.objects.all())
-    return  all_theme
+    return all_theme

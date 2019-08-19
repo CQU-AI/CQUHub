@@ -18,7 +18,7 @@ from .views import (
     search2,
     Go_Search_Page,
     topicmodify,
-    modifypage
+    modifypage,
 )
 
 app_name = "topic"
@@ -26,8 +26,14 @@ urlpatterns = [
     path("", default_index, name="index"),
     path("create/<str:username>/", PubTopic_View.as_view(), name="create_topic"),
     path("page/<int:page_id>/", Index_View.as_view(), name="page"),
-    path("content/<int:content_id>/", Topic_Content_View.as_view(), name="topic_content"),
-    path("content/<int:content_id>/<int:page_id>", Topic_Content_View1.as_view(), name="topic_content1"),
+    path(
+        "content/<int:content_id>/", Topic_Content_View.as_view(), name="topic_content"
+    ),
+    path(
+        "content/<int:content_id>/<int:page_id>",
+        Topic_Content_View1.as_view(),
+        name="topic_content1",
+    ),
     path("theme/<int:theme_id>/", Theme1_View.as_view(), name="theme1"),
     path("theme/<int:theme_id>/<int:page_id>/", Theme2_View.as_view(), name="theme1"),
     path("page/go/", Go_Page, name="go"),
@@ -35,7 +41,9 @@ urlpatterns = [
     # path('info/go/<str:username1>/',Go_info_page, name='info_Pagego'),
     path("search/<int:page_id>/", search1, name="search1"),
     path("search/<str:keywords>/<int:page_id>/", search2, name="search2"),
-    path("delete/<str:title1>/<str:name>/", delete_topic.as_view(), name="delete_topic"),
+    path(
+        "delete/<str:title1>/<str:name>/", delete_topic.as_view(), name="delete_topic"
+    ),
     path("search/go/", Go_Search_Page, name="go_search_page"),
     path("modifypage/<int:content_id>/", modifypage.as_view(), name="modifypage"),
     path("topicmodify/<int:content_id>/", topicmodify.as_view(), name="topicmodify"),
